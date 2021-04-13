@@ -1,0 +1,41 @@
+{
+  "block.miniaturepowerplant.carrier": "Carrier",
+
+  "item.miniaturepowerplant.depletable.desc.depletion": "Depletion: %.2f%%",
+  "item.miniaturepowerplant.depletable.desc.depleted": "Depleted",
+
+  "item.miniaturepowerplant.solar_module": "Solar module",
+  "item.miniaturepowerplant.solar_module.production.brightness": "Current brightness",
+  "item.miniaturepowerplant.solar_module.penalty.rain": "Raining",
+  "item.miniaturepowerplant.solar_module.penalty.thunder": "Thundering",
+
+  "item.miniaturepowerplant.temperature_module_basic": "Temperature module Class 1",
+  "item.miniaturepowerplant.temperature_module.production.adjusted_temperature": "Current temperature",
+  "item.miniaturepowerplant.temperature_module.penalty.rain": "Raining",
+
+  "item.miniaturepowerplant.eco_upgrade": "Eco upgrade",
+
+  "item.miniaturepowerplant.eco_plus_upgrade": "Eco+ upgrade",
+
+  "item.miniaturepowerplant.accumulator_basic": "Accumulator Class 1",
+  "item.miniaturepowerplant.accumulator_plus": "Accumulator Class 2",
+  "item.miniaturepowerplant.accumulator_enhanced": "Accumulator Class 3",
+  "item.miniaturepowerplant.accumulator.desc.capacity": "Energy capacity: %d FE",
+  "item.miniaturepowerplant.accumulator.desc.transfer": "Transfer rate: %d FE/t",
+  "item.miniaturepowerplant.accumulator.desc.stored": "Stored energy: %d/%d FE",
+
+  "container.miniaturepowerplant.carrier": "Carrier",
+  "container.miniaturepowerplant.carrier.hover.empty_solar_slot": "Place any solar module in here to gain more energy during direct sunlight.",
+  "container.miniaturepowerplant.carrier.hover.empty_core_slot": "WIP",
+  "container.miniaturepowerplant.carrier.hover.empty_ground_slot": "WIP",
+  "container.miniaturepowerplant.carrier.hover.empty_upgrade_slot": "Place an upgrade in hear, to gain boosts.",
+  "container.miniaturepowerplant.carrier.hover.energy.internal_stored": "Internal: %d/%d FE",
+  "container.miniaturepowerplant.carrier.hover.energy.additional_stored": "Additional: %d/%d FE",
+  "container.miniaturepowerplant.carrier.hover.energy.produced": "Produced energy last tick: %d FE",
+  "container.miniaturepowerplant.carrier.hover.energy.wasted": "Wasted energy last tick: %d FE",
+  "container.miniaturepowerplant.carrier.hover.depletion": "Depletion: %d%%",
+  "container.miniaturepowerplant.carrier.hover.producer": "Producer:",
+  "container.miniaturepowerplant.carrier.hover.producer_self": "%d FE: %s",
+  "container.miniaturepowerplant.carrier.hover.penalty": "Penalties:",
+  "container.miniaturepowerplant.carrier.hover.penalty_self": "%d%%: %s"
+}
