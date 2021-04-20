@@ -151,8 +151,8 @@ public class ScreenCarrier extends ContainerScreen<ContainerCarrier> {
 
     private void renderSlotLevelHover(MatrixStack matrix, float depletion, ICarrierModule carrierModule, SynchroniseModuleData data, ICarrierModule.CarrierSlot slot, int mouseX, int mouseY, int x, int y){
         if(mouseX >= this.getGuiLeft() + x && mouseX <= this.getGuiLeft() + x + 36 && mouseY >= this.getGuiTop() + y && mouseY <= this.getGuiTop() + y + 3){
-            List<EnergyProduction> energyProductions = carrierModule.produceEnergy(this.getTile().getLevel(), this.getTile().getBlockPos(), this.getTile(), slot, data);
-            List<EnergyPenalty> energyPenalties = carrierModule.penaltyEnergy(this.getTile().getLevel(), this.getTile().getBlockPos(), this.getTile(), slot, data);
+            List<EnergyProduction> energyProductions = this.getTile().getProductionForSlot(slot);
+            List<EnergyPenalty> energyPenalties = this.getTile().getPenaltiesForSlot(slot);
             List<ITextComponent> text = new ArrayList<>();
             text.add(new TranslationTextComponent("container.miniaturepowerplant.carrier.hover.depletion", Math.round(depletion * 100)));
             if(!energyProductions.isEmpty()){
@@ -164,7 +164,7 @@ public class ScreenCarrier extends ContainerScreen<ContainerCarrier> {
             if(!energyPenalties.isEmpty() && !energyProductions.isEmpty()){
                 text.add(new TranslationTextComponent("container.miniaturepowerplant.carrier.hover.penalty").withStyle(TextFormatting.GRAY, TextFormatting.UNDERLINE));
                 for (EnergyPenalty penalty : energyPenalties) {
-                    text.add(new StringTextComponent(" ").append(new TranslationTextComponent("container.miniaturepowerplant.carrier.hover.penalty_self", Math.round(penalty.getMultiplier() * 100), penalty.translateReason()).withStyle(TextFormatting.GRAY)));
+                    text.add(new StringTextComponent(" ").append(new TranslationTextComponent("container.miniaturepowerplant.carrier.hover.penalty_self", 100 - Math.round(penalty.getMultiplier() * 100), penalty.translateReason()).withStyle(TextFormatting.GRAY)));
                 }
             }
 

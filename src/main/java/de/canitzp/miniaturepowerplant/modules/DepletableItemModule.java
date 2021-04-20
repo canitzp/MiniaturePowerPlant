@@ -36,7 +36,8 @@ public abstract class DepletableItemModule extends Item implements DepletableMod
 
     @Override
     public float getDepletion(TileCarrier tile, CarrierSlot othersSlot, CarrierSlot mySlot, SynchroniseModuleData data) {
-        return Arrays.asList(this.validSlots()).contains(othersSlot) ? this.getDepletion() : 0.0F;
+        // only return depletion when it is for me, not for any other module
+        return mySlot.equals(othersSlot) ? this.getDepletion() : 0.0F;
     }
 
     @Override

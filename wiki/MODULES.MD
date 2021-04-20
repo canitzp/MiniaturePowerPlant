@@ -14,7 +14,7 @@ These calculation only apply when no upgrade is used.
 | Module            | Slot     | Class | Max depletion     | Depletion rate    | Energy production |
 | :---------------: | :------: | :---: | :---------------: | :---------------: | :---------------: |
 | [Solar](#solar)   | Top      | 1     | 100K              | 1.0               | 0 - 10 FE/t       |
-| Temperature       | Center   | 1     | 100K              | 1.0               | 0 - 20 FE/t       |
+| Temperature       | Center, Bottom   | 1     | 100K              | 1.0               | 0 - 20 FE/t       |
 
 
 ### Solar

@@ -1,6 +1,5 @@
 package de.canitzp.miniaturepowerplant;
 
-import com.google.common.collect.Lists;
 import de.canitzp.miniaturepowerplant.carrier.ScreenCarrier;
 import de.canitzp.miniaturepowerplant.carrier.TileCarrier;
 import de.canitzp.miniaturepowerplant.modules.SynchroniseModuleData;
@@ -27,11 +26,11 @@ public interface ICarrierModule {
     // return percentage of depletion added by this module
     float getDepletion(TileCarrier tile, CarrierSlot othersSlot, CarrierSlot mySlot, SynchroniseModuleData data);
 
-    default List<EnergyProduction> produceEnergy(World world, BlockPos pos, TileCarrier tile, CarrierSlot mySlot, SynchroniseModuleData data){
+    default List<EnergyProduction> produceEnergy(World world, BlockPos pos, TileCarrier tile, CarrierSlot mySlot, CarrierSlot otherSlot, SynchroniseModuleData data){
         return Collections.emptyList();
     }
 
-    default List<EnergyPenalty> penaltyEnergy(World world, BlockPos pos, TileCarrier tile, CarrierSlot mySlot, SynchroniseModuleData data){
+    default List<EnergyPenalty> penaltyEnergy(World world, BlockPos pos, TileCarrier tile, CarrierSlot mySlot, CarrierSlot otherSlot, SynchroniseModuleData data){
         return Collections.emptyList();
     }
 

@@ -140,10 +140,10 @@ public class TileCarrier extends TileEntity implements INamedContainerProvider, 
                     if (!this.isDepleted(slot)) {
                         ICarrierModule carrierModule = this.getCarrierModule(slot);
                         if (carrierModule != null) {
-                            List<EnergyProduction> energyProductionReason = carrierModule.produceEnergy(this.getLevel(), this.getBlockPos(), this, slot, this.getSyncData(slot));
+                            List<EnergyProduction> energyProductionReason = carrierModule.produceEnergy(this.getLevel(), this.getBlockPos(), this, slot, slot, this.getSyncData(slot));
                             if (!energyProductionReason.isEmpty()) {
                                 energyProductionReasons.addAll(energyProductionReason);
-                                energyPenaltyReasons.addAll(carrierModule.penaltyEnergy(this.getLevel(), this.getBlockPos(), this, slot, this.getSyncData(slot)));
+                                energyPenaltyReasons.addAll(carrierModule.penaltyEnergy(this.getLevel(), this.getBlockPos(), this, slot, slot, this.getSyncData(slot)));
 
                                 hasProducedEnergy.add(slot);
                             }
@@ -268,6 +268,32 @@ public class TileCarrier extends TileEntity implements INamedContainerProvider, 
             this.syncDataMap.remove(slot);
             return null;
         }
+    }
+
+    public List<EnergyProduction> getProductionForSlot(ICarrierModule.CarrierSlot otherSlot){
+        List<EnergyProduction> productions = new ArrayList<>();
+        for (ICarrierModule.CarrierSlot mySlot : ICarrierModule.CarrierSlot.values()) {
+            if (!this.isDepleted(mySlot)) {
+                ICarrierModule carrierModule = this.getCarrierModule(mySlot);
+                if (carrierModule != null) {
+                    productions.addAll(carrierModule.produceEnergy(this.getLevel(), this.getBlockPos(), this, mySlot, otherSlot , this.getSyncData(otherSlot)));
+                }
+            }
+        }
+        return productions;
+    }
+
+    public List<EnergyPenalty> getPenaltiesForSlot(ICarrierModule.CarrierSlot otherSlot){
+        List<EnergyPenalty> penalties = new ArrayList<>();
+        for (ICarrierModule.CarrierSlot mySlot : ICarrierModule.CarrierSlot.values()) {
+            if (!this.isDepleted(mySlot)) {
+                ICarrierModule carrierModule = this.getCarrierModule(mySlot);
+                if (carrierModule != null) {
+                    penalties.addAll(carrierModule.penaltyEnergy(this.getLevel(), this.getBlockPos(), this, mySlot, otherSlot, this.getSyncData(otherSlot)));
+                }
+            }
+        }
+        return penalties;
     }
 
     private void onBlockUpdate(){

@@ -23,7 +23,7 @@ Under every module/upgrade slot there is a bar, which shows statistics about the
 ![](carrier_gui_statistics_bar.png)
 
 In this picture you can see the current rate, at which the module is depleting.
-A rate of 100% is normal and the module depletes at his default level.
+A rate of 100% is normal and the module depletes at its default level.
 Upgrades can help to decrease this, but also increase this rate.
 
 Below it the energy production and their penalties are listed.

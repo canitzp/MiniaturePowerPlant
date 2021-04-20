@@ -41,28 +41,32 @@ public interface DepletableModule extends ICarrierModule {
     }
 
     @Override
-    default List<EnergyProduction> produceEnergy(World world, BlockPos pos, TileCarrier tile, CarrierSlot mySlot, SynchroniseModuleData data) {
+    default List<EnergyProduction> produceEnergy(World world, BlockPos pos, TileCarrier tile, CarrierSlot mySlot, CarrierSlot otherSlot, SynchroniseModuleData data) {
         List<EnergyProduction> reasons = new ArrayList<>();
-        data.use(nbt -> {
-            if (nbt.contains(NBT_KEY_PRODUCTION, Constants.NBT.TAG_LIST)) {
-                nbt.getList(NBT_KEY_PRODUCTION, Constants.NBT.TAG_COMPOUND).stream().filter(inbt -> inbt instanceof CompoundNBT).map(inbt -> (CompoundNBT)inbt).forEach(compoundNBT -> {
-                    reasons.add(new EnergyProduction(compoundNBT));
-                });
-            }
-        });
+        if(mySlot.equals(otherSlot)){
+            data.use(nbt -> {
+                if (nbt.contains(NBT_KEY_PRODUCTION, Constants.NBT.TAG_LIST)) {
+                    nbt.getList(NBT_KEY_PRODUCTION, Constants.NBT.TAG_COMPOUND).stream().filter(inbt -> inbt instanceof CompoundNBT).map(inbt -> (CompoundNBT)inbt).forEach(compoundNBT -> {
+                        reasons.add(new EnergyProduction(compoundNBT));
+                    });
+                }
+            });
+        }
         return reasons;
     }
 
     @Override
-    default List<EnergyPenalty> penaltyEnergy(World world, BlockPos pos, TileCarrier tile, CarrierSlot mySlot, SynchroniseModuleData data) {
+    default List<EnergyPenalty> penaltyEnergy(World world, BlockPos pos, TileCarrier tile, CarrierSlot mySlot, CarrierSlot otherSlot, SynchroniseModuleData data) {
         List<EnergyPenalty> reasons = new ArrayList<>();
-        data.use(nbt -> {
-            if (nbt.contains(NBT_KEY_PENALTY, Constants.NBT.TAG_LIST)) {
-                nbt.getList(NBT_KEY_PENALTY, Constants.NBT.TAG_COMPOUND).stream().filter(inbt -> inbt instanceof CompoundNBT).map(inbt -> (CompoundNBT)inbt).forEach(compoundNBT -> {
-                    reasons.add(new EnergyPenalty(compoundNBT));
-                });
-            }
-        });
+        if(mySlot.equals(otherSlot)){
+            data.use(nbt -> {
+                if (nbt.contains(NBT_KEY_PENALTY, Constants.NBT.TAG_LIST)) {
+                    nbt.getList(NBT_KEY_PENALTY, Constants.NBT.TAG_COMPOUND).stream().filter(inbt -> inbt instanceof CompoundNBT).map(inbt -> (CompoundNBT)inbt).forEach(compoundNBT -> {
+                        reasons.add(new EnergyPenalty(compoundNBT));
+                    });
+                }
+            });
+        }
         return reasons;
     }
 

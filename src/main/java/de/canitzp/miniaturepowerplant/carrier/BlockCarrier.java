@@ -9,10 +9,7 @@ import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.inventory.container.INamedContainerProvider;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
+import net.minecraft.item.*;
 import net.minecraft.loot.conditions.BlockStateProperty;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
@@ -29,6 +26,7 @@ import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nullable;
@@ -51,6 +49,13 @@ public class BlockCarrier extends ContainerBlock implements IWaterLoggable {
 
     @Override
     public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult trace) {
+
+        // test for bucket like item
+        ItemStack heldStack = player.getItemInHand(hand);
+        if(!heldStack.isEmpty() && heldStack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY).isPresent()){
+            return ActionResultType.PASS;
+        }
+
         if(world.isClientSide()){
             return ActionResultType.SUCCESS;
         }
@@ -114,6 +119,12 @@ public class BlockCarrier extends ContainerBlock implements IWaterLoggable {
         return state.getValue(WATERLOGGED) ? Fluids.WATER.defaultFluidState() : super.getFluidState(state);
     }
 
+    @Nullable
+    public BlockState getStateForPlacement(BlockItemUseContext context) {
+        FluidState fluidstate = context.getLevel().getFluidState(context.getClickedPos());
+        boolean flag = fluidstate.getType() == Fluids.WATER;
+        return this.defaultBlockState().setValue(WATERLOGGED, flag);
+    }
 
     private boolean canLightPass(BlockState state){
         return !(state.getValue(TOP_MODULE) || state.getValue(CENTER_MODULE) ||state.getValue(BOTTOM_MODULE));

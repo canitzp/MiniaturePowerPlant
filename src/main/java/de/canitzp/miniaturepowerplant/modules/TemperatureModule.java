@@ -20,7 +20,7 @@ public class TemperatureModule extends DepletableItemModule {
     @Nullable
     @Override
     public CarrierSlot[] validSlots() {
-        return new CarrierSlot[]{CarrierSlot.CORE};
+        return new CarrierSlot[]{CarrierSlot.CORE, CarrierSlot.GROUND};
     }
 
     @Override
