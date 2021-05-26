@@ -164,7 +164,7 @@ public class ScreenCarrier extends ContainerScreen<ContainerCarrier> {
             if(!energyPenalties.isEmpty() && !energyProductions.isEmpty()){
                 text.add(new TranslationTextComponent("container.miniaturepowerplant.carrier.hover.penalty").withStyle(TextFormatting.GRAY, TextFormatting.UNDERLINE));
                 for (EnergyPenalty penalty : energyPenalties) {
-                    text.add(new StringTextComponent(" ").append(new TranslationTextComponent("container.miniaturepowerplant.carrier.hover.penalty_self", 100 - Math.round(penalty.getMultiplier() * 100), penalty.translateReason()).withStyle(TextFormatting.GRAY)));
+                    text.add(new StringTextComponent(" ").append(new TranslationTextComponent("container.miniaturepowerplant.carrier.hover.penalty_self", 100 - Math.round(penalty.getMultiplier() * 100), penalty.getReason()).withStyle(TextFormatting.GRAY)));
                 }
             }
 

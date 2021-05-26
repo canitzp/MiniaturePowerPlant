@@ -1,7 +1,8 @@
 {
+  "itemGroup.miniaturepowerplant":  "Miniature Power Plant",
   "block.miniaturepowerplant.carrier": "Carrier",
 
-  "item.miniaturepowerplant.depletable.desc.depletion": "Depletion: %.2f%%",
+  "item.miniaturepowerplant.depletable.desc.depletion": "Depletion Rate: %.2f%%",
   "item.miniaturepowerplant.depletable.desc.depleted": "Depleted",
 
   "item.miniaturepowerplant.solar_module": "Solar module",
@@ -12,6 +13,9 @@
   "item.miniaturepowerplant.temperature_module_basic": "Temperature module Class 1",
   "item.miniaturepowerplant.temperature_module.production.adjusted_temperature": "Current temperature",
   "item.miniaturepowerplant.temperature_module.penalty.rain": "Raining",
+
+  "item.miniaturepowerplant.water_module_basic": "Water module Class 1",
+  "item.miniaturepowerplant.water_module.production.water_level": "Water level @ %s",
 
   "item.miniaturepowerplant.eco_upgrade": "Eco upgrade",
 

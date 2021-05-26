@@ -2,6 +2,7 @@
 
 ### Block
 The carrier is a block which provides the base for any power generation module.
+It can be waterlogged, but there benefit.
 
 ![](carrier_block_empty.png)
 
@@ -38,7 +39,7 @@ The battery slot is able to extend the capacity of the Carrier.
 The carrier tries to pump its own energy into the item, as soon and fast as possible.
 
 The slot can only be populated with items, able to handle energy.
-That doesn't mean that the item can actually receive energy, so be carefully what you put in there.
+That doesn't mean that the item can actually receive energy, so be careful what you put in there.
 
 #### Energy meter
 The energy meter displays the current energy stored by the carrier or any item inside the battery slot.

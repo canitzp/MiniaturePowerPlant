@@ -2,7 +2,8 @@ package de.canitzp.miniaturepowerplant.reasons;
 
 import net.minecraft.client.resources.I18n;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.nbt.ListNBT;
+import net.minecraft.nbt.StringNBT;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -26,18 +27,20 @@ public class EnergyPenalty {
     }
 
     public String getReason() {
-        return reason;
+        return this.reason;
     }
 
-    @OnlyIn(Dist.CLIENT)
-    public String translateReason(){
-        return I18n.get(this.getReason());
-    }
-
-    public static CompoundNBT toNBT(float multiplier, String reason){
+    public static CompoundNBT toNBT(float multiplier, String reason, String... arguments){
         CompoundNBT nbt = new CompoundNBT();
         nbt.putFloat("penalty_multiplier", multiplier);
         nbt.putString("penalty_reason", reason);
+        if(arguments.length > 0){
+            ListNBT argumentList = new ListNBT();
+            for (String argument : arguments) {
+                argumentList.add(StringNBT.valueOf(argument));
+            }
+            nbt.put("reason_arguments", argumentList);
+        }
         return nbt;
     }
 

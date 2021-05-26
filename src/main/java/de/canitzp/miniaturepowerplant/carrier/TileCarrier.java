@@ -155,7 +155,7 @@ public class TileCarrier extends TileEntity implements INamedContainerProvider, 
                 if (completeEnergyPenaltyMultiplier >= 1D) {
                     completeEnergyProduction = 0;
                 } else {
-                    completeEnergyProduction = Math.toIntExact(Math.round(completeEnergyProduction * completeEnergyPenaltyMultiplier));
+                    completeEnergyProduction = Math.toIntExact(Math.round(completeEnergyProduction * (1.0D - completeEnergyPenaltyMultiplier)));
                 }
 
                 if (completeEnergyProduction > 0) {
@@ -175,6 +175,9 @@ public class TileCarrier extends TileEntity implements INamedContainerProvider, 
                         }
                     }
                 }
+            } else {
+                this.producedEnergy = 0;
+                this.wastedEnergy = 0;
             }
 
             // move energy to accu/battery

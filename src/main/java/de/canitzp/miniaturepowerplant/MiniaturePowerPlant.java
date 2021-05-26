@@ -5,10 +5,13 @@ import de.canitzp.miniaturepowerplant.carrier.BlockCarrier;
 import de.canitzp.miniaturepowerplant.carrier.ContainerCarrier;
 import de.canitzp.miniaturepowerplant.carrier.ScreenCarrier;
 import de.canitzp.miniaturepowerplant.carrier.TileCarrier;
+import de.canitzp.miniaturepowerplant.mixin.TestMixin;
 import de.canitzp.miniaturepowerplant.modules.SolarModule;
 import de.canitzp.miniaturepowerplant.modules.TemperatureModule;
+import de.canitzp.miniaturepowerplant.modules.WaterModule;
 import de.canitzp.miniaturepowerplant.upgrades.EcoUpgrade;
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.Item;
@@ -19,6 +22,8 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.spongepowered.asm.launch.MixinBootstrap;
+import org.spongepowered.tools.agent.MixinAgent;
 
 @Mod(MiniaturePowerPlant.MODID)
 @Mod.EventBusSubscriber
@@ -32,6 +37,7 @@ public class MiniaturePowerPlant {
     public static final DeferredRegister<ContainerType<?>> CONTAINER_TYPES = DeferredRegister.create(ForgeRegistries.CONTAINERS, MODID);
 
     public MiniaturePowerPlant() {
+        MixinBootstrap.init();
         System.out.println("Loading MPP");
 
         this.register();
@@ -53,6 +59,7 @@ public class MiniaturePowerPlant {
         ITEMS.register("carrier", () -> BlockCarrier.INSTANCE_ITEM);
         ITEMS.register("solar_module", () -> SolarModule.SOLAR_MODULE_BASIC);
         ITEMS.register("temperature_module_basic", () -> TemperatureModule.TEMP_MODULE_BASIC);
+        ITEMS.register("water_module_basic", () -> WaterModule.WATER_MODULE_BASIC);
         ITEMS.register("eco_upgrade", () -> EcoUpgrade.ECO_UPGRADE);
         ITEMS.register("eco_plus_upgrade", () -> EcoUpgrade.ECO_PLUS_UPGRADE);
         ITEMS.register("accumulator_basic", () -> AccumulatorItem.ACCUMULATOR_BASIC);

@@ -34,7 +34,9 @@ public class SolarModule extends DepletableItemModule {
             int energyFromBrightness = Math.max(0, brightness - 4);
 
             ListNBT listEnergyProduction = new ListNBT();
-            listEnergyProduction.add(EnergyProduction.toNBT(energyFromBrightness, "item.miniaturepowerplant.solar_module.production.brightness"));
+            if(energyFromBrightness > 0){
+                listEnergyProduction.add(EnergyProduction.toNBT(energyFromBrightness, "item.miniaturepowerplant.solar_module.production.brightness"));
+            }
             data.use(compoundNBT -> compoundNBT.put(NBT_KEY_PRODUCTION, listEnergyProduction));
 
             // energy penalty

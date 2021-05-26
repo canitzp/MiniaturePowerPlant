@@ -58,11 +58,6 @@ public class EcoUpgrade extends Item implements ICarrierModule {
     }
 
     @Override
-    public float getEnergyMultiplier(TileCarrier tile, CarrierSlot slot, SynchroniseModuleData data) {
-        return this.energyReductionMultiplier;
-    }
-
-    @Override
     public List<EnergyPenalty> penaltyEnergy(World world, BlockPos pos, TileCarrier tile, CarrierSlot mySlot, CarrierSlot otherSlot, SynchroniseModuleData data) {
         return Lists.newArrayList(new EnergyPenalty(this.energyReductionMultiplier, "Eco upgrade penalty"));
     }
