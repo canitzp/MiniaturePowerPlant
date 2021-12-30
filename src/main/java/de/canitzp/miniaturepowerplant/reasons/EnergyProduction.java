@@ -1,7 +1,7 @@
 package de.canitzp.miniaturepowerplant.reasons;
 
-import net.minecraft.client.resources.I18n;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.client.resources.language.I18n;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -15,7 +15,7 @@ public class EnergyProduction {
         this.reason = reason;
     }
 
-    public EnergyProduction(CompoundNBT nbt){
+    public EnergyProduction(CompoundTag nbt){
         this.energy = nbt.getInt("energy_production");
         this.reason = nbt.getString("production_reason");
     }
@@ -33,8 +33,8 @@ public class EnergyProduction {
         return I18n.get(this.getReason());
     }
 
-    public static CompoundNBT toNBT(int energy, String reason){
-        CompoundNBT nbt = new CompoundNBT();
+    public static CompoundTag toNBT(int energy, String reason){
+        CompoundTag nbt = new CompoundTag();
         nbt.putInt("energy_production", energy);
         nbt.putString("production_reason", reason);
         return nbt;

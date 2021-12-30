@@ -5,14 +5,14 @@ import de.canitzp.miniaturepowerplant.ICarrierModule;
 import de.canitzp.miniaturepowerplant.carrier.TileCarrier;
 import de.canitzp.miniaturepowerplant.modules.SynchroniseModuleData;
 import de.canitzp.miniaturepowerplant.reasons.EnergyPenalty;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.world.World;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.Level;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -32,17 +32,17 @@ public class EcoUpgrade extends Item implements ICarrierModule {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable World world, List<ITextComponent> text, ITooltipFlag flag) {
+    public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> text, TooltipFlag flag) {
         if(this.ownModuleDepletionReduction > 0.0F){
-            text.add(new StringTextComponent("Decreases slots depletion by " + Math.round(this.ownModuleDepletionReduction * 100) + "%").withStyle(TextFormatting.GRAY));
+            text.add(new TextComponent("Decreases slots depletion by " + Math.round(this.ownModuleDepletionReduction * 100) + "%").withStyle(ChatFormatting.GRAY));
         }
 
         if(this.otherModuleDepletionReduction > 0.0F){
-            text.add(new StringTextComponent("Decreases others depletion by " + Math.round(this.otherModuleDepletionReduction * 100) + "%").withStyle(TextFormatting.GRAY));
+            text.add(new TextComponent("Decreases others depletion by " + Math.round(this.otherModuleDepletionReduction * 100) + "%").withStyle(ChatFormatting.GRAY));
         }
 
         if(this.energyReductionMultiplier <= 1.0F) {
-            text.add(new StringTextComponent("Decreases energy production by " + Math.round((1.0F - this.energyReductionMultiplier) * 100) + "%").withStyle(TextFormatting.GRAY));
+            text.add(new TextComponent("Decreases energy production by " + Math.round((1.0F - this.energyReductionMultiplier) * 100) + "%").withStyle(ChatFormatting.GRAY));
         }
     }
 
@@ -58,7 +58,7 @@ public class EcoUpgrade extends Item implements ICarrierModule {
     }
 
     @Override
-    public List<EnergyPenalty> penaltyEnergy(World world, BlockPos pos, TileCarrier tile, CarrierSlot mySlot, CarrierSlot otherSlot, SynchroniseModuleData data) {
+    public List<EnergyPenalty> penaltyEnergy(Level world, BlockPos pos, TileCarrier tile, CarrierSlot mySlot, CarrierSlot otherSlot, SynchroniseModuleData data) {
         return Lists.newArrayList(new EnergyPenalty(this.energyReductionMultiplier, "Eco upgrade penalty"));
     }
 

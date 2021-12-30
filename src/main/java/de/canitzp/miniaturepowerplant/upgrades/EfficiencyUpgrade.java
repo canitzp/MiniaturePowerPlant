@@ -5,10 +5,11 @@ import de.canitzp.miniaturepowerplant.ICarrierModule;
 import de.canitzp.miniaturepowerplant.carrier.TileCarrier;
 import de.canitzp.miniaturepowerplant.modules.SynchroniseModuleData;
 import de.canitzp.miniaturepowerplant.reasons.EnergyProduction;
-import net.minecraft.item.Item;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.Level;
 
+import java.util.Collections;
 import java.util.List;
 
 public class EfficiencyUpgrade extends Item implements ICarrierModule {
@@ -33,8 +34,10 @@ public class EfficiencyUpgrade extends Item implements ICarrierModule {
     }
 
     @Override
-    public List<EnergyProduction> produceEnergy(World world, BlockPos pos, TileCarrier tile, CarrierSlot mySlot, CarrierSlot otherSlot, SynchroniseModuleData data) {
-        tile.getProductionForSlot(otherSlot)
-        return Lists.newArrayList(new EnergyProduction(this.energyIncreaseMultiplier, "Efficiency energy increase"));
+    public List<EnergyProduction> produceEnergy(Level world, BlockPos pos, TileCarrier tile, CarrierSlot mySlot, CarrierSlot otherSlot, SynchroniseModuleData data) {
+        //tile.getProductionForSlot(otherSlot)
+        //return Lists.newArrayList(new EnergyProduction(this.energyIncreaseMultiplier, "Efficiency energy increase"));
+        // todo
+        return Collections.emptyList();
     }
 }

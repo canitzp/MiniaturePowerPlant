@@ -1,22 +1,22 @@
 package de.canitzp.miniaturepowerplant.modules;
 
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompoundTag;
 
 import java.util.function.Consumer;
 
 public class SynchroniseModuleData {
 
-    private CompoundNBT data = new CompoundNBT();
+    private CompoundTag data = new CompoundTag();
 
-    public void use(Consumer<CompoundNBT> supplier){
+    public void use(Consumer<CompoundTag> supplier){
         supplier.accept(this.data);
     }
 
-    public void set(CompoundNBT nbt){
+    public void set(CompoundTag nbt){
         this.data = nbt;
     }
 
-    public CompoundNBT get(){
+    public CompoundTag get(){
         return this.data;
     }
 

@@ -4,25 +4,34 @@ import de.canitzp.miniaturepowerplant.ICarrierModule;
 import de.canitzp.miniaturepowerplant.modules.SynchroniseModuleData;
 import de.canitzp.miniaturepowerplant.reasons.EnergyPenalty;
 import de.canitzp.miniaturepowerplant.reasons.EnergyProduction;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.INamedContainerProvider;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.FloatNBT;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SUpdateTileEntityPacket;
-import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.FloatTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.network.Connection;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.ContainerHelper;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.Nameable;
+import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
+import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.ticks.LevelTickAccess;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
@@ -35,14 +44,15 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.*;
 
-public class TileCarrier extends TileEntity implements INamedContainerProvider, ITickableTileEntity {
+public class TileCarrier extends BlockEntity implements MenuProvider, Nameable{
 
-    public static final TileEntityType<TileCarrier> TYPE = TileEntityType.Builder.of(TileCarrier::new, BlockCarrier.INSTANCE).build(null);
+    public static final BlockEntityType<TileCarrier> TYPE = BlockEntityType.Builder.of(TileCarrier::new, BlockCarrier.INSTANCE).build(null);
 
-    private final Inventory inventory = new Inventory(7){
+    private final SimpleContainer inventory = new SimpleContainer(7){
         @Override
         public void setChanged() {
             TileCarrier.this.onBlockUpdate();
+            TileCarrier.this.setChanged();
             super.setChanged();
         }
     };
@@ -53,21 +63,15 @@ public class TileCarrier extends TileEntity implements INamedContainerProvider, 
 
     private Map<ICarrierModule.CarrierSlot, SynchroniseModuleData> syncDataMap = new HashMap<>();
 
-    public TileCarrier() {
-        super(TYPE);
+    public TileCarrier(BlockPos pos, BlockState state) {
+        super(TYPE, pos, state);
     }
-
+    
     @Override
-    public ITextComponent getDisplayName() {
-        return new TranslationTextComponent("container.miniaturepowerplant.carrier");
+    public AbstractContainerMenu createMenu(int windowId, Inventory inv, Player player){
+        return CarrierMenu.createServerContainer(windowId, inv, this);
     }
-
-    @Nullable
-    @Override
-    public Container createMenu(int windowId, PlayerInventory playerInventory, PlayerEntity player) {
-        return ContainerCarrier.createServerContainer(windowId, player, this);
-    }
-
+    
     @Nonnull
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
@@ -79,43 +83,55 @@ public class TileCarrier extends TileEntity implements INamedContainerProvider, 
         }
         return super.getCapability(cap, side);
     }
-
-    @Nullable
+    
     @Override
-    public SUpdateTileEntityPacket getUpdatePacket() {
-        CompoundNBT nbt = new CompoundNBT();
+    public CompoundTag getUpdateTag(){
+        CompoundTag nbt = new CompoundTag();
         this.writeNBT(nbt);
-        return new SUpdateTileEntityPacket(this.getBlockPos(), -1, nbt);
+        return nbt;
     }
-
+    
     @Override
-    public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
+    public Packet<ClientGamePacketListener> getUpdatePacket(){
+        return ClientboundBlockEntityDataPacket.create(this);
+    }
+    
+    @Override
+    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt){
         this.readNBT(pkt.getTag());
     }
-
+    
     @Override
-    public void load(BlockState blockState, CompoundNBT nbt) {
-        super.load(blockState, nbt);
+    public void load(CompoundTag nbt){
+        super.load(nbt);
         this.readNBT(nbt);
     }
-
+    
     @Override
-    public CompoundNBT save(CompoundNBT nbt) {
+    protected void saveAdditional(CompoundTag nbt){
+        super.saveAdditional(nbt);
         this.writeNBT(nbt);
-        return super.save(nbt);
     }
-
+    
     @Override
-    public void tick() {
-        World level = this.level;
+    public Component getDisplayName(){
+        return new TextComponent("");
+    }
+    
+    @Override
+    public Component getName(){
+        return this.getDisplayName();
+    }
+    
+    public static void tick(Level level, BlockPos pos, BlockState state, TileCarrier tile) {
         if(level != null && !level.isClientSide()){
 
             // sync pulse
             if((level.getGameTime() & 0b111) == 0b0){ // call every eight tick => 2.5 times a second
-                for (PlayerEntity player : level.players()) {
-                    if(player instanceof ServerPlayerEntity){
-                        if(player.distanceToSqr(this.getBlockPos().getX() + 0.5D, this.getBlockPos().getY() + 0.5D, this.getBlockPos().getZ() + 0.5D) <= 64 && !this.isRemoved() && this.level.getBlockEntity(this.getBlockPos()) == this){
-                            ((ServerPlayerEntity) player).connection.send(this.getUpdatePacket());
+                for (Player player : level.players()) {
+                    if(player instanceof ServerPlayer){
+                        if(player.distanceToSqr(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D) <= 64 && !tile.isRemoved() && level.getBlockEntity(pos) == tile){
+                            ((ServerPlayer) player).connection.send(tile.getUpdatePacket());
                         }
                     }
                 }
@@ -123,69 +139,70 @@ public class TileCarrier extends TileEntity implements INamedContainerProvider, 
 
             // modules tick
             for (ICarrierModule.CarrierSlot slot : ICarrierModule.CarrierSlot.values()) {
-                if(!this.isDepleted(slot)){
-                    ICarrierModule carrierModule = this.getCarrierModule(slot);
+                if(!tile.isDepleted(slot)){
+                    ICarrierModule carrierModule = tile.getCarrierModule(slot);
                     if(carrierModule != null){
-                        carrierModule.tick(level, this.getBlockPos(), this, this.getSyncData(slot));
+                        carrierModule.tick(level, tile.getBlockPos(), tile, tile.getSyncData(slot));
                     }
                 }
             }
 
             // modules energy production
-            if(this.energyStorage.getEnergyStored() < this.energyStorage.getMaxEnergyStored()) {
+            if(tile.energyStorage.getEnergyStored() < tile.energyStorage.getMaxEnergyStored()) {
                 List<ICarrierModule.CarrierSlot> hasProducedEnergy = new ArrayList<>();
                 List<EnergyProduction> energyProductionReasons = new ArrayList<>();
                 List<EnergyPenalty> energyPenaltyReasons = new ArrayList<>();
                 for (ICarrierModule.CarrierSlot slot : ICarrierModule.CarrierSlot.values()) {
-                    if (!this.isDepleted(slot)) {
-                        ICarrierModule carrierModule = this.getCarrierModule(slot);
+                    if (!tile.isDepleted(slot)) {
+                        ICarrierModule carrierModule = tile.getCarrierModule(slot);
                         if (carrierModule != null) {
-                            List<EnergyProduction> energyProductionReason = carrierModule.produceEnergy(this.getLevel(), this.getBlockPos(), this, slot, slot, this.getSyncData(slot));
+                            
+                            energyPenaltyReasons.addAll(carrierModule.penaltyEnergy(level, pos, tile, slot, slot, tile.getSyncData(slot)));
+                            
+                            List<EnergyProduction> energyProductionReason = carrierModule.produceEnergy(level, pos, tile, slot, slot, tile.getSyncData(slot));
                             if (!energyProductionReason.isEmpty()) {
                                 energyProductionReasons.addAll(energyProductionReason);
-                                energyPenaltyReasons.addAll(carrierModule.penaltyEnergy(this.getLevel(), this.getBlockPos(), this, slot, slot, this.getSyncData(slot)));
-
                                 hasProducedEnergy.add(slot);
                             }
                         }
                     }
                 }
                 int completeEnergyProduction = energyProductionReasons.stream().mapToInt(EnergyProduction::getEnergy).sum();
-                double completeEnergyPenaltyMultiplier = energyPenaltyReasons.stream().mapToDouble(EnergyPenalty::getMultiplier).sum();
+                double completeEnergyPenaltyMultiplier = energyPenaltyReasons.stream().mapToDouble(energyPenalty -> 1.0D - energyPenalty.getMultiplier()).sum();
                 if (completeEnergyPenaltyMultiplier >= 1D) {
                     completeEnergyProduction = 0;
-                } else {
+                } else if(!energyPenaltyReasons.isEmpty()){
                     completeEnergyProduction = Math.toIntExact(Math.round(completeEnergyProduction * (1.0D - completeEnergyPenaltyMultiplier)));
                 }
 
                 if (completeEnergyProduction > 0) {
-                    this.producedEnergy = completeEnergyProduction;
-                    this.wastedEnergy = completeEnergyProduction - this.energyStorage.receiveEnergy(completeEnergyProduction, false);
+                    tile.producedEnergy = completeEnergyProduction;
+                    tile.wastedEnergy = completeEnergyProduction - tile.energyStorage.receiveEnergy(completeEnergyProduction, false);
                 } else {
-                    this.producedEnergy = 0;
-                    this.wastedEnergy = 0;
+                    tile.producedEnergy = 0;
+                    tile.wastedEnergy = 0;
                 }
 
                 // modules depletion
                 for (ICarrierModule.CarrierSlot slot : ICarrierModule.CarrierSlot.values()) {
-                    if (!this.isDepleted(slot) && hasProducedEnergy.contains(slot)) {
-                        ItemStack stack = this.inventory.getItem(slot.ordinal());
+                    if (!tile.isDepleted(slot) && hasProducedEnergy.contains(slot)) {
+                        ItemStack stack = tile.inventory.getItem(slot.ordinal());
                         if (!stack.isEmpty() && stack.getItem() instanceof ICarrierModule) {
-                            stack.addTagElement("depletion", FloatNBT.valueOf(this.getDepletion(slot) + stack.getOrCreateTag().getFloat("depletion")));
+                            stack.addTagElement("depletion", FloatTag.valueOf(tile.getDepletion(slot) + stack.getOrCreateTag().getFloat("depletion")));
                         }
                     }
                 }
             } else {
-                this.producedEnergy = 0;
-                this.wastedEnergy = 0;
+                tile.producedEnergy = 0;
+                tile.wastedEnergy = 0;
             }
 
             // move energy to accu/battery
-            if(this.energyStorage.getEnergyStored() > 0){
-                this.getAccuStorage().ifPresent(energyStorage -> {
-                    this.energyStorage.extractEnergy(
+            if(tile.energyStorage.getEnergyStored() > 0){
+                tile.getAccuStorage().ifPresent(energyStorage -> {
+                    tile.energyStorage.extractEnergy(
                             energyStorage.receiveEnergy(
-                                    this.energyStorage.extractEnergy(this.energyStorage.getEnergyStored(), true),
+                                tile.energyStorage.extractEnergy(tile.energyStorage.getEnergyStored(), true),
                                     false),
                             false);
                 });
@@ -193,7 +210,7 @@ public class TileCarrier extends TileEntity implements INamedContainerProvider, 
         }
     }
 
-    public Inventory getInventory() {
+    public SimpleContainer getInventory() {
         return this.inventory;
     }
 
@@ -202,7 +219,7 @@ public class TileCarrier extends TileEntity implements INamedContainerProvider, 
     }
 
     public LazyOptional<IEnergyStorage> getAccuStorage(){
-        ItemStack stack = this.inventory.getItem(ContainerCarrier.SLOT_BATTERY);
+        ItemStack stack = this.inventory.getItem(CarrierMenu.SLOT_BATTERY);
         if(!stack.isEmpty()){
             return stack.getCapability(CapabilityEnergy.ENERGY, null);
         }
@@ -247,13 +264,13 @@ public class TileCarrier extends TileEntity implements INamedContainerProvider, 
     public boolean isModuleInstalled(ICarrierModule.CarrierSlot moduleSlot){
         switch (moduleSlot) {
             case SOLAR: case SOLAR_UPGRADE: {
-                return !this.inventory.getItem(ContainerCarrier.SLOT_SOLAR).isEmpty();
+                return !this.inventory.getItem(CarrierMenu.SLOT_SOLAR).isEmpty();
             }
             case CORE: case CORE_UPGRADE: {
-                return !this.inventory.getItem(ContainerCarrier.SLOT_CORE).isEmpty();
+                return !this.inventory.getItem(CarrierMenu.SLOT_CORE).isEmpty();
             }
             case GROUND: case GROUND_UPGRADE: {
-                return !this.inventory.getItem(ContainerCarrier.SLOT_GROUND).isEmpty();
+                return !this.inventory.getItem(CarrierMenu.SLOT_GROUND).isEmpty();
             }
         }
         return false;
@@ -300,44 +317,57 @@ public class TileCarrier extends TileEntity implements INamedContainerProvider, 
     }
 
     private void onBlockUpdate(){
-        World level = this.getLevel();
+        Level level = this.getLevel();
         if (level != null) {
             BlockCarrier.INSTANCE.updateFromTile(level, this.getBlockPos());
         }
     }
 
-    private void writeNBT(CompoundNBT nbt){
-        CompoundNBT syncTag = new CompoundNBT();
+    private void writeNBT(CompoundTag nbt){
+        CompoundTag syncTag = new CompoundTag();
         this.syncDataMap.forEach((slot, synchroniseModuleData) -> synchroniseModuleData.use(compoundNBT -> syncTag.put(slot.name(), compoundNBT)));
         nbt.put("sync", syncTag);
 
         nbt.putInt("produced_energy", this.producedEnergy);
         nbt.putInt("wasted_energy", this.wastedEnergy);
-
-        this.getCapability(CapabilityEnergy.ENERGY, null).ifPresent(iEnergyStorage -> {
-            nbt.put("EnergyCapability", CapabilityEnergy.ENERGY.writeNBT(iEnergyStorage, null));
-        });
-
-        this.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).ifPresent(iItemHandler -> {
-            nbt.put("IItemHandlerCapability", CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.writeNBT(iItemHandler, null));
-        });
+        
+        nbt.put("energy_storage", this.energyStorage.serializeNBT());
+    
+        ListTag inv = new ListTag();
+        for(int i = 0; i < this.inventory.getContainerSize(); i++){
+            ItemStack itemstack = this.inventory.getItem(i);
+            if (!itemstack.isEmpty()) {
+                CompoundTag compoundtag = new CompoundTag();
+                compoundtag.putInt("Slot", i);
+                itemstack.save(compoundtag);
+                inv.add(compoundtag);
+            }
+        }
+        nbt.put("inventory", inv);
     }
 
-    private void readNBT(CompoundNBT nbt){
-        CompoundNBT syncTag = nbt.getCompound("sync");
+    private void readNBT(CompoundTag nbt){
+        CompoundTag syncTag = nbt.getCompound("sync");
         this.syncDataMap.forEach((slot, synchroniseModuleData) -> {
             synchroniseModuleData.set(syncTag.getCompound(slot.name()));
         });
 
         this.producedEnergy = nbt.getInt("produced_energy");
         this.wastedEnergy = nbt.getInt("wasted_energy");
-
-        this.getCapability(CapabilityEnergy.ENERGY, null).ifPresent(iEnergyStorage -> {
-            CapabilityEnergy.ENERGY.readNBT(iEnergyStorage, null, nbt.get("EnergyCapability"));
-        });
-
-        this.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).ifPresent(iItemHandler -> {
-            CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.readNBT(iItemHandler, null, nbt.get("IItemHandlerCapability"));
-        });
+    
+        this.energyStorage.deserializeNBT(nbt.get("energy_storage"));
+    
+        ListTag inv = nbt.getList("inventory", Tag.TAG_COMPOUND);
+        for(int i = 0; i < this.inventory.getContainerSize(); i++){
+            CompoundTag compoundtag = inv.getCompound(i);
+            if(!compoundtag.isEmpty()){
+                int slotId = compoundtag.getInt("Slot");
+                if (slotId < this.inventory.getContainerSize()) {
+                    this.inventory.setItem(slotId, ItemStack.of(compoundtag));
+                }
+            }
+        }
     }
+    
+    
 }
