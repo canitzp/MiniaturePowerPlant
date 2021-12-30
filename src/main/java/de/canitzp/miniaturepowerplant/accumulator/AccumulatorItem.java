@@ -1,25 +1,27 @@
 package de.canitzp.miniaturepowerplant.accumulator;
 
 import de.canitzp.miniaturepowerplant.StackEnergyStorage;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.Direction;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
+import net.minecraftforge.energy.IEnergyStorage;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class AccumulatorItem extends Item {
+public class AccumulatorItem extends Item{
 
     public static final AccumulatorItem ACCUMULATOR_BASIC = new AccumulatorItem(10000, 100);
     public static final AccumulatorItem ACCUMULATOR_PLUS = new AccumulatorItem(30000, 1000);
@@ -34,30 +36,34 @@ public class AccumulatorItem extends Item {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable World world, List<ITextComponent> text, ITooltipFlag flag) {
-        text.add(new TranslationTextComponent("item.miniaturepowerplant.accumulator.desc.capacity", this.capacity).withStyle(TextFormatting.GRAY));
+    public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> text, TooltipFlag flag) {
+        text.add(new TranslatableComponent("item.miniaturepowerplant.accumulator.desc.capacity", this.capacity).withStyle(ChatFormatting.GRAY));
         if(this.transfer > 0 && this.transfer < this.capacity){
-            text.add(new TranslationTextComponent("item.miniaturepowerplant.accumulator.desc.transfer", this.transfer).withStyle(TextFormatting.GRAY));
+            text.add(new TranslatableComponent("item.miniaturepowerplant.accumulator.desc.transfer", this.transfer).withStyle(ChatFormatting.GRAY));
         }
 
         stack.getCapability(CapabilityEnergy.ENERGY).ifPresent(iEnergyStorage -> {
-            text.add(new TranslationTextComponent("item.miniaturepowerplant.accumulator.desc.stored", iEnergyStorage.getEnergyStored(), iEnergyStorage.getMaxEnergyStored()).withStyle(TextFormatting.GRAY));
+            text.add(new TranslatableComponent("item.miniaturepowerplant.accumulator.desc.stored", iEnergyStorage.getEnergyStored(), iEnergyStorage.getMaxEnergyStored()).withStyle(ChatFormatting.GRAY));
         });
     }
-
+    
     @Override
-    public boolean showDurabilityBar(ItemStack stack) {
+    public boolean isBarVisible(ItemStack stack) {
         return stack.getCapability(CapabilityEnergy.ENERGY).map(iEnergyStorage -> iEnergyStorage.getEnergyStored() < iEnergyStorage.getMaxEnergyStored()).orElse(true);
     }
 
     @Override
-    public double getDurabilityForDisplay(ItemStack stack) {
-        return stack.getCapability(CapabilityEnergy.ENERGY).map(iEnergyStorage -> 1.0D - (iEnergyStorage.getEnergyStored() / (iEnergyStorage.getMaxEnergyStored() * 1D))).orElse(1D);
+    public int getBarWidth(ItemStack stack) {
+        IEnergyStorage energyStorage = stack.getCapability(CapabilityEnergy.ENERGY).resolve().orElse(null);
+        if(energyStorage != null){
+            return Math.round(13.0F - ((energyStorage.getEnergyStored() * 13.0F) / (energyStorage.getMaxEnergyStored() * 1.0F)));
+        }
+        return super.getBarWidth(stack);
     }
 
     @Nullable
     @Override
-    public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundNBT nbt) {
+    public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
         return new ICapabilityProvider() {
             private final StackEnergyStorage storage = new StackEnergyStorage(AccumulatorItem.this.capacity, AccumulatorItem.this.transfer, stack);
             @Nonnull

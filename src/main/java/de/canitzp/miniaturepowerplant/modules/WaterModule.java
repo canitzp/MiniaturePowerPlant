@@ -1,14 +1,12 @@
 package de.canitzp.miniaturepowerplant.modules;
 
-import de.canitzp.miniaturepowerplant.carrier.BlockCarrier;
 import de.canitzp.miniaturepowerplant.carrier.TileCarrier;
 import de.canitzp.miniaturepowerplant.reasons.EnergyProduction;
-import net.minecraft.block.BlockState;
-import net.minecraft.fluid.FluidState;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.material.FluidState;
 
 public class WaterModule extends DepletableItemModule {
 
@@ -24,9 +22,9 @@ public class WaterModule extends DepletableItemModule {
     }
 
     @Override
-    public void tick(World world, BlockPos pos, TileCarrier tile, SynchroniseModuleData data) {
+    public void tick(Level world, BlockPos pos, TileCarrier tile, SynchroniseModuleData data) {
         if(!world.isClientSide()){
-            ListNBT listEnergyProduction = new ListNBT();
+            ListTag listEnergyProduction = new ListTag();
             for (Direction direction : Direction.values()) {
                 int waterLevel = getWaterLevel(world, pos, direction);
                 int energyForWaterLevel = getEnergyForWaterLevel(waterLevel);
@@ -38,7 +36,7 @@ public class WaterModule extends DepletableItemModule {
         }
     }
 
-    private int getWaterLevel(World world, BlockPos pos, Direction direction){
+    private int getWaterLevel(Level world, BlockPos pos, Direction direction){
         FluidState fluidState = world.getFluidState(pos.relative(direction));
         if(fluidState.isEmpty()){
             return 0;

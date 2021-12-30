@@ -30,8 +30,8 @@
 
   "container.miniaturepowerplant.carrier": "Carrier",
   "container.miniaturepowerplant.carrier.hover.empty_solar_slot": "Place any solar module in here to gain more energy during direct sunlight.",
-  "container.miniaturepowerplant.carrier.hover.empty_core_slot": "WIP",
-  "container.miniaturepowerplant.carrier.hover.empty_ground_slot": "WIP",
+  "container.miniaturepowerplant.carrier.hover.empty_core_slot": "Place any core module in here.",
+  "container.miniaturepowerplant.carrier.hover.empty_ground_slot": "Place any ground module in here.",
   "container.miniaturepowerplant.carrier.hover.empty_upgrade_slot": "Place an upgrade in hear, to gain boosts.",
   "container.miniaturepowerplant.carrier.hover.energy.internal_stored": "Internal: %d/%d FE",
   "container.miniaturepowerplant.carrier.hover.energy.additional_stored": "Additional: %d/%d FE",

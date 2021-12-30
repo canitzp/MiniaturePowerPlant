@@ -1,16 +1,15 @@
 package de.canitzp.miniaturepowerplant.modules;
 
 import de.canitzp.miniaturepowerplant.carrier.TileCarrier;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.Level;
 
 import javax.annotation.Nullable;
-import java.util.Arrays;
 import java.util.List;
 
 public abstract class DepletableItemModule extends Item implements DepletableModule {
@@ -41,24 +40,26 @@ public abstract class DepletableItemModule extends Item implements DepletableMod
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable World world, List<ITextComponent> text, ITooltipFlag flag) {
+    public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> text, TooltipFlag flag) {
         if(!stack.isEmpty()){
             float depletionPercentage = this.getDepletionPercentage(stack);
             if(depletionPercentage >= 1.0F){
-                text.add(new TranslationTextComponent("item.miniaturepowerplant.depletable.desc.depleted").withStyle(TextFormatting.GRAY));
+                text.add(new TranslatableComponent("item.miniaturepowerplant.depletable.desc.depleted").withStyle(ChatFormatting.GRAY));
             } else if (depletionPercentage > 0.0F){
-                text.add(new TranslationTextComponent("item.miniaturepowerplant.depletable.desc.depletion", depletionPercentage * 100.0F).withStyle(TextFormatting.GRAY));
+                text.add(new TranslatableComponent("item.miniaturepowerplant.depletable.desc.depletion", depletionPercentage * 100.0F).withStyle(ChatFormatting.GRAY));
             }
         }
     }
-
+    
     @Override
-    public boolean showDurabilityBar(ItemStack stack) {
+    public boolean isBarVisible(ItemStack stack){
         return this.getDepletionPercentage(stack) > 0.0F;
     }
-
+    
     @Override
-    public double getDurabilityForDisplay(ItemStack stack) {
-        return this.getDepletionPercentage(stack);
+    public int getBarWidth(ItemStack stack){
+        float depletionPercentage = this.getDepletionPercentage(stack);
+        return Math.round(13.0F - (depletionPercentage * 13.0F));
     }
+    
 }

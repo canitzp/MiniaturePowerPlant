@@ -2,28 +2,24 @@ package de.canitzp.miniaturepowerplant;
 
 import de.canitzp.miniaturepowerplant.accumulator.AccumulatorItem;
 import de.canitzp.miniaturepowerplant.carrier.BlockCarrier;
-import de.canitzp.miniaturepowerplant.carrier.ContainerCarrier;
+import de.canitzp.miniaturepowerplant.carrier.CarrierMenu;
 import de.canitzp.miniaturepowerplant.carrier.ScreenCarrier;
 import de.canitzp.miniaturepowerplant.carrier.TileCarrier;
-import de.canitzp.miniaturepowerplant.mixin.TestMixin;
 import de.canitzp.miniaturepowerplant.modules.SolarModule;
 import de.canitzp.miniaturepowerplant.modules.TemperatureModule;
 import de.canitzp.miniaturepowerplant.modules.WaterModule;
 import de.canitzp.miniaturepowerplant.upgrades.EcoUpgrade;
-import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ScreenManager;
-import net.minecraft.inventory.container.ContainerType;
-import net.minecraft.item.Item;
-import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
-import org.spongepowered.asm.launch.MixinBootstrap;
-import org.spongepowered.tools.agent.MixinAgent;
 
 @Mod(MiniaturePowerPlant.MODID)
 @Mod.EventBusSubscriber
@@ -33,11 +29,10 @@ public class MiniaturePowerPlant {
 
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MODID);
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
-    public static final DeferredRegister<TileEntityType<?>> TILE_TYPES = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES, MODID);
-    public static final DeferredRegister<ContainerType<?>> CONTAINER_TYPES = DeferredRegister.create(ForgeRegistries.CONTAINERS, MODID);
+    public static final DeferredRegister<BlockEntityType<?>> TILE_TYPES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, MODID);
+    public static final DeferredRegister<MenuType<?>> CONTAINER_TYPES = DeferredRegister.create(ForgeRegistries.CONTAINERS, MODID);
 
     public MiniaturePowerPlant() {
-        MixinBootstrap.init();
         System.out.println("Loading MPP");
 
         this.register();
@@ -68,11 +63,11 @@ public class MiniaturePowerPlant {
 
         TILE_TYPES.register("carrier", () -> TileCarrier.TYPE);
 
-        CONTAINER_TYPES.register("carrier", () -> ContainerCarrier.TYPE);
+        CONTAINER_TYPES.register("carrier", () -> CarrierMenu.TYPE);
     }
 
     private void registerClient(){
-        ScreenManager.register(ContainerCarrier.TYPE, ScreenCarrier::new);
+        MenuScreens.register(CarrierMenu.TYPE, ScreenCarrier::new);
     }
 
 }

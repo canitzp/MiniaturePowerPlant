@@ -1,11 +1,8 @@
 package de.canitzp.miniaturepowerplant.reasons;
 
-import net.minecraft.client.resources.I18n;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.nbt.StringNBT;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.StringTag;
 
 public class EnergyPenalty {
 
@@ -17,7 +14,7 @@ public class EnergyPenalty {
         this.reason = reason;
     }
 
-    public EnergyPenalty(CompoundNBT nbt){
+    public EnergyPenalty(CompoundTag nbt){
         this.multiplier = nbt.getFloat("penalty_multiplier");
         this.reason = nbt.getString("penalty_reason");
     }
@@ -30,14 +27,14 @@ public class EnergyPenalty {
         return this.reason;
     }
 
-    public static CompoundNBT toNBT(float multiplier, String reason, String... arguments){
-        CompoundNBT nbt = new CompoundNBT();
+    public static CompoundTag toNBT(float multiplier, String reason, String... arguments){
+        CompoundTag nbt = new CompoundTag();
         nbt.putFloat("penalty_multiplier", multiplier);
         nbt.putString("penalty_reason", reason);
         if(arguments.length > 0){
-            ListNBT argumentList = new ListNBT();
+            ListTag argumentList = new ListTag();
             for (String argument : arguments) {
-                argumentList.add(StringNBT.valueOf(argument));
+                argumentList.add(StringTag.valueOf(argument));
             }
             nbt.put("reason_arguments", argumentList);
         }

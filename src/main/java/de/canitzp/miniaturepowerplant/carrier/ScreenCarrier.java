@@ -1,20 +1,20 @@
 package de.canitzp.miniaturepowerplant.carrier;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import de.canitzp.miniaturepowerplant.ICarrierModule;
 import de.canitzp.miniaturepowerplant.MiniaturePowerPlant;
 import de.canitzp.miniaturepowerplant.modules.SynchroniseModuleData;
 import de.canitzp.miniaturepowerplant.reasons.EnergyPenalty;
 import de.canitzp.miniaturepowerplant.reasons.EnergyProduction;
-import net.minecraft.client.gui.screen.inventory.ContainerScreen;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.Slot;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.Slot;
 import net.minecraftforge.energy.EnergyStorage;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class ScreenCarrier extends ContainerScreen<ContainerCarrier> {
+public class ScreenCarrier extends AbstractContainerScreen<CarrierMenu>{
 
     private static final ResourceLocation TEXTURE = new ResourceLocation(MiniaturePowerPlant.MODID, "textures/gui/container/carrier.png");
     private static final Map<ICarrierModule.CarrierSlot, Pair<Integer, Integer>> DEPLETION_SLOTS = new HashMap<ICarrierModule.CarrierSlot, Pair<Integer, Integer>>(){{
@@ -33,7 +33,7 @@ public class ScreenCarrier extends ContainerScreen<ContainerCarrier> {
         put(ICarrierModule.CarrierSlot.GROUND, Pair.of(132, 74));
     }};
 
-    public ScreenCarrier(ContainerCarrier container, PlayerInventory player, ITextComponent title) {
+    public ScreenCarrier(CarrierMenu container, Inventory player, Component title) {
         super(container, player, title);
     }
 
@@ -50,11 +50,11 @@ public class ScreenCarrier extends ContainerScreen<ContainerCarrier> {
     }
 
     @Override
-    protected void renderBg(MatrixStack matrix, float partialTicks, int mouseX, int mouseY) {
+    protected void renderBg(PoseStack matrix, float partialTicks, int mouseX, int mouseY) {
         this.renderBackground(matrix);
 
-        RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-        this.minecraft.textureManager.bind(TEXTURE);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.setShaderTexture(0, TEXTURE);
 
         this.blit(matrix, this.getGuiLeft(), this.getGuiTop(), 0, 0, this.imageWidth, this.imageHeight);
 
@@ -73,18 +73,18 @@ public class ScreenCarrier extends ContainerScreen<ContainerCarrier> {
         int energybarPixelWidth = Math.round((storedEnergy.get() / (energyCapacity.get() * 1.0F)) * 141.0F);
         if(energybarPixelWidth > 0){
             float[] wheelColor = getWheelColor(this.getTile().getLevel().getGameTime() % 256);
-            RenderSystem.color4f(wheelColor[0] / 255F, wheelColor[1] / 255F, wheelColor[2] / 255F, 1.0F);
+            RenderSystem.setShaderColor(wheelColor[0] / 255F, wheelColor[1] / 255F, wheelColor[2] / 255F, 1.0F);
             this.blit(matrix, this.getGuiLeft() + 27, this.getGuiTop() + 85, 0, 198, energybarPixelWidth, 10);
-            RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         }
     }
 
     @Override
-    public void render(MatrixStack matrix, int mouseX, int mouseY, float partialTicks) {
+    public void render(PoseStack matrix, int mouseX, int mouseY, float partialTicks) {
         super.render(matrix, mouseX, mouseY, partialTicks);
 
-        RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-        this.minecraft.textureManager.bind(TEXTURE);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.setShaderTexture(0, TEXTURE);
 
         // render depletion bar
         DEPLETION_SLOTS.forEach((slot, pair) -> {
@@ -99,24 +99,24 @@ public class ScreenCarrier extends ContainerScreen<ContainerCarrier> {
         // empty slots tooltip
         Slot slotUnderMouse = this.getSlotUnderMouse();
         if(slotUnderMouse != null && slotUnderMouse.container.equals(this.menu.getTile().getInventory()) && !slotUnderMouse.hasItem()){
-            List<ITextComponent> text = new ArrayList<>();
+            List<Component> text = new ArrayList<>();
             switch (slotUnderMouse.index){
-                case ContainerCarrier.SLOT_SOLAR: {
-                    text.add(new TranslationTextComponent("container.miniaturepowerplant.carrier.hover.empty_solar_slot"));
+                case CarrierMenu.SLOT_SOLAR: {
+                    text.add(new TranslatableComponent("container.miniaturepowerplant.carrier.hover.empty_solar_slot"));
                     break;
                 }
-                case ContainerCarrier.SLOT_CORE: {
-                    text.add(new TranslationTextComponent("container.miniaturepowerplant.carrier.hover.empty_core_slot"));
+                case CarrierMenu.SLOT_CORE: {
+                    text.add(new TranslatableComponent("container.miniaturepowerplant.carrier.hover.empty_core_slot"));
                     break;
                 }
-                case ContainerCarrier.SLOT_GROUND: {
-                    text.add(new TranslationTextComponent("container.miniaturepowerplant.carrier.hover.empty_ground_slot"));
+                case CarrierMenu.SLOT_GROUND: {
+                    text.add(new TranslatableComponent("container.miniaturepowerplant.carrier.hover.empty_ground_slot"));
                     break;
                 }
-                case ContainerCarrier.SLOT_SOLAR_UPGRADE:
-                case ContainerCarrier.SLOT_CORE_UPGRADE:
-                case ContainerCarrier.SLOT_GROUND_UPGRADE: {
-                    text.add(new TranslationTextComponent("container.miniaturepowerplant.carrier.hover.empty_upgrade_slot"));
+                case CarrierMenu.SLOT_SOLAR_UPGRADE:
+                case CarrierMenu.SLOT_CORE_UPGRADE:
+                case CarrierMenu.SLOT_GROUND_UPGRADE: {
+                    text.add(new TranslatableComponent("container.miniaturepowerplant.carrier.hover.empty_upgrade_slot"));
                     break;
                 }
             }
@@ -127,14 +127,14 @@ public class ScreenCarrier extends ContainerScreen<ContainerCarrier> {
         if(mouseX >= this.getGuiLeft() + 27 && mouseX <= this.getGuiLeft() + 27 + 141 && mouseY >= this.getGuiTop() + 85 && mouseY <= this.getGuiTop() + 85 + 10){
             // internal
             EnergyStorage energyStorage = this.getTile().getEnergyStorage();
-            List<ITextComponent> text = new ArrayList<>();
-            text.add(new TranslationTextComponent("container.miniaturepowerplant.carrier.hover.energy.internal_stored", energyStorage.getEnergyStored(), energyStorage.getMaxEnergyStored()));
+            List<Component> text = new ArrayList<>();
+            text.add(new TranslatableComponent("container.miniaturepowerplant.carrier.hover.energy.internal_stored", energyStorage.getEnergyStored(), energyStorage.getMaxEnergyStored()));
             // additional
             this.getTile().getAccuStorage().ifPresent(accu -> {
-                text.add(new TranslationTextComponent("container.miniaturepowerplant.carrier.hover.energy.additional_stored", accu.getEnergyStored(), accu.getMaxEnergyStored()));
+                text.add(new TranslatableComponent("container.miniaturepowerplant.carrier.hover.energy.additional_stored", accu.getEnergyStored(), accu.getMaxEnergyStored()));
             });
-            text.add(new TranslationTextComponent("container.miniaturepowerplant.carrier.hover.energy.produced", this.getTile().getProducedEnergy()).withStyle(TextFormatting.GRAY));
-            text.add(new TranslationTextComponent("container.miniaturepowerplant.carrier.hover.energy.wasted", this.getTile().getWastedEnergy()).withStyle(TextFormatting.GRAY));
+            text.add(new TranslatableComponent("container.miniaturepowerplant.carrier.hover.energy.produced", this.getTile().getProducedEnergy()).withStyle(ChatFormatting.GRAY));
+            text.add(new TranslatableComponent("container.miniaturepowerplant.carrier.hover.energy.wasted", this.getTile().getWastedEnergy()).withStyle(ChatFormatting.GRAY));
             this.renderComponentTooltip(matrix, text, mouseX, mouseY);
 
         }
@@ -142,36 +142,36 @@ public class ScreenCarrier extends ContainerScreen<ContainerCarrier> {
         this.renderTooltip(matrix, mouseX, mouseY);
     }
 
-    private void renderSlotLevel(MatrixStack matrix, float depletion, int x, int y) {
+    private void renderSlotLevel(PoseStack matrix, float depletion, int x, int y) {
         if(depletion > 0.0F){
             int depletionBarWidth = Math.max(1, Math.min(Math.round(depletion * 24), 36));
             this.blit(matrix, this.getGuiLeft() + x, this.getGuiTop() + y, 0, 195, depletionBarWidth, 3);
         }
     }
 
-    private void renderSlotLevelHover(MatrixStack matrix, float depletion, ICarrierModule carrierModule, SynchroniseModuleData data, ICarrierModule.CarrierSlot slot, int mouseX, int mouseY, int x, int y){
+    private void renderSlotLevelHover(PoseStack matrix, float depletion, ICarrierModule carrierModule, SynchroniseModuleData data, ICarrierModule.CarrierSlot slot, int mouseX, int mouseY, int x, int y){
         if(mouseX >= this.getGuiLeft() + x && mouseX <= this.getGuiLeft() + x + 36 && mouseY >= this.getGuiTop() + y && mouseY <= this.getGuiTop() + y + 3){
             List<EnergyProduction> energyProductions = this.getTile().getProductionForSlot(slot);
             List<EnergyPenalty> energyPenalties = this.getTile().getPenaltiesForSlot(slot);
-            List<ITextComponent> text = new ArrayList<>();
-            text.add(new TranslationTextComponent("container.miniaturepowerplant.carrier.hover.depletion", Math.round(depletion * 100)));
+            List<Component> text = new ArrayList<>();
+            text.add(new TranslatableComponent("container.miniaturepowerplant.carrier.hover.depletion", Math.round(depletion * 100)));
             if(!energyProductions.isEmpty()){
-                text.add(new TranslationTextComponent("container.miniaturepowerplant.carrier.hover.producer").withStyle(TextFormatting.GRAY, TextFormatting.UNDERLINE));
+                text.add(new TranslatableComponent("container.miniaturepowerplant.carrier.hover.producer").withStyle(ChatFormatting.GRAY, ChatFormatting.UNDERLINE));
                 for (EnergyProduction producer : energyProductions) {
-                    text.add(new StringTextComponent(" ").append(new TranslationTextComponent("container.miniaturepowerplant.carrier.hover.producer_self", producer.getEnergy(), producer.translateReason()).withStyle(TextFormatting.GRAY)));
+                    text.add(new TextComponent(" ").append(new TranslatableComponent("container.miniaturepowerplant.carrier.hover.producer_self", producer.getEnergy(), producer.translateReason()).withStyle(ChatFormatting.GRAY)));
                 }
             }
             if(!energyPenalties.isEmpty() && !energyProductions.isEmpty()){
-                text.add(new TranslationTextComponent("container.miniaturepowerplant.carrier.hover.penalty").withStyle(TextFormatting.GRAY, TextFormatting.UNDERLINE));
+                text.add(new TranslatableComponent("container.miniaturepowerplant.carrier.hover.penalty").withStyle(ChatFormatting.GRAY, ChatFormatting.UNDERLINE));
                 for (EnergyPenalty penalty : energyPenalties) {
-                    text.add(new StringTextComponent(" ").append(new TranslationTextComponent("container.miniaturepowerplant.carrier.hover.penalty_self", 100 - Math.round(penalty.getMultiplier() * 100), penalty.getReason()).withStyle(TextFormatting.GRAY)));
+                    text.add(new TextComponent(" ").append(new TranslatableComponent("container.miniaturepowerplant.carrier.hover.penalty_self", 100 - Math.round(penalty.getMultiplier() * 100), penalty.getReason()).withStyle(ChatFormatting.GRAY)));
                 }
             }
 
-            ArrayList<ITextComponent> additionalText = new ArrayList<>();
+            ArrayList<Component> additionalText = new ArrayList<>();
             carrierModule.addDepletionInformation(this, data, additionalText);
             if(!energyProductions.isEmpty() && !additionalText.isEmpty()){
-                text.add(new StringTextComponent(""));
+                text.add(new TextComponent(""));
             }
             text.addAll(additionalText);
 
