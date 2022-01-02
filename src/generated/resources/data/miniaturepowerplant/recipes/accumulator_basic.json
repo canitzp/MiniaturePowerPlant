@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " b ",
+    "crc",
+    "crc"
+  ],
+  "key": {
+    "c": {
+      "item": "minecraft:copper_ingot"
+    },
+    "r": {
+      "tag": "forge:storage_blocks/redstone"
+    },
+    "b": {
+      "item": "minecraft:copper_block"
+    }
+  },
+  "result": {
+    "item": "miniaturepowerplant:accumulator_basic"
+  }
+}

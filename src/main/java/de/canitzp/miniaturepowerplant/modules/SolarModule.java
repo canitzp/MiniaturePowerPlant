@@ -5,9 +5,11 @@ import de.canitzp.miniaturepowerplant.reasons.EnergyPenalty;
 import de.canitzp.miniaturepowerplant.reasons.EnergyProduction;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.util.Mth;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
+import net.minecraft.world.level.block.state.BlockState;
 
 import javax.annotation.Nullable;
 
@@ -29,14 +31,14 @@ public class SolarModule extends DepletableItemModule {
     public void tick(Level world, BlockPos pos, TileCarrier tile, SynchroniseModuleData data) {
         if(!world.isClientSide()){
             // energy production
-            int brightness = world.getBrightness(LightLayer.SKY, tile.getBlockPos()) - world.getSkyDarken();
-            // - 4 because the max value is 14 and we want it to be 10.
-            // Math.max because the lowest value (because of -4) is -1 and we don't want to consume energy
-            int energyFromBrightness = Math.max(0, brightness - 4);
-
+            // from sunlight
+            int calculateEnergy = SolarModule.calculateEnergy(world, pos);
+            // multiply to reduce the max created energy from 15 to 10
+            calculateEnergy = Math.round(calculateEnergy * (10F/15F));
+    
             ListTag listEnergyProduction = new ListTag();
-            if(energyFromBrightness > 0){
-                listEnergyProduction.add(EnergyProduction.toNBT(energyFromBrightness, "item.miniaturepowerplant.solar_module.production.brightness"));
+            if(calculateEnergy > 0){
+                listEnergyProduction.add(EnergyProduction.toNBT(calculateEnergy, "item.miniaturepowerplant.solar_module.production.brightness"));
             }
             data.use(compoundNBT -> compoundNBT.put(NBT_KEY_PRODUCTION, listEnergyProduction));
 
@@ -51,6 +53,19 @@ public class SolarModule extends DepletableItemModule {
             }
             data.use(compoundNBT -> compoundNBT.put(NBT_KEY_PENALTY, listEnergyPenalty));
         }
+    }
+    
+    // copied from DaylightDetectorBlock#updateSignalStrength
+    // return value is between 0 and 15
+    private static int calculateEnergy(Level level, BlockPos pos) {
+        int brightness = level.getBrightness(LightLayer.SKY, pos) - level.getSkyDarken();
+        float sunAngle = level.getSunAngle(1.0F);
+        if (brightness > 0) {
+            float f1 = sunAngle < (float)Math.PI ? 0.0F : ((float)Math.PI * 2F);
+            sunAngle += (f1 - sunAngle) * 0.2F;
+            brightness = Math.round((float)brightness * Mth.cos(sunAngle));
+        }
+        return Mth.clamp(brightness, 0, 15);
     }
 
 }

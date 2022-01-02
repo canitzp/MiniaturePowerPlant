@@ -2,7 +2,7 @@
 
 ### Block
 The carrier is a block which provides the base for any power generation module.
-It can be waterlogged, but there benefit.
+It can be waterlogged, but there is currently no benefit to do.
 
 ![](carrier_block_empty.png)
 

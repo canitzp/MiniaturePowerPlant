@@ -1,5 +1,7 @@
 package de.canitzp.miniaturepowerplant.accumulator;
 
+import de.canitzp.miniaturepowerplant.MPPTab;
+import de.canitzp.miniaturepowerplant.MiniaturePowerPlant;
 import de.canitzp.miniaturepowerplant.StackEnergyStorage;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Direction;
@@ -30,14 +32,13 @@ public class AccumulatorItem extends Item{
     private final int capacity, transfer;
 
     public AccumulatorItem(int capacity, int transfer) {
-        super(new Properties().stacksTo(1));
+        super(new Properties().stacksTo(1).tab(MPPTab.INSTANCE));
         this.capacity = capacity;
         this.transfer = transfer;
     }
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> text, TooltipFlag flag) {
-        text.add(new TranslatableComponent("item.miniaturepowerplant.accumulator.desc.capacity", this.capacity).withStyle(ChatFormatting.GRAY));
         if(this.transfer > 0 && this.transfer < this.capacity){
             text.add(new TranslatableComponent("item.miniaturepowerplant.accumulator.desc.transfer", this.transfer).withStyle(ChatFormatting.GRAY));
         }
@@ -56,7 +57,7 @@ public class AccumulatorItem extends Item{
     public int getBarWidth(ItemStack stack) {
         IEnergyStorage energyStorage = stack.getCapability(CapabilityEnergy.ENERGY).resolve().orElse(null);
         if(energyStorage != null){
-            return Math.round(13.0F - ((energyStorage.getEnergyStored() * 13.0F) / (energyStorage.getMaxEnergyStored() * 1.0F)));
+            return Math.round((energyStorage.getEnergyStored() * 13.0F) / (energyStorage.getMaxEnergyStored() * 1.0F));
         }
         return super.getBarWidth(stack);
     }
