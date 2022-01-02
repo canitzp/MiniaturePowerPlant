@@ -22,6 +22,7 @@ These calculation only apply when no upgrade is used.
 The solar modules are generating their energy from the sun.
 But this can't be implemented, so I choose the easy way and let them produce their energy by the skylight the carrier block is receiving.
 The skylight depends on multiple factors, like time of the day and obstructions above.
+It uses the same algorithm as the daylight detector, but the value is multiplied by 0.67, to reduce the maximal output to 10FE/t (instead of 15).
 
 The module can append penalties, caused by natural factors.
 The most common one is rain which decreases the energy production by 50%, while a thunderstorm decreases the production by 85%.

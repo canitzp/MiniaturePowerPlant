@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "lcl",
+    "lll",
+    "sps"
+  ],
+  "key": {
+    "l": {
+      "tag": "minecraft:leaves"
+    },
+    "c": {
+      "item": "minecraft:copper_ingot"
+    },
+    "p": {
+      "tag": "minecraft:planks"
+    },
+    "s": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "item": "miniaturepowerplant:eco_upgrade"
+  }
+}

@@ -1,5 +1,6 @@
 package de.canitzp.miniaturepowerplant.modules;
 
+import de.canitzp.miniaturepowerplant.MPPTab;
 import de.canitzp.miniaturepowerplant.carrier.TileCarrier;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -18,7 +19,7 @@ public abstract class DepletableItemModule extends Item implements DepletableMod
     private final float maxDepletion;
 
     public DepletableItemModule(Properties properties, float depletion, float maxDepletion) {
-        super(properties);
+        super(properties.tab(MPPTab.INSTANCE));
         this.depletion = depletion;
         this.maxDepletion = maxDepletion;
     }
@@ -46,7 +47,7 @@ public abstract class DepletableItemModule extends Item implements DepletableMod
             if(depletionPercentage >= 1.0F){
                 text.add(new TranslatableComponent("item.miniaturepowerplant.depletable.desc.depleted").withStyle(ChatFormatting.GRAY));
             } else if (depletionPercentage > 0.0F){
-                text.add(new TranslatableComponent("item.miniaturepowerplant.depletable.desc.depletion", depletionPercentage * 100.0F).withStyle(ChatFormatting.GRAY));
+                text.add(new TranslatableComponent("item.miniaturepowerplant.depletable.desc.depletion", String.format("%.2f", depletionPercentage * 100.0F)).withStyle(ChatFormatting.GRAY));
             }
         }
     }
