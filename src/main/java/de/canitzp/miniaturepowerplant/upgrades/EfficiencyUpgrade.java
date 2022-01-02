@@ -1,6 +1,5 @@
 package de.canitzp.miniaturepowerplant.upgrades;
 
-import com.google.common.collect.Lists;
 import de.canitzp.miniaturepowerplant.ICarrierModule;
 import de.canitzp.miniaturepowerplant.carrier.TileCarrier;
 import de.canitzp.miniaturepowerplant.modules.SynchroniseModuleData;
