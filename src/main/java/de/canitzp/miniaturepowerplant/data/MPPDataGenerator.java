@@ -17,6 +17,7 @@ public class MPPDataGenerator{
         
         if(event.includeServer()){
             generator.addProvider(new MPPRecipeProvider(generator));
+            generator.addProvider(new MPPItemModelGenerator(generator, helper));
         }
     }
 }
