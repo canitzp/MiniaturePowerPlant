@@ -1,16 +1,25 @@
 # Miniature Power Plant (MPP)
 
-## Desc
+## Description
+Miniature Power Plant was created to solve a simple issue. Diverse energy production without fancy factories.
 
-~
+You just have to craft and place the carrier, which can hold up to three modules and three upgrades, as well as 20kFE. By adding the modules, you can create a simple power plant.
+
+Any module has it pros and cons, for example the solar modules works best in direct sunlight, but is affected by bad weather.
+But to find out al effects, there is a simple statistics view, where every energy production and every penalty is written down.
 
 ## Changelog
+**39.1.0:**
+- Add the ability to shift click into and out of the carrier menu
+- New Upgrade: "Efficiency": Increases the energy production of any module, but increases its depletion rate as well.
+
 **39.0.0:**
 - Initial release
 
 ## Planned
 - upgrades for existing modules (solar, temperature, water)
-- new module thats "eats" grass and leaves to generate energy
+- new module that "eats" grass and leaves to generate energy
+- new module "wind generator", which generates energy, based on the location (height) or the carrier position.
 
 ## Wiki
 ### Carrier
@@ -27,6 +36,7 @@ On interaction, it opens its interface, to put modules in.
 ![](https://github.com/canitzp/MiniaturePowerPlant/blob/main/wiki/carrier_gui_empty.png?raw=true)
 
 The interface consists on five parts (from top to bottom):
+
 - Upper [modules](#modules) (eg: solar module) and [upgrades](#upgrades)
 - Center [modules](#modules) (eg: temperature module) and [upgrades](#upgrades)
 - Bottom [modules](#modules) and [upgrades](#upgrades)

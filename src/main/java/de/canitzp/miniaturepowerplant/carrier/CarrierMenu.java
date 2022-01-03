@@ -77,8 +77,28 @@ public class CarrierMenu extends AbstractContainerMenu{
     }
     
     @Override
-    public ItemStack quickMoveStack(Player player, int slot){
-        return ItemStack.EMPTY;
+    public ItemStack quickMoveStack(Player player, int slotId){
+        ItemStack itemstack = ItemStack.EMPTY;
+        Slot slot = this.slots.get(slotId);
+        if (slot != null && slot.hasItem()) {
+            ItemStack itemstack1 = slot.getItem();
+            itemstack = itemstack1.copy();
+            if (slotId < 7) { // check if stack comes from this menu
+                if (!this.moveItemStackTo(itemstack1, 7, this.slots.size(), true)) {
+                    return ItemStack.EMPTY;
+                }
+            } else if (!this.moveItemStackTo(itemstack1, 0, 7, false)) {
+                return ItemStack.EMPTY;
+            }
+        
+            if (itemstack1.isEmpty()) {
+                slot.set(ItemStack.EMPTY);
+            } else {
+                slot.setChanged();
+            }
+        }
+    
+        return itemstack;
     }
     
     public TileCarrier getTile() {

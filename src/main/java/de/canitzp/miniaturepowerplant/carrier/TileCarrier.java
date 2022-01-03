@@ -17,6 +17,7 @@ import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.Mth;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.Nameable;
 import net.minecraft.world.SimpleContainer;
@@ -313,6 +314,10 @@ public class TileCarrier extends BlockEntity implements MenuProvider, Nameable{
             }
         }
         return penalties;
+    }
+    
+    public int getEnergyForSlotOnly(ICarrierModule.CarrierSlot responderSlot){
+        return this.getCarrierModule(responderSlot).produceEnergy(this.getLevel(), this.getBlockPos(), this, responderSlot, responderSlot, this.getSyncData(responderSlot)).stream().mapToInt(EnergyProduction::getEnergy).sum();
     }
 
     private void onBlockUpdate(){

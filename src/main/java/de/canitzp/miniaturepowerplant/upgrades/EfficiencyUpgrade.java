@@ -1,27 +1,50 @@
 package de.canitzp.miniaturepowerplant.upgrades;
 
+import com.google.common.collect.Lists;
 import de.canitzp.miniaturepowerplant.ICarrierModule;
+import de.canitzp.miniaturepowerplant.MPPTab;
 import de.canitzp.miniaturepowerplant.carrier.TileCarrier;
 import de.canitzp.miniaturepowerplant.modules.SynchroniseModuleData;
 import de.canitzp.miniaturepowerplant.reasons.EnergyProduction;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
 import java.util.List;
 
 public class EfficiencyUpgrade extends Item implements ICarrierModule {
 
-    private final float ownModuleDepletionIncrease, otherModulesDepletionIncrease, energyIncreaseMultiplier;
+    public static final EfficiencyUpgrade EFFICIENCY_UPGRADE_BASIC = new EfficiencyUpgrade(0.25F, 0.0F, 0.1F);
+    
+    private final float ownModuleDepletionIncrease, otherModulesDepletionIncrease, energyMultiplier;
 
-    public EfficiencyUpgrade(float ownModuleDepletionIncrease, float otherModulesDepletionIncrease, float energyIncreaseMultiplier) {
-        super(new Properties().stacksTo(1));
+    public EfficiencyUpgrade(float ownModuleDepletionIncrease, float otherModulesDepletionIncrease, float energyMultiplier) {
+        super(new Properties().stacksTo(1).tab(MPPTab.INSTANCE));
         this.ownModuleDepletionIncrease = ownModuleDepletionIncrease;
         this.otherModulesDepletionIncrease = otherModulesDepletionIncrease;
-        this.energyIncreaseMultiplier = energyIncreaseMultiplier;
+        this.energyMultiplier = energyMultiplier;
     }
-
+    
+    @Override
+    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> text, TooltipFlag flag){
+        if(this.energyMultiplier > 0.0F){
+            text.add(new TextComponent("Increases slots energy generation by " + Math.round(this.energyMultiplier * 100) + "%").withStyle(ChatFormatting.GRAY));
+        }
+        if(this.ownModuleDepletionIncrease > 0.0F){
+            text.add(new TextComponent("Increases slots depletion by " + Math.round(this.ownModuleDepletionIncrease * 100) + "%").withStyle(ChatFormatting.GRAY));
+        }
+        if(this.otherModulesDepletionIncrease > 0.0F){
+            text.add(new TextComponent("Increases others depletion by " + Math.round(this.ownModuleDepletionIncrease * 100) + "%").withStyle(ChatFormatting.GRAY));
+        }
+    }
+    
     @Override
     public CarrierSlot[] validSlots() {
         return new CarrierSlot[]{CarrierSlot.SOLAR_UPGRADE, CarrierSlot.CORE_UPGRADE, CarrierSlot.GROUND_UPGRADE};
@@ -34,9 +57,13 @@ public class EfficiencyUpgrade extends Item implements ICarrierModule {
 
     @Override
     public List<EnergyProduction> produceEnergy(Level world, BlockPos pos, TileCarrier tile, CarrierSlot mySlot, CarrierSlot otherSlot, SynchroniseModuleData data) {
-        //tile.getProductionForSlot(otherSlot)
-        //return Lists.newArrayList(new EnergyProduction(this.energyIncreaseMultiplier, "Efficiency energy increase"));
-        // todo
+        if(otherSlot == mySlot.getCompanion()){
+            int otherSlotEnergyProduction = tile.getEnergyForSlotOnly(mySlot.getCompanion());
+            int efficiencyModuleEnergyProduction = Math.round(otherSlotEnergyProduction * this.energyMultiplier);
+            if(efficiencyModuleEnergyProduction > 0){
+                return Lists.newArrayList(new EnergyProduction(efficiencyModuleEnergyProduction, "Efficiency energy increase"));
+            }
+        }
         return Collections.emptyList();
     }
 }

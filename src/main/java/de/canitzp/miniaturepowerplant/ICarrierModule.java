@@ -62,5 +62,15 @@ public interface ICarrierModule {
         public boolean isUpgrade(CarrierSlot upgradeableSlot){
             return upgradeableSlot.ordinal() + 1 == this.ordinal();
         }
+        
+        public CarrierSlot getCompanion(){
+            if(this.ordinal() % 2 == 0){
+                // is module
+                return CarrierSlot.values()[this.ordinal() + 1];
+            } else {
+                // is upgrade
+                return CarrierSlot.values()[this.ordinal() - 1];
+            }
+        }
     }
 }

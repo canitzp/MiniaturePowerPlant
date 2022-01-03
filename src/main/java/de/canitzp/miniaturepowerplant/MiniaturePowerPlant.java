@@ -9,6 +9,7 @@ import de.canitzp.miniaturepowerplant.modules.SolarModule;
 import de.canitzp.miniaturepowerplant.modules.TemperatureModule;
 import de.canitzp.miniaturepowerplant.modules.WaterModule;
 import de.canitzp.miniaturepowerplant.upgrades.EcoUpgrade;
+import de.canitzp.miniaturepowerplant.upgrades.EfficiencyUpgrade;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.Item;
@@ -57,6 +58,7 @@ public class MiniaturePowerPlant {
         ITEMS.register("water_module_basic", () -> WaterModule.WATER_MODULE_BASIC);
         ITEMS.register("eco_upgrade", () -> EcoUpgrade.ECO_UPGRADE);
         ITEMS.register("eco_plus_upgrade", () -> EcoUpgrade.ECO_PLUS_UPGRADE);
+        ITEMS.register("efficiency_upgrade", () -> EfficiencyUpgrade.EFFICIENCY_UPGRADE_BASIC);
         ITEMS.register("accumulator_basic", () -> AccumulatorItem.ACCUMULATOR_BASIC);
         ITEMS.register("accumulator_plus", () -> AccumulatorItem.ACCUMULATOR_PLUS);
         ITEMS.register("accumulator_enhanced", () -> AccumulatorItem.ACCUMULATOR_ENHANCED);

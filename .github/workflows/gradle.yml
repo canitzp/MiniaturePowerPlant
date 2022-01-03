@@ -32,3 +32,8 @@ jobs:
       - name: Build with Gradle
         timeout-minutes: 15
         run: ./gradlew build --stacktrace
+      - name: Create artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: MiniaturePowerPlant-Artifact
+          path: build/libs/*
