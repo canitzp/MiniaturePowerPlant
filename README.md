@@ -1,1 +1,131 @@
 # Miniature Power Plant (MPP)
+
+## Desc
+
+~
+
+## Changelog
+**39.0.0:**
+- Initial release
+
+## Planned
+- upgrades for existing modules (solar, temperature, water)
+- new module thats "eats" grass and leaves to generate energy
+
+## Wiki
+### Carrier
+
+#### Block
+The carrier is a block which provides the base for any power generation module.
+It can be waterlogged, but there is currently no benefit to do.
+
+![](https://github.com/canitzp/MiniaturePowerPlant/blob/main/wiki/carrier_block_empty.png?raw=true)
+
+#### GUI
+On interaction, it opens its interface, to put modules in.
+
+![](https://github.com/canitzp/MiniaturePowerPlant/blob/main/wiki/carrier_gui_empty.png?raw=true)
+
+The interface consists on five parts (from top to bottom):
+- Upper [modules](#modules) (eg: solar module) and [upgrades](#upgrades)
+- Center [modules](#modules) (eg: temperature module) and [upgrades](#upgrades)
+- Bottom [modules](#modules) and [upgrades](#upgrades)
+- Energy meter and battery slot
+- Player inventory
+
+##### Statistics meter
+Under every module/upgrade slot there is a bar, which shows statistics about the module and upgrade.
+
+![](https://github.com/canitzp/MiniaturePowerPlant/blob/main/wiki/carrier_gui_statistics_bar.png?raw=true)
+
+In this picture you can see the current rate, at which the module is depleting.
+A rate of 100% is normal and the module depletes at its default level.
+Upgrades can help to decrease this, but also increase this rate.
+
+Below it the energy production and their penalties are listed.
+Both can have more than one entry and they may vary, by time, position or any other outside factor.
+
+The visible bar show the depletion rate from 0% to 150%.
+0% to 50% is green, 51% to 100% is yellow and everything above 100% is red.
+
+##### Battery slot
+The battery slot is able to extend the capacity of the Carrier.
+
+The carrier tries to pump its own energy into the item, as soon and fast as possible.
+
+The slot can only be populated with items, able to handle energy.
+That doesn't mean that the item can actually receive energy, so be careful what you put in there.
+
+##### Energy meter
+The energy meter displays the current energy stored by the carrier or any item inside the battery slot.
+
+On mouse hover it shows the exact amount of energy stored, for itself and any battery, the energy generation per tick and the wasted energy for the last tick.
+
+The energy bar itself show the combined stored energy for the carrier and the optional battery.
+
+![](https://github.com/canitzp/MiniaturePowerPlant/blob/main/wiki/carrier_gui_energy.png?raw=true)
+
+
+### Modules
+Modules are items that can be put into their corresponding [carrier](#gui) slot.
+They are the main part of the energy production and they vary by functions.
+Every module has a maximum depletion and a default depletion rate.
+When in use, the module depletes by their rate per tick.
+
+For any Class 1 module, the max depletion is 100K with a depletion rate of 1 per tick.
+So this module would last 5000 seconds or roughly 83 minutes (real time).
+The Class 1 solar module produces up to 10FE per tick and so it can produce up to 1MFE within its lifespan.
+These calculation only apply when no upgrade is used.
+
+| Module            | Slot     | Class | Max depletion     | Depletion rate    | Energy production |
+| :---------------: | :------: | :---: | :---------------: | :---------------: | :---------------: |
+| [Solar](#solar)   | Top      | 1     | 100K              | 1.0               | 0 - 10 FE/t       |
+| [Temperature](#temperature)       | Center, Bottom   | 1     | 100K              | 1.0               | 0 - 20 FE/t       |
+| [Water](#water)             | Center, Bottom   | 1     | 100K              | 1.0               | 0 - 8 FE/t per side       |
+
+
+#### Solar
+The solar modules are generating their energy from the sun.
+But this can't be implemented, so I choose the easy way and let them produce their energy by the skylight the carrier block is receiving.
+The skylight depends on multiple factors, like time of the day and obstructions above.
+It uses the same algorithm as the daylight detector, but the value is multiplied by 0.67, to reduce the maximal output to 10FE/t (instead of 15).
+
+The module can append penalties, caused by natural factors.
+The most common one is rain which decreases the energy production by 50%, while a thunderstorm decreases the production by 85%.
+
+#### Temperature
+The temperature module is generating energy out of nothing, well not nothing but it seems like it would.
+The energy production depends on the biome the carrier block is in.
+Minecraft associated a temperature value with every biome, which is multiplied by ten to get the energy generated.
+
+This module appends a 50% penalty, whenever it is raining at the carrier block position
+
+#### Water
+The water modules generated energy from the flow of nearby water.
+To get the best result you need to put level 4 flowing water on all sides.
+
+The water level is the stage of flowing water. placing down a water block creates a level 8 water,
+with every block in the  flowing direction, the level is decreased by one.
+
+Here is a list of the energy generated by which water level (Class 1 module):
+
+| Water Level | Energy generated (FE/t) |
+| :---: | :---: |
+| 1 & 7 | 2 |
+| 2 & 6 | 4 |
+| 3 & 5 | 6 |
+| 4 | 8 |
+| 8 | 1 |
+
+There are no penalties for this kind of module.
+
+
+### Upgrades
+Upgrades are items that can be put into their corresponding [carrier](#carrier) slot.
+These are optional, but recommended to increase energy generation or decrease module depletion.
+Normally an upgrade only affects the module it is placed nearby, but some upgrades have effects on others as well.
+If so it is specified in their description.
+
+#### Eco
+Eco upgrades are good for reducing the depletion rate and so increasing the lifespan of a module, but they also reduce the energy generation.
+The Eco+ upgrade decreases the depletion of all other modules as well as its own.
