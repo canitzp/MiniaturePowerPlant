@@ -2,8 +2,10 @@ package de.canitzp.miniaturepowerplant.carrier;
 
 import de.canitzp.miniaturepowerplant.ICarrierModule;
 import de.canitzp.miniaturepowerplant.modules.SynchroniseModuleData;
+import de.canitzp.miniaturepowerplant.reasons.EnergyBoost;
 import de.canitzp.miniaturepowerplant.reasons.EnergyPenalty;
 import de.canitzp.miniaturepowerplant.reasons.EnergyProduction;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -39,10 +41,7 @@ import net.minecraftforge.items.wrapper.InvWrapper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class TileCarrier extends BlockEntity implements MenuProvider, Nameable{
 
@@ -150,29 +149,45 @@ public class TileCarrier extends BlockEntity implements MenuProvider, Nameable{
             // modules energy production
             if(tile.energyStorage.getEnergyStored() < tile.energyStorage.getMaxEnergyStored()) {
                 List<ICarrierModule.CarrierSlot> hasProducedEnergy = new ArrayList<>();
-                List<EnergyProduction> energyProductionReasons = new ArrayList<>();
-                List<EnergyPenalty> energyPenaltyReasons = new ArrayList<>();
+                int completeEnergyProduction = 0;
                 for (ICarrierModule.CarrierSlot slot : ICarrierModule.CarrierSlot.values()) {
                     if (!tile.isDepleted(slot)) {
                         ICarrierModule carrierModule = tile.getCarrierModule(slot);
                         if (carrierModule != null) {
+    
+                            SynchroniseModuleData moduleSyncData = tile.getSyncData(slot);
+                            int moduleEnergy = carrierModule.produceEnergy(level, pos, tile, slot, slot, moduleSyncData).stream().mapToInt(EnergyProduction::getEnergy).sum();
+                            double modulePenalty = carrierModule.penaltyEnergy(level, pos, tile, slot, slot, moduleSyncData).stream().mapToDouble(EnergyPenalty::getMultiplier).sum();
+                            double moduleBoost = carrierModule.boostEnergy(level, pos, tile, slot, slot, moduleSyncData).stream().mapToDouble(EnergyBoost::getMultiplier).sum();
                             
-                            energyPenaltyReasons.addAll(carrierModule.penaltyEnergy(level, pos, tile, slot, slot, tile.getSyncData(slot)));
+                            // calculate penalties
+                            if(modulePenalty >= 1.0D){
+                                moduleEnergy = 0;
+                            } else if (modulePenalty > 0){
+                                long moduleEnergyLong = Math.round(moduleEnergy * (1.0D - modulePenalty));
+                                if(moduleEnergyLong < Integer.MAX_VALUE){
+                                    moduleEnergy = (int) moduleEnergyLong;
+                                } else {
+                                    moduleEnergy = Integer.MAX_VALUE;
+                                }
+                            }
                             
-                            List<EnergyProduction> energyProductionReason = carrierModule.produceEnergy(level, pos, tile, slot, slot, tile.getSyncData(slot));
-                            if (!energyProductionReason.isEmpty()) {
-                                energyProductionReasons.addAll(energyProductionReason);
+                            if(moduleEnergy > 0){
+                                // calculate boosts
+                                if(moduleBoost > 0){
+                                    long moduleEnergyLong = Math.round(moduleEnergy * (1.0D + moduleBoost));
+                                    if(moduleEnergyLong < Integer.MAX_VALUE){
+                                        moduleEnergy = (int) moduleEnergyLong;
+                                    } else {
+                                        moduleEnergy = Integer.MAX_VALUE;
+                                    }
+                                }
+                                
                                 hasProducedEnergy.add(slot);
+                                completeEnergyProduction += moduleEnergy;
                             }
                         }
                     }
-                }
-                int completeEnergyProduction = energyProductionReasons.stream().mapToInt(EnergyProduction::getEnergy).sum();
-                double completeEnergyPenaltyMultiplier = energyPenaltyReasons.stream().mapToDouble(energyPenalty -> 1.0D - energyPenalty.getMultiplier()).sum();
-                if (completeEnergyPenaltyMultiplier >= 1D) {
-                    completeEnergyProduction = 0;
-                } else if(!energyPenaltyReasons.isEmpty()){
-                    completeEnergyProduction = Math.toIntExact(Math.round(completeEnergyProduction * (1.0D - completeEnergyPenaltyMultiplier)));
                 }
 
                 if (completeEnergyProduction > 0) {
@@ -206,6 +221,17 @@ public class TileCarrier extends BlockEntity implements MenuProvider, Nameable{
                                     false),
                             false);
                 });
+            }
+        }
+    }
+    
+    public void animationTick(BlockState state, Random rnd){
+        for (ICarrierModule.CarrierSlot slot : ICarrierModule.CarrierSlot.values()) {
+            if(!this.isDepleted(slot)){
+                ICarrierModule carrierModule = this.getCarrierModule(slot);
+                if(carrierModule != null){
+                    carrierModule.blockAnimationTick((ClientLevel) this.getLevel(), this.getBlockPos(), this, state, rnd, this.getSyncData(slot));
+                }
             }
         }
     }
@@ -314,6 +340,19 @@ public class TileCarrier extends BlockEntity implements MenuProvider, Nameable{
             }
         }
         return penalties;
+    }
+    
+    public List<EnergyBoost> getBoostsForSlot(ICarrierModule.CarrierSlot otherSlot){
+        List<EnergyBoost> boosts = new ArrayList<>();
+        for (ICarrierModule.CarrierSlot mySlot : ICarrierModule.CarrierSlot.values()) {
+            if (!this.isDepleted(mySlot)) {
+                ICarrierModule carrierModule = this.getCarrierModule(mySlot);
+                if (carrierModule != null) {
+                    boosts.addAll(carrierModule.boostEnergy(this.getLevel(), this.getBlockPos(), this, mySlot, otherSlot, this.getSyncData(otherSlot)));
+                }
+            }
+        }
+        return boosts;
     }
     
     public int getEnergyForSlotOnly(ICarrierModule.CarrierSlot responderSlot){

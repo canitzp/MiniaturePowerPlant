@@ -3,17 +3,21 @@ package de.canitzp.miniaturepowerplant;
 import de.canitzp.miniaturepowerplant.carrier.ScreenCarrier;
 import de.canitzp.miniaturepowerplant.carrier.TileCarrier;
 import de.canitzp.miniaturepowerplant.modules.SynchroniseModuleData;
+import de.canitzp.miniaturepowerplant.reasons.EnergyBoost;
 import de.canitzp.miniaturepowerplant.reasons.EnergyPenalty;
 import de.canitzp.miniaturepowerplant.reasons.EnergyProduction;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 public interface ICarrierModule {
 
@@ -26,11 +30,15 @@ public interface ICarrierModule {
     // return percentage of depletion added by this module
     float getDepletion(TileCarrier tile, CarrierSlot othersSlot, CarrierSlot mySlot, SynchroniseModuleData data);
 
-    default List<EnergyProduction> produceEnergy(Level world, BlockPos pos, TileCarrier tile, CarrierSlot mySlot, CarrierSlot otherSlot, SynchroniseModuleData data){
+    default List<EnergyProduction> produceEnergy(Level level, BlockPos pos, TileCarrier tile, CarrierSlot mySlot, CarrierSlot otherSlot, SynchroniseModuleData data){
         return Collections.emptyList();
     }
 
-    default List<EnergyPenalty> penaltyEnergy(Level world, BlockPos pos, TileCarrier tile, CarrierSlot mySlot, CarrierSlot otherSlot, SynchroniseModuleData data){
+    default List<EnergyPenalty> penaltyEnergy(Level level, BlockPos pos, TileCarrier tile, CarrierSlot mySlot, CarrierSlot otherSlot, SynchroniseModuleData data){
+        return Collections.emptyList();
+    }
+    
+    default List<EnergyBoost> boostEnergy(Level level, BlockPos pos, TileCarrier tile, CarrierSlot mySlot, CarrierSlot otherSlot, SynchroniseModuleData data){
         return Collections.emptyList();
     }
 
@@ -40,8 +48,10 @@ public interface ICarrierModule {
 
     default void addDepletionInformation(ScreenCarrier screen, SynchroniseModuleData data, List<Component> text){}
 
-    default void tick(Level world, BlockPos pos, TileCarrier tile, SynchroniseModuleData data){}
+    default void tick(Level level, BlockPos pos, TileCarrier tile, SynchroniseModuleData data){}
 
+    default void blockAnimationTick(ClientLevel level, BlockPos pos, TileCarrier tile, BlockState state, Random random, SynchroniseModuleData data){}
+    
     static boolean isSlotValid(ItemStack stack, CarrierSlot slot){
         if(stack.isEmpty()){
             return false;

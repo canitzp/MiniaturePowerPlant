@@ -5,6 +5,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import de.canitzp.miniaturepowerplant.ICarrierModule;
 import de.canitzp.miniaturepowerplant.MiniaturePowerPlant;
 import de.canitzp.miniaturepowerplant.modules.SynchroniseModuleData;
+import de.canitzp.miniaturepowerplant.reasons.EnergyBoost;
 import de.canitzp.miniaturepowerplant.reasons.EnergyPenalty;
 import de.canitzp.miniaturepowerplant.reasons.EnergyProduction;
 import net.minecraft.ChatFormatting;
@@ -153,6 +154,7 @@ public class ScreenCarrier extends AbstractContainerScreen<CarrierMenu>{
         if(mouseX >= this.getGuiLeft() + x && mouseX <= this.getGuiLeft() + x + 36 && mouseY >= this.getGuiTop() + y && mouseY <= this.getGuiTop() + y + 3){
             List<EnergyProduction> energyProductions = this.getTile().getProductionForSlot(slot);
             List<EnergyPenalty> energyPenalties = this.getTile().getPenaltiesForSlot(slot);
+            List<EnergyBoost> energyBoosts = this.getTile().getBoostsForSlot(slot);
             List<Component> text = new ArrayList<>();
             text.add(new TranslatableComponent("container.miniaturepowerplant.carrier.hover.depletion", Math.round(depletion * 100)));
             if(!energyProductions.isEmpty()){
@@ -164,7 +166,13 @@ public class ScreenCarrier extends AbstractContainerScreen<CarrierMenu>{
             if(!energyPenalties.isEmpty() && !energyProductions.isEmpty()){
                 text.add(new TranslatableComponent("container.miniaturepowerplant.carrier.hover.penalty").withStyle(ChatFormatting.GRAY, ChatFormatting.UNDERLINE));
                 for (EnergyPenalty penalty : energyPenalties) {
-                    text.add(new TextComponent(" ").append(new TranslatableComponent("container.miniaturepowerplant.carrier.hover.penalty_self", 100 - Math.round(penalty.getMultiplier() * 100), penalty.getReason()).withStyle(ChatFormatting.GRAY)));
+                    text.add(new TextComponent(" ").append(new TranslatableComponent("container.miniaturepowerplant.carrier.hover.penalty_self", Math.round(penalty.getMultiplier() * 100), penalty.getReason()).withStyle(ChatFormatting.GRAY)));
+                }
+            }
+            if(!energyBoosts.isEmpty()){
+                text.add(new TranslatableComponent("container.miniaturepowerplant.carrier.hover.boost").withStyle(ChatFormatting.GRAY, ChatFormatting.UNDERLINE));
+                for(EnergyBoost boost : energyBoosts){
+                    text.add(new TextComponent(" ").append(new TranslatableComponent("container.miniaturepowerplant.carrier.hover.boost_self", Math.round(boost.getMultiplier() * 100), boost.getReason()).withStyle(ChatFormatting.GRAY)));
                 }
             }
 

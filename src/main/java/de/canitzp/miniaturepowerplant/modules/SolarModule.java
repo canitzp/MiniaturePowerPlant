@@ -36,11 +36,6 @@ public class SolarModule extends DepletableItemModule {
     @Override
     public void tick(Level world, BlockPos pos, TileCarrier tile, SynchroniseModuleData data) {
         if(!world.isClientSide()){
-            BlockPos startPos = pos.mutable().relative(Direction.DOWN, 10).relative(Direction.SOUTH, 10).relative(Direction.EAST, 10);
-            BlockPos endPos = pos.mutable().relative(Direction.UP, 10).relative(Direction.NORTH, 10).relative(Direction.WEST, 10);
-            List<BlockPos> collect = BlockPos.betweenClosedStream(startPos, endPos).filter(blockPos -> world.getBlockState(blockPos).getBlock().equals(Blocks.GRASS_BLOCK)).toList();
-            
-            collect.forEach(blockPos -> world.setBlock(blockPos, Blocks.DIRT.defaultBlockState(), 2));
             // energy production
             // from sunlight
             int calculateEnergy = SolarModule.calculateEnergy(world, pos);

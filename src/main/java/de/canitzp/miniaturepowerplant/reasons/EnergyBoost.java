@@ -4,19 +4,19 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 
-public class EnergyPenalty {
+public class EnergyBoost{
 
     private final float multiplier;
     private final String reason;
 
-    public EnergyPenalty(float multiplier, String reason) {
+    public EnergyBoost(float multiplier, String reason) {
         this.multiplier = multiplier;
         this.reason = reason;
     }
 
-    public EnergyPenalty(CompoundTag nbt){
-        this.multiplier = nbt.getFloat("penalty_multiplier");
-        this.reason = nbt.getString("penalty_reason");
+    public EnergyBoost(CompoundTag nbt){
+        this.multiplier = nbt.getFloat("boost_multiplier");
+        this.reason = nbt.getString("boost_reason");
     }
 
     public float getMultiplier() {
@@ -29,8 +29,8 @@ public class EnergyPenalty {
 
     public static CompoundTag toNBT(float multiplier, String reason){
         CompoundTag nbt = new CompoundTag();
-        nbt.putFloat("penalty_multiplier", multiplier);
-        nbt.putString("penalty_reason", reason);
+        nbt.putFloat("boost_multiplier", multiplier);
+        nbt.putString("boost_reason", reason);
         return nbt;
     }
 

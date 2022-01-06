@@ -4,6 +4,8 @@ import de.canitzp.miniaturepowerplant.ICarrierModule;
 import de.canitzp.miniaturepowerplant.MPPTab;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -35,6 +37,8 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Random;
 
 public class BlockCarrier extends BaseEntityBlock implements LiquidBlockContainer{
 
@@ -153,5 +157,13 @@ public class BlockCarrier extends BaseEntityBlock implements LiquidBlockContaine
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type){
         return level.isClientSide ? null : createTickerHelper(type, TileCarrier.TYPE, TileCarrier::tick);
+    }
+    
+    @Override
+    public void animateTick(BlockState state, Level level, BlockPos pos, Random rnd){
+        BlockEntity tile = level.getBlockEntity(pos);
+        if(tile instanceof TileCarrier){
+            ((TileCarrier) tile).animationTick(state, rnd);
+        }
     }
 }

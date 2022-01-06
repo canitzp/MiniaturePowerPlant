@@ -9,6 +9,9 @@ Any module has it pros and cons, for example the solar modules works best in dir
 But to find out al effects, there is a simple statistics view, where every energy production and every penalty is written down.
 
 ## Changelog
+**39.2.0:**
+- Fixed energy penalty issues
+
 **39.1.0:**
 - Add the ability to shift click into and out of the carrier menu
 - New Upgrade: "Efficiency": Increases the energy production of any module, but increases its depletion rate as well.
