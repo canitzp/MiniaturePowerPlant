@@ -2,6 +2,7 @@ package de.canitzp.miniaturepowerplant.modules;
 
 import de.canitzp.miniaturepowerplant.ICarrierModule;
 import de.canitzp.miniaturepowerplant.carrier.TileCarrier;
+import de.canitzp.miniaturepowerplant.reasons.EnergyBoost;
 import de.canitzp.miniaturepowerplant.reasons.EnergyPenalty;
 import de.canitzp.miniaturepowerplant.reasons.EnergyProduction;
 import net.minecraft.core.BlockPos;
@@ -18,6 +19,7 @@ public interface DepletableModule extends ICarrierModule {
     String NBT_KEY_DEPLETION = "depletion";
     String NBT_KEY_PRODUCTION = "production";
     String NBT_KEY_PENALTY = "penalty";
+    String NBT_KEY_BOOST = "boost";
 
     float getDepletion();
 
@@ -42,32 +44,47 @@ public interface DepletableModule extends ICarrierModule {
 
     @Override
     default List<EnergyProduction> produceEnergy(Level world, BlockPos pos, TileCarrier tile, CarrierSlot mySlot, CarrierSlot otherSlot, SynchroniseModuleData data) {
-        List<EnergyProduction> reasons = new ArrayList<>();
+        List<EnergyProduction> productions = new ArrayList<>();
         if(mySlot.equals(otherSlot)){
             data.use(nbt -> {
                 if (nbt.contains(NBT_KEY_PRODUCTION, Tag.TAG_LIST)) {
                     nbt.getList(NBT_KEY_PRODUCTION, Tag.TAG_COMPOUND).stream().filter(inbt -> inbt instanceof CompoundTag).map(inbt -> (CompoundTag)inbt).forEach(compoundNBT -> {
-                        reasons.add(new EnergyProduction(compoundNBT));
+                        productions.add(new EnergyProduction(compoundNBT));
                     });
                 }
             });
         }
-        return reasons;
+        return productions;
     }
 
     @Override
     default List<EnergyPenalty> penaltyEnergy(Level world, BlockPos pos, TileCarrier tile, CarrierSlot mySlot, CarrierSlot otherSlot, SynchroniseModuleData data) {
-        List<EnergyPenalty> reasons = new ArrayList<>();
+        List<EnergyPenalty> penalties = new ArrayList<>();
         if(mySlot.equals(otherSlot)){
             data.use(nbt -> {
                 if (nbt.contains(NBT_KEY_PENALTY, Tag.TAG_LIST)) {
                     nbt.getList(NBT_KEY_PENALTY, Tag.TAG_COMPOUND).stream().filter(inbt -> inbt instanceof CompoundTag).map(inbt -> (CompoundTag)inbt).forEach(compoundNBT -> {
-                        reasons.add(new EnergyPenalty(compoundNBT));
+                        penalties.add(new EnergyPenalty(compoundNBT));
                     });
                 }
             });
         }
-        return reasons;
+        return penalties;
+    }
+    
+    @Override
+    default List<EnergyBoost> boostEnergy(Level world, BlockPos pos, TileCarrier tile, CarrierSlot mySlot, CarrierSlot otherSlot, SynchroniseModuleData data){
+        List<EnergyBoost> boosts = new ArrayList<>();
+        if(mySlot.equals(otherSlot)){
+            data.use(nbt -> {
+                if (nbt.contains(NBT_KEY_BOOST, Tag.TAG_LIST)) {
+                    nbt.getList(NBT_KEY_BOOST, Tag.TAG_COMPOUND).stream().filter(inbt -> inbt instanceof CompoundTag).map(inbt -> (CompoundTag)inbt).forEach(compoundNBT -> {
+                        boosts.add(new EnergyBoost(compoundNBT));
+                    });
+                }
+            });
+        }
+        return boosts;
     }
 
 }

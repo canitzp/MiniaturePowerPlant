@@ -42,5 +42,7 @@
   "container.miniaturepowerplant.carrier.hover.producer": "Producer:",
   "container.miniaturepowerplant.carrier.hover.producer_self": "%d FE: %s",
   "container.miniaturepowerplant.carrier.hover.penalty": "Penalties:",
-  "container.miniaturepowerplant.carrier.hover.penalty_self": "%d%%: %s"
+  "container.miniaturepowerplant.carrier.hover.penalty_self": "%d%%: %s",
+  "container.miniaturepowerplant.carrier.hover.boost": "Boosts:",
+  "container.miniaturepowerplant.carrier.hover.boost_self": "%d%%: %s"
 }

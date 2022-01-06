@@ -34,7 +34,7 @@ public class TemperatureModule extends DepletableItemModule {
 
             // penalty
             ListTag listEnergyPenalty = new ListTag();
-            if(world.isRainingAt(pos)){
+            if(world.isRainingAt(pos.above())){
                 listEnergyPenalty.add(EnergyPenalty.toNBT(0.5F, "item.miniaturepowerplant.temperature_module.penalty.rain"));
             }
             data.use(compoundNBT -> compoundNBT.put(NBT_KEY_PENALTY, listEnergyPenalty));
