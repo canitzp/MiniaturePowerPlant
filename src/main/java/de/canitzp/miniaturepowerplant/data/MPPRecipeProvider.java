@@ -5,6 +5,7 @@ import de.canitzp.miniaturepowerplant.carrier.BlockCarrier;
 import de.canitzp.miniaturepowerplant.modules.SolarModule;
 import de.canitzp.miniaturepowerplant.modules.TemperatureModule;
 import de.canitzp.miniaturepowerplant.modules.WaterModule;
+import de.canitzp.miniaturepowerplant.modules.WindModule;
 import de.canitzp.miniaturepowerplant.upgrades.EcoUpgrade;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.FinishedRecipe;
@@ -103,6 +104,18 @@ public class MPPRecipeProvider extends RecipeProvider{
             .pattern("isi")
             .pattern("sps")
             .pattern("csc")
+            .unlockedBy("has_iron_ingot", has(Tags.Items.INGOTS_IRON))
+            .save(consumer);
+    
+        ShapedRecipeBuilder
+            .shaped(WindModule.WIND_MODULE_BASIC)
+            .define('i', Tags.Items.STORAGE_BLOCKS_IRON)
+            .define('c', Items.COPPER_INGOT)
+            .define('d', ItemTags.WOODEN_PRESSURE_PLATES)
+            .define('b', Items.IRON_BARS)
+            .pattern("bdb")
+            .pattern("did")
+            .pattern("cdc")
             .unlockedBy("has_iron_ingot", has(Tags.Items.INGOTS_IRON))
             .save(consumer);
         

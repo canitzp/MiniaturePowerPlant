@@ -5,6 +5,7 @@ import de.canitzp.miniaturepowerplant.accumulator.AccumulatorItem;
 import de.canitzp.miniaturepowerplant.modules.SolarModule;
 import de.canitzp.miniaturepowerplant.modules.TemperatureModule;
 import de.canitzp.miniaturepowerplant.modules.WaterModule;
+import de.canitzp.miniaturepowerplant.modules.WindModule;
 import de.canitzp.miniaturepowerplant.upgrades.EcoUpgrade;
 import de.canitzp.miniaturepowerplant.upgrades.EfficiencyUpgrade;
 import net.minecraft.data.DataGenerator;
@@ -24,6 +25,7 @@ public class MPPItemModelGenerator extends ItemModelProvider {
         singleTexture(SolarModule.SOLAR_MODULE_BASIC);
         singleTexture(TemperatureModule.TEMP_MODULE_BASIC);
         singleTexture(WaterModule.WATER_MODULE_BASIC);
+        singleTexture(WindModule.WIND_MODULE_BASIC);
         // upgrades
         singleTexture(EcoUpgrade.ECO_UPGRADE);
         singleTexture(EcoUpgrade.ECO_PLUS_UPGRADE);

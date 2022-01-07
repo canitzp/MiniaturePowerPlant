@@ -20,8 +20,8 @@ import java.util.List;
 
 public class EcoUpgrade extends Item implements ICarrierModule {
 
-    public static final EcoUpgrade ECO_UPGRADE = new EcoUpgrade(0.1F, 0.0F, .85F);
-    public static final EcoUpgrade ECO_PLUS_UPGRADE = new EcoUpgrade(0.25F, 0.1F, .95F);
+    public static final EcoUpgrade ECO_UPGRADE = new EcoUpgrade(0.1F, 0.0F, .05F);
+    public static final EcoUpgrade ECO_PLUS_UPGRADE = new EcoUpgrade(0.2F, 0.1F, .075F);
 
     private final float ownModuleDepletionReduction, otherModuleDepletionReduction, energyReductionMultiplier;
 
@@ -43,7 +43,7 @@ public class EcoUpgrade extends Item implements ICarrierModule {
         }
 
         if(this.energyReductionMultiplier <= 1.0F) {
-            text.add(new TextComponent("Decreases energy production by " + Math.round((1.0F - this.energyReductionMultiplier) * 100) + "%").withStyle(ChatFormatting.GRAY));
+            text.add(new TextComponent("Decreases energy production by " + Math.round(this.energyReductionMultiplier * 100) + "%").withStyle(ChatFormatting.GRAY));
         }
     }
 
@@ -60,7 +60,7 @@ public class EcoUpgrade extends Item implements ICarrierModule {
 
     @Override
     public List<EnergyPenalty> penaltyEnergy(Level world, BlockPos pos, TileCarrier tile, CarrierSlot mySlot, CarrierSlot otherSlot, SynchroniseModuleData data) {
-        return Lists.newArrayList(new EnergyPenalty(this.energyReductionMultiplier, "Eco upgrade penalty"));
+        return Lists.newArrayList(new EnergyPenalty(this.energyReductionMultiplier, "item.miniaturepowerplant.eco_upgrade.penalty"));
     }
 
 }
