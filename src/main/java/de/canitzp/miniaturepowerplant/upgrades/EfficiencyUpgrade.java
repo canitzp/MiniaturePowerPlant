@@ -5,6 +5,7 @@ import de.canitzp.miniaturepowerplant.ICarrierModule;
 import de.canitzp.miniaturepowerplant.MPPTab;
 import de.canitzp.miniaturepowerplant.carrier.TileCarrier;
 import de.canitzp.miniaturepowerplant.modules.SynchroniseModuleData;
+import de.canitzp.miniaturepowerplant.reasons.EnergyBoost;
 import de.canitzp.miniaturepowerplant.reasons.EnergyProduction;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -16,6 +17,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -54,15 +56,11 @@ public class EfficiencyUpgrade extends Item implements ICarrierModule {
     public float getDepletion(TileCarrier tile, CarrierSlot othersSlot, CarrierSlot mySlot, SynchroniseModuleData data) {
         return mySlot.isUpgrade(othersSlot) ? this.ownModuleDepletionIncrease : this.otherModulesDepletionIncrease;
     }
-
+    
     @Override
-    public List<EnergyProduction> produceEnergy(Level world, BlockPos pos, TileCarrier tile, CarrierSlot mySlot, CarrierSlot otherSlot, SynchroniseModuleData data) {
+    public List<EnergyBoost> boostEnergy(Level level, BlockPos pos, TileCarrier tile, CarrierSlot mySlot, CarrierSlot otherSlot, SynchroniseModuleData data){
         if(otherSlot == mySlot.getCompanion()){
-            int otherSlotEnergyProduction = tile.getEnergyForSlotOnly(mySlot.getCompanion());
-            int efficiencyModuleEnergyProduction = Math.round(otherSlotEnergyProduction * this.energyMultiplier);
-            if(efficiencyModuleEnergyProduction > 0){
-                return Lists.newArrayList(new EnergyProduction(efficiencyModuleEnergyProduction, "Efficiency energy increase"));
-            }
+            return Lists.newArrayList(new EnergyBoost(this.energyMultiplier, "Efficiency Upgrade"));
         }
         return Collections.emptyList();
     }

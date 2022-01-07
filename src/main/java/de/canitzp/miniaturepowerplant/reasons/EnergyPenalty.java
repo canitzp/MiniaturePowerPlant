@@ -1,8 +1,11 @@
 package de.canitzp.miniaturepowerplant.reasons;
 
+import net.minecraft.client.resources.language.I18n;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class EnergyPenalty {
 
@@ -26,7 +29,12 @@ public class EnergyPenalty {
     public String getReason() {
         return this.reason;
     }
-
+    
+    @OnlyIn(Dist.CLIENT)
+    public String translateReason(){
+        return I18n.get(this.getReason());
+    }
+    
     public static CompoundTag toNBT(float multiplier, String reason){
         CompoundTag nbt = new CompoundTag();
         nbt.putFloat("penalty_multiplier", multiplier);

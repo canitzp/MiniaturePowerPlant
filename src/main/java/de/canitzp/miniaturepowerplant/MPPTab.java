@@ -5,6 +5,7 @@ import de.canitzp.miniaturepowerplant.carrier.BlockCarrier;
 import de.canitzp.miniaturepowerplant.modules.SolarModule;
 import de.canitzp.miniaturepowerplant.modules.TemperatureModule;
 import de.canitzp.miniaturepowerplant.modules.WaterModule;
+import de.canitzp.miniaturepowerplant.modules.WindModule;
 import de.canitzp.miniaturepowerplant.upgrades.EcoUpgrade;
 import de.canitzp.miniaturepowerplant.upgrades.EfficiencyUpgrade;
 import net.minecraft.core.NonNullList;
@@ -44,7 +45,8 @@ public class MPPTab extends CreativeModeTab{
         list.add(SolarModule.SOLAR_MODULE_BASIC.getDefaultInstance());
         list.add(TemperatureModule.TEMP_MODULE_BASIC.getDefaultInstance());
         list.add(WaterModule.WATER_MODULE_BASIC.getDefaultInstance());
-        fillEmpty(list, 6);
+        list.add(WindModule.WIND_MODULE_BASIC.getDefaultInstance());
+        fillEmpty(list, 5);
 
         // upgrades
         list.add(EcoUpgrade.ECO_UPGRADE.getDefaultInstance());

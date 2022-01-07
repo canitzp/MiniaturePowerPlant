@@ -151,42 +151,35 @@ public class TileCarrier extends BlockEntity implements MenuProvider, Nameable{
                 List<ICarrierModule.CarrierSlot> hasProducedEnergy = new ArrayList<>();
                 int completeEnergyProduction = 0;
                 for (ICarrierModule.CarrierSlot slot : ICarrierModule.CarrierSlot.values()) {
-                    if (!tile.isDepleted(slot)) {
-                        ICarrierModule carrierModule = tile.getCarrierModule(slot);
-                        if (carrierModule != null) {
+                    int moduleEnergy = tile.getProductionForSlot(slot).stream().mapToInt(EnergyProduction::getEnergy).sum();
+                    double modulePenalty = tile.getPenaltiesForSlot(slot).stream().mapToDouble(EnergyPenalty::getMultiplier).sum();
+                    double moduleBoost = tile.getBoostsForSlot(slot).stream().mapToDouble(EnergyBoost::getMultiplier).sum();
     
-                            SynchroniseModuleData moduleSyncData = tile.getSyncData(slot);
-                            int moduleEnergy = carrierModule.produceEnergy(level, pos, tile, slot, slot, moduleSyncData).stream().mapToInt(EnergyProduction::getEnergy).sum();
-                            double modulePenalty = carrierModule.penaltyEnergy(level, pos, tile, slot, slot, moduleSyncData).stream().mapToDouble(EnergyPenalty::getMultiplier).sum();
-                            double moduleBoost = carrierModule.boostEnergy(level, pos, tile, slot, slot, moduleSyncData).stream().mapToDouble(EnergyBoost::getMultiplier).sum();
-                            
-                            // calculate penalties
-                            if(modulePenalty >= 1.0D){
-                                moduleEnergy = 0;
-                            } else if (modulePenalty > 0){
-                                long moduleEnergyLong = Math.round(moduleEnergy * (1.0D - modulePenalty));
-                                if(moduleEnergyLong < Integer.MAX_VALUE){
-                                    moduleEnergy = (int) moduleEnergyLong;
-                                } else {
-                                    moduleEnergy = Integer.MAX_VALUE;
-                                }
-                            }
-                            
-                            if(moduleEnergy > 0){
-                                // calculate boosts
-                                if(moduleBoost > 0){
-                                    long moduleEnergyLong = Math.round(moduleEnergy * (1.0D + moduleBoost));
-                                    if(moduleEnergyLong < Integer.MAX_VALUE){
-                                        moduleEnergy = (int) moduleEnergyLong;
-                                    } else {
-                                        moduleEnergy = Integer.MAX_VALUE;
-                                    }
-                                }
-                                
-                                hasProducedEnergy.add(slot);
-                                completeEnergyProduction += moduleEnergy;
+                    // calculate penalties
+                    if(modulePenalty >= 1.0D){
+                        moduleEnergy = 0;
+                    } else if (modulePenalty > 0){
+                        long moduleEnergyLong = Math.round(moduleEnergy * (1.0D - modulePenalty));
+                        if(moduleEnergyLong < Integer.MAX_VALUE){
+                            moduleEnergy = (int) moduleEnergyLong;
+                        } else {
+                            moduleEnergy = Integer.MAX_VALUE;
+                        }
+                    }
+    
+                    if(moduleEnergy > 0){
+                        // calculate boosts
+                        if(moduleBoost > 0){
+                            long moduleEnergyLong = Math.round(moduleEnergy * (1.0D + moduleBoost));
+                            if(moduleEnergyLong < Integer.MAX_VALUE){
+                                moduleEnergy = (int) moduleEnergyLong;
+                            } else {
+                                moduleEnergy = Integer.MAX_VALUE;
                             }
                         }
+        
+                        hasProducedEnergy.add(slot);
+                        completeEnergyProduction += moduleEnergy;
                     }
                 }
 

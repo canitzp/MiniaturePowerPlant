@@ -17,7 +17,16 @@
   "item.miniaturepowerplant.water_module_basic": "Water Module",
   "item.miniaturepowerplant.water_module.production.water_level": "Water level @ %s",
 
+  "item.miniaturepowerplant.wind_module_basic": "Wind Module",
+  "item.miniaturepowerplant.wind_module.production.wind": "Wind Speed",
+  "item.miniaturepowerplant.wind_module.penalty.blocking_blocks": "Blocked Blocks",
+  "item.miniaturepowerplant.wind_module.penalty.height": "Y-Position",
+  "item.miniaturepowerplant.wind_module.boost.height": "Y-Position",
+  "item.miniaturepowerplant.wind_module.desc.production": "Production: %d FE/t",
+  "item.miniaturepowerplant.wind_module.desc.range": "Range: %d",
+
   "item.miniaturepowerplant.eco_upgrade": "Eco upgrade",
+  "item.miniaturepowerplant.eco_upgrade.penalty": "Eco Upgrade penalty",
 
   "item.miniaturepowerplant.eco_plus_upgrade": "Eco+ upgrade",
 

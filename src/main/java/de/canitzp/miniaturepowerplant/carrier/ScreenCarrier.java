@@ -166,13 +166,13 @@ public class ScreenCarrier extends AbstractContainerScreen<CarrierMenu>{
             if(!energyPenalties.isEmpty() && !energyProductions.isEmpty()){
                 text.add(new TranslatableComponent("container.miniaturepowerplant.carrier.hover.penalty").withStyle(ChatFormatting.GRAY, ChatFormatting.UNDERLINE));
                 for (EnergyPenalty penalty : energyPenalties) {
-                    text.add(new TextComponent(" ").append(new TranslatableComponent("container.miniaturepowerplant.carrier.hover.penalty_self", Math.round(penalty.getMultiplier() * 100), penalty.getReason()).withStyle(ChatFormatting.GRAY)));
+                    text.add(new TextComponent(" ").append(new TranslatableComponent("container.miniaturepowerplant.carrier.hover.penalty_self", Math.round(penalty.getMultiplier() * 100), penalty.translateReason()).withStyle(ChatFormatting.GRAY)));
                 }
             }
             if(!energyBoosts.isEmpty()){
                 text.add(new TranslatableComponent("container.miniaturepowerplant.carrier.hover.boost").withStyle(ChatFormatting.GRAY, ChatFormatting.UNDERLINE));
                 for(EnergyBoost boost : energyBoosts){
-                    text.add(new TextComponent(" ").append(new TranslatableComponent("container.miniaturepowerplant.carrier.hover.boost_self", Math.round(boost.getMultiplier() * 100), boost.getReason()).withStyle(ChatFormatting.GRAY)));
+                    text.add(new TextComponent(" ").append(new TranslatableComponent("container.miniaturepowerplant.carrier.hover.boost_self", Math.round(boost.getMultiplier() * 100), boost.translateReason()).withStyle(ChatFormatting.GRAY)));
                 }
             }
 
