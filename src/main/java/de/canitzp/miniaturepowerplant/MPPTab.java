@@ -42,11 +42,20 @@ public class MPPTab extends CreativeModeTab{
         fillEmpty(list, 8);
 
         // modules
-        list.add(SolarModule.SOLAR_MODULE_BASIC.getDefaultInstance());
+        list.add(SolarModule.SOLAR_MODULE_WOOD.getDefaultInstance());
+        list.add(SolarModule.SOLAR_MODULE_STONE.getDefaultInstance());
+        list.add(SolarModule.SOLAR_MODULE_IRON.getDefaultInstance());
+        list.add(SolarModule.SOLAR_MODULE_GOLD.getDefaultInstance());
+        list.add(SolarModule.SOLAR_MODULE_LAPIS.getDefaultInstance());
+        list.add(SolarModule.SOLAR_MODULE_REDSTONE.getDefaultInstance());
+        list.add(SolarModule.SOLAR_MODULE_DIAMOND.getDefaultInstance());
+        list.add(SolarModule.SOLAR_MODULE_NETHERITE.getDefaultInstance());
+        fillEmpty(list, 1);
+        
         list.add(TemperatureModule.TEMP_MODULE_BASIC.getDefaultInstance());
         list.add(WaterModule.WATER_MODULE_BASIC.getDefaultInstance());
         list.add(WindModule.WIND_MODULE_BASIC.getDefaultInstance());
-        fillEmpty(list, 5);
+        fillEmpty(list, 6);
 
         // upgrades
         list.add(EcoUpgrade.ECO_UPGRADE.getDefaultInstance());

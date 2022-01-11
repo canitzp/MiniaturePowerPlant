@@ -3,30 +3,58 @@ package de.canitzp.miniaturepowerplant.modules;
 import de.canitzp.miniaturepowerplant.carrier.TileCarrier;
 import de.canitzp.miniaturepowerplant.reasons.EnergyPenalty;
 import de.canitzp.miniaturepowerplant.reasons.EnergyProduction;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.AABB;
+import net.minecraftforge.registries.DeferredRegister;
 
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class SolarModule extends DepletableItemModule {
 
-    public static final SolarModule SOLAR_MODULE_BASIC = new SolarModule(1.0F, 100_000.0F);
+    public static final SolarModule SOLAR_MODULE_WOOD = new SolarModule(1.0F, 100_000.0F, 1.0F);
+    public static final SolarModule SOLAR_MODULE_STONE = new SolarModule(1.0F, 125_000.0F, 1.25F);
+    public static final SolarModule SOLAR_MODULE_IRON = new SolarModule(1.0F, 175_000.0F, 1.75F);
+    public static final SolarModule SOLAR_MODULE_GOLD = new SolarModule(1.0F, 100_000.0F, 3.0F);
+    public static final SolarModule SOLAR_MODULE_LAPIS = new SolarModule(0.8F, 175_000.0F, 2.0F);
+    public static final SolarModule SOLAR_MODULE_REDSTONE = new SolarModule(0.9F, 175_000.0F, 2.25F);
+    public static final SolarModule SOLAR_MODULE_DIAMOND = new SolarModule(1.0F, 250_000.0F, 2F);
+    public static final SolarModule SOLAR_MODULE_NETHERITE = new SolarModule(1.0F, 350_000.0F, 2F);
 
-    public SolarModule(float depletion, float maxDepletion) {
+    private final float energyMultiplier;
+    
+    public SolarModule(float depletion, float maxDepletion, float energyMultiplier) {
         super(new Item.Properties().stacksTo(1), depletion, maxDepletion);
+        this.energyMultiplier = energyMultiplier;
     }
 
+    public static void register(DeferredRegister<Item> registry){
+        registry.register("solar_module", () -> SolarModule.SOLAR_MODULE_WOOD);
+        registry.register("solar_module_stone", () -> SolarModule.SOLAR_MODULE_STONE);
+        registry.register("solar_module_iron", () -> SolarModule.SOLAR_MODULE_IRON);
+        registry.register("solar_module_gold", () -> SolarModule.SOLAR_MODULE_GOLD);
+        registry.register("solar_module_lapis", () -> SolarModule.SOLAR_MODULE_LAPIS);
+        registry.register("solar_module_redstone", () -> SolarModule.SOLAR_MODULE_REDSTONE);
+        registry.register("solar_module_diamond", () -> SolarModule.SOLAR_MODULE_DIAMOND);
+        registry.register("solar_module_netherite", () -> SolarModule.SOLAR_MODULE_NETHERITE);
+    }
+    
+    @Override
+    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> text, TooltipFlag flag){
+        super.appendHoverText(stack, level, text, flag);
+        
+        text.add(new TranslatableComponent("item.miniaturepowerplant.solar_module.desc.energy_multiplier", String.format("%.2f", this.energyMultiplier * 100.0F)).withStyle(ChatFormatting.GRAY));
+    }
+    
     @Nullable
     @Override
     public CarrierSlot[] validSlots() {
@@ -44,6 +72,9 @@ public class SolarModule extends DepletableItemModule {
     
             ListTag listEnergyProduction = new ListTag();
             if(calculateEnergy > 0){
+                // multiply by solar factor
+                calculateEnergy *= this.energyMultiplier;
+                
                 listEnergyProduction.add(EnergyProduction.toNBT(calculateEnergy, "item.miniaturepowerplant.solar_module.production.brightness"));
             }
             data.use(compoundNBT -> compoundNBT.put(NBT_KEY_PRODUCTION, listEnergyProduction));
