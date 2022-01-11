@@ -69,7 +69,7 @@ public class MPPRecipeProvider extends RecipeProvider{
             .save(consumer);
         
         ShapedRecipeBuilder
-            .shaped(SolarModule.SOLAR_MODULE_BASIC)
+            .shaped(SolarModule.SOLAR_MODULE_WOOD)
             .define('d', Items.DAYLIGHT_DETECTOR)
             .define('l', Tags.Items.GEMS_LAPIS)
             .define('q', Tags.Items.GEMS_QUARTZ)

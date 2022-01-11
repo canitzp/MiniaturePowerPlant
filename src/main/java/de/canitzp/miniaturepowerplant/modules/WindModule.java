@@ -37,8 +37,8 @@ public class WindModule extends DepletableItemModule {
     }
     
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> text, TooltipFlag flag){
-        super.appendHoverText(stack, world, text, flag);
+    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> text, TooltipFlag flag){
+        super.appendHoverText(stack, level, text, flag);
         
         text.add(new TranslatableComponent("item.miniaturepowerplant.wind_module.desc.production", this.energyProduction).withStyle(ChatFormatting.GRAY));
         text.add(new TranslatableComponent("item.miniaturepowerplant.wind_module.desc.range", this.windRange).withStyle(ChatFormatting.GRAY));

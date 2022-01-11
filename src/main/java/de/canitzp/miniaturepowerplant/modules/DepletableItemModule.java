@@ -41,7 +41,7 @@ public abstract class DepletableItemModule extends Item implements DepletableMod
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> text, TooltipFlag flag) {
+    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> text, TooltipFlag flag) {
         if(!stack.isEmpty()){
             float depletionPercentage = this.getDepletionPercentage(stack);
             if(depletionPercentage >= 1.0F){

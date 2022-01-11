@@ -47,14 +47,19 @@ public class MiniaturePowerPlant {
         // used to call the static initializer, which automatically ads the tab into the game
         MPPTab.create();
 
-        DistExecutor.runWhenOn(Dist.CLIENT, () -> this::registerClient);
+        DistExecutor.unsafeCallWhenOn(Dist.CLIENT, () -> () -> {
+            this.registerClient();
+            return null;
+        });
     }
 
     private void register(){
         BLOCKS.register("carrier", () -> BlockCarrier.INSTANCE);
 
         ITEMS.register("carrier", () -> BlockCarrier.INSTANCE_ITEM);
-        ITEMS.register("solar_module", () -> SolarModule.SOLAR_MODULE_BASIC);
+        
+        SolarModule.register(ITEMS);
+        
         ITEMS.register("temperature_module_basic", () -> TemperatureModule.TEMP_MODULE_BASIC);
         ITEMS.register("water_module_basic", () -> WaterModule.WATER_MODULE_BASIC);
         ITEMS.register("wind_module_basic", () -> WindModule.WIND_MODULE_BASIC);

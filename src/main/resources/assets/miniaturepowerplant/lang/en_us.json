@@ -9,6 +9,7 @@
   "item.miniaturepowerplant.solar_module.production.brightness": "Current brightness",
   "item.miniaturepowerplant.solar_module.penalty.rain": "Raining",
   "item.miniaturepowerplant.solar_module.penalty.thunder": "Thundering",
+  "item.miniaturepowerplant.solar_module.desc.energy_multiplier": "Energy Production: %s%%",
 
   "item.miniaturepowerplant.temperature_module_basic": "Temperature Module",
   "item.miniaturepowerplant.temperature_module.production.adjusted_temperature": "Current temperature",

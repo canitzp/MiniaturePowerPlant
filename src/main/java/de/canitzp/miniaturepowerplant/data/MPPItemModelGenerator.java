@@ -22,7 +22,7 @@ public class MPPItemModelGenerator extends ItemModelProvider {
     @Override
     protected void registerModels(){
         // modules
-        singleTexture(SolarModule.SOLAR_MODULE_BASIC);
+        singleTexture(SolarModule.SOLAR_MODULE_WOOD);
         singleTexture(TemperatureModule.TEMP_MODULE_BASIC);
         singleTexture(WaterModule.WATER_MODULE_BASIC);
         singleTexture(WindModule.WIND_MODULE_BASIC);
