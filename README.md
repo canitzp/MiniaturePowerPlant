@@ -9,6 +9,10 @@ Any module has it pros and cons, for example the solar modules works best in dir
 But to find out al effects, there is a simple statistics view, where every energy production and every penalty is written down.
 
 ## Changelog
+**39.3.0:**
+
+- New solar modules (stone, ron, gold, lapis, redstone, diamond and netherite) with different energy productions.
+
 **39.2.0:**
 
 - Fixed energy penalty issues
@@ -27,7 +31,7 @@ But to find out al effects, there is a simple statistics view, where every energ
 - Initial release
 
 ## Planned
-- upgrades for existing modules (solar, temperature, water)
+- upgrades for existing modules (temperature, water)
 - new module that "eats" grass and leaves to generate energy
 
 ## Wiki
@@ -113,6 +117,8 @@ It uses the same algorithm as the daylight detector, but the value is multiplied
 
 The module can append penalties, caused by natural factors.
 The most common one is rain which decreases the energy production by 50%, while a thunderstorm decreases the production by 85%.
+
+There are multiple tiers of solar modules, with different depletion level and energy outputs.
 
 #### Temperature
 The temperature module is generating energy out of nothing, well not nothing but it seems like it would.
