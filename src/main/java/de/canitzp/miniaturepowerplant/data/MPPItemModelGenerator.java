@@ -23,6 +23,13 @@ public class MPPItemModelGenerator extends ItemModelProvider {
     protected void registerModels(){
         // modules
         singleTexture(SolarModule.SOLAR_MODULE_WOOD);
+        singleTexture(SolarModule.SOLAR_MODULE_STONE);
+        singleTexture(SolarModule.SOLAR_MODULE_GOLD);
+        singleTexture(SolarModule.SOLAR_MODULE_IRON);
+        singleTexture(SolarModule.SOLAR_MODULE_LAPIS);
+        singleTexture(SolarModule.SOLAR_MODULE_REDSTONE);
+        singleTexture(SolarModule.SOLAR_MODULE_DIAMOND);
+        singleTexture(SolarModule.SOLAR_MODULE_NETHERITE);
         singleTexture(TemperatureModule.TEMP_MODULE_BASIC);
         singleTexture(WaterModule.WATER_MODULE_BASIC);
         singleTexture(WindModule.WIND_MODULE_BASIC);
