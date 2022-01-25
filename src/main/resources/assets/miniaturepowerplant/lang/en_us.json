@@ -7,6 +7,13 @@
   "item.miniaturepowerplant.depletable.desc.new": "Brand New",
 
   "item.miniaturepowerplant.solar_module": "Solar Module",
+  "item.miniaturepowerplant.solar_module_stone": "Solar Module (Stone)",
+  "item.miniaturepowerplant.solar_module_gold": "Solar Module (Gold)",
+  "item.miniaturepowerplant.solar_module_iron": "Solar Module (Iron)",
+  "item.miniaturepowerplant.solar_module_lapis": "Solar Module (Lapis)",
+  "item.miniaturepowerplant.solar_module_redstone": "Solar Module (Redstone)",
+  "item.miniaturepowerplant.solar_module_diamond": "Solar Module (Diamond)",
+  "item.miniaturepowerplant.solar_module_netherite": "Solar Module (Netherite)",
   "item.miniaturepowerplant.solar_module.production.brightness": "Current brightness",
   "item.miniaturepowerplant.solar_module.penalty.rain": "Raining",
   "item.miniaturepowerplant.solar_module.penalty.thunder": "Thundering",
