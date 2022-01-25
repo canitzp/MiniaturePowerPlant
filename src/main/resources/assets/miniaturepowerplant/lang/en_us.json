@@ -4,6 +4,7 @@
 
   "item.miniaturepowerplant.depletable.desc.depletion": "Depletion: %s%%",
   "item.miniaturepowerplant.depletable.desc.depleted": "Depleted",
+  "item.miniaturepowerplant.depletable.desc.new": "Brand New",
 
   "item.miniaturepowerplant.solar_module": "Solar Module",
   "item.miniaturepowerplant.solar_module.production.brightness": "Current brightness",

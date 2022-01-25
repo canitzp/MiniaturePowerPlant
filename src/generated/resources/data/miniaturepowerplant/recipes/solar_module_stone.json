@@ -16,16 +16,16 @@
       "tag": "forge:gems/quartz"
     },
     "r": {
-      "tag": "forge:dusts/redstone"
+      "tag": "forge:storage_blocks/redstone"
     },
     "x": {
-      "tag": "minecraft:planks"
+      "tag": "forge:stone"
     },
     "c": {
       "item": "minecraft:copper_block"
     }
   },
   "result": {
-    "item": "miniaturepowerplant:solar_module"
+    "item": "miniaturepowerplant:solar_module_stone"
   }
 }
