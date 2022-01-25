@@ -48,6 +48,8 @@ public abstract class DepletableItemModule extends Item implements DepletableMod
                 text.add(new TranslatableComponent("item.miniaturepowerplant.depletable.desc.depleted").withStyle(ChatFormatting.GRAY));
             } else if (depletionPercentage > 0.0F){
                 text.add(new TranslatableComponent("item.miniaturepowerplant.depletable.desc.depletion", String.format("%.2f", depletionPercentage * 100.0F)).withStyle(ChatFormatting.GRAY));
+            } else {
+                text.add(new TranslatableComponent("item.miniaturepowerplant.depletable.desc.new").withStyle(ChatFormatting.GRAY));
             }
         }
     }
