@@ -9,6 +9,10 @@ Any module has it pros and cons, for example the solar modules works best in dir
 But to find out al effects, there is a simple statistics view, where every energy production and every penalty is written down.
 
 ## Changelog
+**39.4.0**
+
+- Finally enabled pushing of energy to surrounding blocks, also item piping is now working. See [Energy and Inventory IO](#energy-and-inventory-io) for more information.
+
 **39.3.0:**
 
 - New solar modules (stone, ron, gold, lapis, redstone, diamond and netherite) with different energy productions.
@@ -31,6 +35,7 @@ But to find out al effects, there is a simple statistics view, where every energ
 - Initial release
 
 ## Planned
+- push energy to all sides except top, because most of the cables won't pull
 - upgrades for existing modules (temperature, water)
 - new module that "eats" grass and leaves to generate energy
 
@@ -89,6 +94,15 @@ The energy bar itself show the combined stored energy for the carrier and the op
 
 ![](https://github.com/canitzp/MiniaturePowerPlant/blob/main/wiki/carrier_gui_energy.png?raw=true)
 
+##### Energy and Inventory IO
+With cables or pipes from other mods it is possible to insert and extract items and extract the energy.
+
+If the carrier has some stored energy left, it tries to push it in all directions and after that fills an optionally inserted battery.
+Also if the optional battery has stored energy, it also tries to transfer it to surrounding blocks.
+
+You can push items into the carrier, with the same rules as inside the gui.
+Extracting is much more strict and so it is only possible to extract the three modules, if they are fully depleted.
+The extraction of upgrades and the battery is not permitted.
 
 ### Modules
 Modules are items that can be put into their corresponding [carrier](#gui) slot.

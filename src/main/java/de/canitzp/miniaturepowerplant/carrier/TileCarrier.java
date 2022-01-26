@@ -37,7 +37,9 @@ import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.wrapper.InvWrapper;
+import net.minecraftforge.items.wrapper.SidedInvWrapper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -47,15 +49,8 @@ public class TileCarrier extends BlockEntity implements MenuProvider, Nameable{
 
     public static final BlockEntityType<TileCarrier> TYPE = BlockEntityType.Builder.of(TileCarrier::new, BlockCarrier.INSTANCE).build(null);
 
-    private final SimpleContainer inventory = new SimpleContainer(7){
-        @Override
-        public void setChanged() {
-            TileCarrier.this.onBlockUpdate();
-            TileCarrier.this.setChanged();
-            super.setChanged();
-        }
-    };
-    private final InvWrapper wrapper = new InvWrapper(this.inventory);
+    private final CarrierInventory inventory = new CarrierInventory(this);
+    private final SidedInvWrapper sw = new SidedInvWrapper(this.inventory, null);
     private final EnergyStorage energyStorage = new EnergyStorage(20000);
 
     private int wastedEnergy = 0, producedEnergy = 0;
@@ -75,7 +70,7 @@ public class TileCarrier extends BlockEntity implements MenuProvider, Nameable{
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
         if(cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY){
-            return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.orEmpty(cap, LazyOptional.of(() -> this.wrapper));
+            return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.orEmpty(cap, LazyOptional.of(() -> this.sw));
         }
         if(cap == CapabilityEnergy.ENERGY){
             return CapabilityEnergy.ENERGY.orEmpty(cap, LazyOptional.of(() -> this.energyStorage));
@@ -205,6 +200,24 @@ public class TileCarrier extends BlockEntity implements MenuProvider, Nameable{
                 tile.wastedEnergy = 0;
             }
 
+            // push energy to surrounding blocks
+            if(tile.energyStorage.getEnergyStored() > 0){
+                for (Direction side : Direction.values()) {
+                    BlockEntity surroundingTile = tile.level.getBlockEntity(tile.getBlockPos().relative(side));
+                    if(surroundingTile != null){
+                        surroundingTile.getCapability(CapabilityEnergy.ENERGY, side.getOpposite()).ifPresent(surroundingTileEnergyStorage -> {
+                            // tile energy
+                            surroundingTileEnergyStorage.receiveEnergy(tile.getEnergyStorage().extractEnergy(surroundingTileEnergyStorage.receiveEnergy(Integer.MAX_VALUE, true), false), false);
+
+                            // accu energy
+                            tile.getAccuStorage().ifPresent(accuEnergyStorage -> {
+                                surroundingTileEnergyStorage.receiveEnergy(accuEnergyStorage.extractEnergy(surroundingTileEnergyStorage.receiveEnergy(Integer.MAX_VALUE, true), false), false);
+                            });
+                        });
+                    }
+                }
+            }
+
             // move energy to accu/battery
             if(tile.energyStorage.getEnergyStored() > 0){
                 tile.getAccuStorage().ifPresent(energyStorage -> {
@@ -229,7 +242,7 @@ public class TileCarrier extends BlockEntity implements MenuProvider, Nameable{
         }
     }
 
-    public SimpleContainer getInventory() {
+    public CarrierInventory getInventory() {
         return this.inventory;
     }
 
@@ -352,7 +365,7 @@ public class TileCarrier extends BlockEntity implements MenuProvider, Nameable{
         return this.getCarrierModule(responderSlot).produceEnergy(this.getLevel(), this.getBlockPos(), this, responderSlot, responderSlot, this.getSyncData(responderSlot)).stream().mapToInt(EnergyProduction::getEnergy).sum();
     }
 
-    private void onBlockUpdate(){
+    public void onBlockUpdate(){
         Level level = this.getLevel();
         if (level != null) {
             BlockCarrier.INSTANCE.updateFromTile(level, this.getBlockPos());
