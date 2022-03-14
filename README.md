@@ -39,7 +39,6 @@ But to find out al effects, there is a simple statistics view, where every energ
 - Initial release
 
 ## Planned
-- push energy to all sides except top, because most of the cables won't pull
 - upgrades for existing modules (temperature, water)
 - new module that "eats" grass and leaves to generate energy
 
