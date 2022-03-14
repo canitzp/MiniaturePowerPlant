@@ -9,6 +9,10 @@ Any module has it pros and cons, for example the solar modules works best in dir
 But to find out al effects, there is a simple statistics view, where every energy production and every penalty is written down.
 
 ## Changelog
+**40.0.0**
+
+- Update to 1.18.2 (Forge 40.0.12)
+
 **39.4.0**
 
 - Finally enabled pushing of energy to surrounding blocks, also item piping is now working. See [Energy and Inventory IO](#energy-and-inventory-io) for more information.

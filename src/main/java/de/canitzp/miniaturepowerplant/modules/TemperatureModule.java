@@ -5,9 +5,12 @@ import de.canitzp.miniaturepowerplant.reasons.EnergyPenalty;
 import de.canitzp.miniaturepowerplant.reasons.EnergyProduction;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.registries.RegistryObject;
 
 import javax.annotation.Nullable;
+import java.util.function.Supplier;
 
 public class TemperatureModule extends DepletableItemModule {
 
@@ -27,7 +30,7 @@ public class TemperatureModule extends DepletableItemModule {
     public void tick(Level world, BlockPos pos, TileCarrier tile, SynchroniseModuleData data) {
         if(!world.isClientSide()){
             // production
-            float adjustedTemperature = world.getBiome(pos).getBaseTemperature();
+            float adjustedTemperature = world.getBiome(pos).value().getBaseTemperature();
             ListTag listEnergyProduction = new ListTag();
             listEnergyProduction.add(EnergyProduction.toNBT(Math.round(adjustedTemperature * 10), "item.miniaturepowerplant.temperature_module.production.adjusted_temperature"));
             data.use(compoundNBT -> compoundNBT.put(NBT_KEY_PRODUCTION, listEnergyProduction));

@@ -18,8 +18,6 @@ public class MPPTab extends CreativeModeTab{
 
     public static final MPPTab INSTANCE = new MPPTab();
 
-    private static final ItemStack ICON = new ItemStack(BlockCarrier.INSTANCE_ITEM);
-
     private MPPTab() {
         super(MiniaturePowerPlant.MODID);
     }
@@ -32,7 +30,7 @@ public class MPPTab extends CreativeModeTab{
     @Nonnull
     @Override
     public ItemStack makeIcon() {
-        return ICON;
+        return BlockCarrier.INSTANCE_ITEM.getDefaultInstance();
     }
 
     @Override
