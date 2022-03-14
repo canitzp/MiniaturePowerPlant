@@ -7,11 +7,15 @@ import de.canitzp.miniaturepowerplant.modules.TemperatureModule;
 import de.canitzp.miniaturepowerplant.modules.WaterModule;
 import de.canitzp.miniaturepowerplant.modules.WindModule;
 import de.canitzp.miniaturepowerplant.upgrades.EcoUpgrade;
+import net.minecraft.advancements.critereon.InventoryChangeTrigger;
+import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.common.Tags;
 
@@ -22,7 +26,11 @@ public class MPPRecipeProvider extends RecipeProvider{
     public MPPRecipeProvider(DataGenerator generator){
         super(generator);
     }
-    
+
+    private static InventoryChangeTrigger.TriggerInstance has(TagKey<Item> p_206407_) {
+        return inventoryTrigger(ItemPredicate.Builder.item().of(p_206407_).build());
+    }
+
     @Override
     protected void buildCraftingRecipes(Consumer<FinishedRecipe> consumer){
         ShapedRecipeBuilder

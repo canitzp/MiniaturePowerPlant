@@ -8,6 +8,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -15,9 +16,11 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
 import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.RegistryObject;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.function.Supplier;
 
 public class SolarModule extends DepletableItemModule {
 
@@ -35,17 +38,6 @@ public class SolarModule extends DepletableItemModule {
     public SolarModule(float depletion, float maxDepletion, float energyMultiplier) {
         super(new Item.Properties().stacksTo(1), depletion, maxDepletion);
         this.energyMultiplier = energyMultiplier;
-    }
-
-    public static void register(DeferredRegister<Item> registry){
-        registry.register("solar_module", () -> SolarModule.SOLAR_MODULE_WOOD);
-        registry.register("solar_module_stone", () -> SolarModule.SOLAR_MODULE_STONE);
-        registry.register("solar_module_iron", () -> SolarModule.SOLAR_MODULE_IRON);
-        registry.register("solar_module_gold", () -> SolarModule.SOLAR_MODULE_GOLD);
-        registry.register("solar_module_lapis", () -> SolarModule.SOLAR_MODULE_LAPIS);
-        registry.register("solar_module_redstone", () -> SolarModule.SOLAR_MODULE_REDSTONE);
-        registry.register("solar_module_diamond", () -> SolarModule.SOLAR_MODULE_DIAMOND);
-        registry.register("solar_module_netherite", () -> SolarModule.SOLAR_MODULE_NETHERITE);
     }
     
     @Override
