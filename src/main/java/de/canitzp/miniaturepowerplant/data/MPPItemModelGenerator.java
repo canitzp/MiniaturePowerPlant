@@ -9,9 +9,11 @@ import de.canitzp.miniaturepowerplant.modules.WindModule;
 import de.canitzp.miniaturepowerplant.upgrades.EcoUpgrade;
 import de.canitzp.miniaturepowerplant.upgrades.EfficiencyUpgrade;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.registries.ForgeRegistries;
 
 public class MPPItemModelGenerator extends ItemModelProvider {
     
@@ -44,6 +46,7 @@ public class MPPItemModelGenerator extends ItemModelProvider {
     }
     
     private void singleTexture(Item item){
-        singleTexture(item.getRegistryName().getPath(), mcLoc("item/handheld"), "layer0", modLoc("items/" + item.getRegistryName().getPath()));
+        ResourceLocation key = ForgeRegistries.ITEMS.getKey(item);
+        singleTexture(key.getPath(), mcLoc("item/handheld"), "layer0", modLoc("items/" + key.getPath()));
     }
 }

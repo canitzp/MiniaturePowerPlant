@@ -5,12 +5,9 @@ import de.canitzp.miniaturepowerplant.reasons.EnergyBoost;
 import de.canitzp.miniaturepowerplant.reasons.EnergyPenalty;
 import de.canitzp.miniaturepowerplant.reasons.EnergyProduction;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -21,7 +18,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class WindModule extends DepletableItemModule {
     
@@ -40,8 +36,8 @@ public class WindModule extends DepletableItemModule {
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> text, TooltipFlag flag){
         super.appendHoverText(stack, level, text, flag);
         
-        text.add(new TranslatableComponent("item.miniaturepowerplant.wind_module.desc.production", this.energyProduction).withStyle(ChatFormatting.GRAY));
-        text.add(new TranslatableComponent("item.miniaturepowerplant.wind_module.desc.range", this.windRange).withStyle(ChatFormatting.GRAY));
+        text.add(Component.translatable("item.miniaturepowerplant.wind_module.desc.production", this.energyProduction).withStyle(ChatFormatting.GRAY));
+        text.add(Component.translatable("item.miniaturepowerplant.wind_module.desc.range", this.windRange).withStyle(ChatFormatting.GRAY));
     }
     
     @Override

@@ -7,6 +7,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;
@@ -160,7 +161,7 @@ public class BlockCarrier extends BaseEntityBlock implements LiquidBlockContaine
     }
     
     @Override
-    public void animateTick(BlockState state, Level level, BlockPos pos, Random rnd){
+    public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource rnd){
         BlockEntity tile = level.getBlockEntity(pos);
         if(tile instanceof TileCarrier){
             ((TileCarrier) tile).animationTick(state, rnd);

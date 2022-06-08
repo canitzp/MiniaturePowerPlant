@@ -11,8 +11,6 @@ import de.canitzp.miniaturepowerplant.reasons.EnergyProduction;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
@@ -103,21 +101,21 @@ public class ScreenCarrier extends AbstractContainerScreen<CarrierMenu>{
             List<Component> text = new ArrayList<>();
             switch (slotUnderMouse.index){
                 case CarrierMenu.SLOT_SOLAR: {
-                    text.add(new TranslatableComponent("container.miniaturepowerplant.carrier.hover.empty_solar_slot"));
+                    text.add(Component.translatable("container.miniaturepowerplant.carrier.hover.empty_solar_slot"));
                     break;
                 }
                 case CarrierMenu.SLOT_CORE: {
-                    text.add(new TranslatableComponent("container.miniaturepowerplant.carrier.hover.empty_core_slot"));
+                    text.add(Component.translatable("container.miniaturepowerplant.carrier.hover.empty_core_slot"));
                     break;
                 }
                 case CarrierMenu.SLOT_GROUND: {
-                    text.add(new TranslatableComponent("container.miniaturepowerplant.carrier.hover.empty_ground_slot"));
+                    text.add(Component.translatable("container.miniaturepowerplant.carrier.hover.empty_ground_slot"));
                     break;
                 }
                 case CarrierMenu.SLOT_SOLAR_UPGRADE:
                 case CarrierMenu.SLOT_CORE_UPGRADE:
                 case CarrierMenu.SLOT_GROUND_UPGRADE: {
-                    text.add(new TranslatableComponent("container.miniaturepowerplant.carrier.hover.empty_upgrade_slot"));
+                    text.add(Component.translatable("container.miniaturepowerplant.carrier.hover.empty_upgrade_slot"));
                     break;
                 }
             }
@@ -129,13 +127,13 @@ public class ScreenCarrier extends AbstractContainerScreen<CarrierMenu>{
             // internal
             EnergyStorage energyStorage = this.getTile().getEnergyStorage();
             List<Component> text = new ArrayList<>();
-            text.add(new TranslatableComponent("container.miniaturepowerplant.carrier.hover.energy.internal_stored", energyStorage.getEnergyStored(), energyStorage.getMaxEnergyStored()));
+            text.add(Component.translatable("container.miniaturepowerplant.carrier.hover.energy.internal_stored", energyStorage.getEnergyStored(), energyStorage.getMaxEnergyStored()));
             // additional
             this.getTile().getAccuStorage().ifPresent(accu -> {
-                text.add(new TranslatableComponent("container.miniaturepowerplant.carrier.hover.energy.additional_stored", accu.getEnergyStored(), accu.getMaxEnergyStored()));
+                text.add(Component.translatable("container.miniaturepowerplant.carrier.hover.energy.additional_stored", accu.getEnergyStored(), accu.getMaxEnergyStored()));
             });
-            text.add(new TranslatableComponent("container.miniaturepowerplant.carrier.hover.energy.produced", this.getTile().getProducedEnergy()).withStyle(ChatFormatting.GRAY));
-            text.add(new TranslatableComponent("container.miniaturepowerplant.carrier.hover.energy.wasted", this.getTile().getWastedEnergy()).withStyle(ChatFormatting.GRAY));
+            text.add(Component.translatable("container.miniaturepowerplant.carrier.hover.energy.produced", this.getTile().getProducedEnergy()).withStyle(ChatFormatting.GRAY));
+            text.add(Component.translatable("container.miniaturepowerplant.carrier.hover.energy.wasted", this.getTile().getWastedEnergy()).withStyle(ChatFormatting.GRAY));
             this.renderComponentTooltip(matrix, text, mouseX, mouseY);
 
         }
@@ -156,30 +154,30 @@ public class ScreenCarrier extends AbstractContainerScreen<CarrierMenu>{
             List<EnergyPenalty> energyPenalties = this.getTile().getPenaltiesForSlot(slot);
             List<EnergyBoost> energyBoosts = this.getTile().getBoostsForSlot(slot);
             List<Component> text = new ArrayList<>();
-            text.add(new TranslatableComponent("container.miniaturepowerplant.carrier.hover.depletion", Math.round(depletion * 100)));
+            text.add(Component.translatable("container.miniaturepowerplant.carrier.hover.depletion", Math.round(depletion * 100)));
             if(!energyProductions.isEmpty()){
-                text.add(new TranslatableComponent("container.miniaturepowerplant.carrier.hover.producer").withStyle(ChatFormatting.GRAY, ChatFormatting.UNDERLINE));
+                text.add(Component.translatable("container.miniaturepowerplant.carrier.hover.producer").withStyle(ChatFormatting.GRAY, ChatFormatting.UNDERLINE));
                 for (EnergyProduction producer : energyProductions) {
-                    text.add(new TextComponent(" ").append(new TranslatableComponent("container.miniaturepowerplant.carrier.hover.producer_self", producer.getEnergy(), producer.translateReason()).withStyle(ChatFormatting.GRAY)));
+                    text.add(Component.literal(" ").append(Component.translatable("container.miniaturepowerplant.carrier.hover.producer_self", producer.getEnergy(), producer.translateReason()).withStyle(ChatFormatting.GRAY)));
                 }
             }
             if(!energyPenalties.isEmpty() && !energyProductions.isEmpty()){
-                text.add(new TranslatableComponent("container.miniaturepowerplant.carrier.hover.penalty").withStyle(ChatFormatting.GRAY, ChatFormatting.UNDERLINE));
+                text.add(Component.translatable("container.miniaturepowerplant.carrier.hover.penalty").withStyle(ChatFormatting.GRAY, ChatFormatting.UNDERLINE));
                 for (EnergyPenalty penalty : energyPenalties) {
-                    text.add(new TextComponent(" ").append(new TranslatableComponent("container.miniaturepowerplant.carrier.hover.penalty_self", Math.round(penalty.getMultiplier() * 100), penalty.translateReason()).withStyle(ChatFormatting.GRAY)));
+                    text.add(Component.literal(" ").append(Component.translatable("container.miniaturepowerplant.carrier.hover.penalty_self", Math.round(penalty.getMultiplier() * 100), penalty.translateReason()).withStyle(ChatFormatting.GRAY)));
                 }
             }
             if(!energyBoosts.isEmpty()){
-                text.add(new TranslatableComponent("container.miniaturepowerplant.carrier.hover.boost").withStyle(ChatFormatting.GRAY, ChatFormatting.UNDERLINE));
+                text.add(Component.translatable("container.miniaturepowerplant.carrier.hover.boost").withStyle(ChatFormatting.GRAY, ChatFormatting.UNDERLINE));
                 for(EnergyBoost boost : energyBoosts){
-                    text.add(new TextComponent(" ").append(new TranslatableComponent("container.miniaturepowerplant.carrier.hover.boost_self", Math.round(boost.getMultiplier() * 100), boost.translateReason()).withStyle(ChatFormatting.GRAY)));
+                    text.add(Component.literal(" ").append(Component.translatable("container.miniaturepowerplant.carrier.hover.boost_self", Math.round(boost.getMultiplier() * 100), boost.translateReason()).withStyle(ChatFormatting.GRAY)));
                 }
             }
 
             ArrayList<Component> additionalText = new ArrayList<>();
             carrierModule.addDepletionInformation(this, data, additionalText);
             if(!energyProductions.isEmpty() && !additionalText.isEmpty()){
-                text.add(new TextComponent(""));
+                text.add(Component.literal(""));
             }
             text.addAll(additionalText);
 

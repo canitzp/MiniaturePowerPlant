@@ -7,20 +7,15 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.RegistryObject;
 
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.function.Supplier;
 
 public class SolarModule extends DepletableItemModule {
 
@@ -44,7 +39,7 @@ public class SolarModule extends DepletableItemModule {
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> text, TooltipFlag flag){
         super.appendHoverText(stack, level, text, flag);
         
-        text.add(new TranslatableComponent("item.miniaturepowerplant.solar_module.desc.energy_multiplier", String.format("%.2f", this.energyMultiplier * 100.0F)).withStyle(ChatFormatting.GRAY));
+        text.add(Component.translatable("item.miniaturepowerplant.solar_module.desc.energy_multiplier", String.format("%.2f", this.energyMultiplier * 100.0F)).withStyle(ChatFormatting.GRAY));
     }
     
     @Nullable

@@ -6,18 +6,15 @@ import de.canitzp.miniaturepowerplant.MPPTab;
 import de.canitzp.miniaturepowerplant.carrier.TileCarrier;
 import de.canitzp.miniaturepowerplant.modules.SynchroniseModuleData;
 import de.canitzp.miniaturepowerplant.reasons.EnergyBoost;
-import de.canitzp.miniaturepowerplant.reasons.EnergyProduction;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -37,13 +34,13 @@ public class EfficiencyUpgrade extends Item implements ICarrierModule {
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> text, TooltipFlag flag){
         if(this.energyMultiplier > 0.0F){
-            text.add(new TextComponent("Increases slots energy generation by " + Math.round(this.energyMultiplier * 100) + "%").withStyle(ChatFormatting.GRAY));
+            text.add(Component.literal("Increases slots energy generation by " + Math.round(this.energyMultiplier * 100) + "%").withStyle(ChatFormatting.GRAY));
         }
         if(this.ownModuleDepletionIncrease > 0.0F){
-            text.add(new TextComponent("Increases slots depletion by " + Math.round(this.ownModuleDepletionIncrease * 100) + "%").withStyle(ChatFormatting.GRAY));
+            text.add(Component.literal("Increases slots depletion by " + Math.round(this.ownModuleDepletionIncrease * 100) + "%").withStyle(ChatFormatting.GRAY));
         }
         if(this.otherModulesDepletionIncrease > 0.0F){
-            text.add(new TextComponent("Increases others depletion by " + Math.round(this.ownModuleDepletionIncrease * 100) + "%").withStyle(ChatFormatting.GRAY));
+            text.add(Component.literal("Increases others depletion by " + Math.round(this.ownModuleDepletionIncrease * 100) + "%").withStyle(ChatFormatting.GRAY));
         }
     }
     

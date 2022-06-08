@@ -27,9 +27,9 @@ public class MPPRecipeProvider extends RecipeProvider{
         super(generator);
     }
 
-    private static InventoryChangeTrigger.TriggerInstance has(TagKey<Item> p_206407_) {
+    /*protected static InventoryChangeTrigger.TriggerInstance has(TagKey<Item> p_206407_) {
         return inventoryTrigger(ItemPredicate.Builder.item().of(p_206407_).build());
-    }
+    }*/
 
     @Override
     protected void buildCraftingRecipes(Consumer<FinishedRecipe> consumer){

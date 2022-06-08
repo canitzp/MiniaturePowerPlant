@@ -6,7 +6,6 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -38,11 +37,11 @@ public class AccumulatorItem extends Item{
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> text, TooltipFlag flag) {
         if(this.transfer > 0 && this.transfer < this.capacity){
-            text.add(new TranslatableComponent("item.miniaturepowerplant.accumulator.desc.transfer", this.transfer).withStyle(ChatFormatting.GRAY));
+            text.add(Component.translatable("item.miniaturepowerplant.accumulator.desc.transfer", this.transfer).withStyle(ChatFormatting.GRAY));
         }
 
         stack.getCapability(CapabilityEnergy.ENERGY).ifPresent(iEnergyStorage -> {
-            text.add(new TranslatableComponent("item.miniaturepowerplant.accumulator.desc.stored", iEnergyStorage.getEnergyStored(), iEnergyStorage.getMaxEnergyStored()).withStyle(ChatFormatting.GRAY));
+            text.add(Component.translatable("item.miniaturepowerplant.accumulator.desc.stored", iEnergyStorage.getEnergyStored(), iEnergyStorage.getMaxEnergyStored()).withStyle(ChatFormatting.GRAY));
         });
     }
     
