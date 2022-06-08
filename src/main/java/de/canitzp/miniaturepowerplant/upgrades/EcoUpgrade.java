@@ -9,7 +9,6 @@ import de.canitzp.miniaturepowerplant.reasons.EnergyPenalty;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -35,15 +34,15 @@ public class EcoUpgrade extends Item implements ICarrierModule {
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> text, TooltipFlag flag) {
         if(this.ownModuleDepletionReduction > 0.0F){
-            text.add(new TextComponent("Decreases slots depletion by " + Math.round(this.ownModuleDepletionReduction * 100) + "%").withStyle(ChatFormatting.GRAY));
+            text.add(Component.literal("Decreases slots depletion by " + Math.round(this.ownModuleDepletionReduction * 100) + "%").withStyle(ChatFormatting.GRAY));
         }
 
         if(this.otherModuleDepletionReduction > 0.0F){
-            text.add(new TextComponent("Decreases others depletion by " + Math.round(this.otherModuleDepletionReduction * 100) + "%").withStyle(ChatFormatting.GRAY));
+            text.add(Component.literal("Decreases others depletion by " + Math.round(this.otherModuleDepletionReduction * 100) + "%").withStyle(ChatFormatting.GRAY));
         }
 
         if(this.energyReductionMultiplier <= 1.0F) {
-            text.add(new TextComponent("Decreases energy production by " + Math.round(this.energyReductionMultiplier * 100) + "%").withStyle(ChatFormatting.GRAY));
+            text.add(Component.literal("Decreases energy production by " + Math.round(this.energyReductionMultiplier * 100) + "%").withStyle(ChatFormatting.GRAY));
         }
     }
 

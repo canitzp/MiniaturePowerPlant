@@ -16,8 +16,8 @@ public class MPPDataGenerator{
         ExistingFileHelper helper = event.getExistingFileHelper();
         
         if(event.includeServer()){
-            generator.addProvider(new MPPRecipeProvider(generator));
-            generator.addProvider(new MPPItemModelGenerator(generator, helper));
+            generator.addProvider(true, new MPPRecipeProvider(generator));
+            generator.addProvider(true, new MPPItemModelGenerator(generator, helper));
         }
     }
 }

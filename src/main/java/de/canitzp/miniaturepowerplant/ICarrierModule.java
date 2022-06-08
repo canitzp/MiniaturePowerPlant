@@ -9,6 +9,7 @@ import de.canitzp.miniaturepowerplant.reasons.EnergyProduction;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -50,7 +51,7 @@ public interface ICarrierModule {
 
     default void tick(Level level, BlockPos pos, TileCarrier tile, SynchroniseModuleData data){}
 
-    default void blockAnimationTick(ClientLevel level, BlockPos pos, TileCarrier tile, BlockState state, Random random, SynchroniseModuleData data){}
+    default void blockAnimationTick(ClientLevel level, BlockPos pos, TileCarrier tile, BlockState state, RandomSource random, SynchroniseModuleData data){}
     
     static boolean isSlotValid(ItemStack stack, CarrierSlot slot){
         if(stack.isEmpty()){

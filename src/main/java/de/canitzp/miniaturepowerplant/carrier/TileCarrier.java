@@ -14,15 +14,13 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.Nameable;
-import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -109,7 +107,7 @@ public class TileCarrier extends BlockEntity implements MenuProvider, Nameable{
     
     @Override
     public Component getDisplayName(){
-        return new TextComponent("");
+        return Component.empty();
     }
     
     @Override
@@ -231,7 +229,7 @@ public class TileCarrier extends BlockEntity implements MenuProvider, Nameable{
         }
     }
     
-    public void animationTick(BlockState state, Random rnd){
+    public void animationTick(BlockState state, RandomSource rnd){
         for (ICarrierModule.CarrierSlot slot : ICarrierModule.CarrierSlot.values()) {
             if(!this.isDepleted(slot)){
                 ICarrierModule carrierModule = this.getCarrierModule(slot);
