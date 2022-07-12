@@ -72,7 +72,7 @@ public class BlockCarrier extends BaseEntityBlock implements LiquidBlockContaine
 
         MenuProvider menuProvider = this.getMenuProvider(state, world, pos);
         if(menuProvider != null){
-            NetworkHooks.openGui(((ServerPlayer) player), menuProvider, packetBuffer -> packetBuffer.writeBlockPos(pos));
+            NetworkHooks.openScreen(((ServerPlayer) player), menuProvider, packetBuffer -> packetBuffer.writeBlockPos(pos));
         }
 
         return InteractionResult.SUCCESS;
