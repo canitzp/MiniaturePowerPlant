@@ -1,5 +1,6 @@
 package de.canitzp.miniaturepowerplant.modules;
 
+import de.canitzp.miniaturepowerplant.carrier.ModuleGrade;
 import de.canitzp.miniaturepowerplant.carrier.TileCarrier;
 import de.canitzp.miniaturepowerplant.reasons.EnergyPenalty;
 import de.canitzp.miniaturepowerplant.reasons.EnergyProduction;
@@ -14,16 +15,24 @@ import java.util.function.Supplier;
 
 public class TemperatureModule extends DepletableItemModule {
 
-    public static final TemperatureModule TEMP_MODULE_BASIC = new TemperatureModule(1.0F, 100_000.0F);
+    public static final TemperatureModule TEMP_MODULE_BASIC = new TemperatureModule(ModuleGrade.WOOD, 1.0F, 100_000.0F);
 
-    public TemperatureModule(float depletion, float maxDepletion) {
+    private final ModuleGrade grade;
+
+    public TemperatureModule(ModuleGrade grade, float depletion, float maxDepletion) {
         super(new Properties().stacksTo(1), depletion, maxDepletion);
+        this.grade = grade;
     }
 
     @Nullable
     @Override
     public CarrierSlot[] validSlots() {
         return new CarrierSlot[]{CarrierSlot.CORE, CarrierSlot.GROUND};
+    }
+
+    @Override
+    public ModuleGrade getGrade() {
+        return this.grade;
     }
 
     @Override

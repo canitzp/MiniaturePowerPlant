@@ -1,5 +1,6 @@
 package de.canitzp.miniaturepowerplant.modules;
 
+import de.canitzp.miniaturepowerplant.carrier.ModuleGrade;
 import de.canitzp.miniaturepowerplant.carrier.TileCarrier;
 import de.canitzp.miniaturepowerplant.reasons.EnergyProduction;
 import net.minecraft.core.BlockPos;
@@ -10,15 +11,23 @@ import net.minecraft.world.level.material.FluidState;
 
 public class WaterModule extends DepletableItemModule {
 
-    public static final WaterModule WATER_MODULE_BASIC = new WaterModule(1.0F, 100_000.0F);
+    public static final WaterModule WATER_MODULE_BASIC = new WaterModule(ModuleGrade.WOOD, 1.0F, 100_000.0F);
 
-    public WaterModule(float depletion, float maxDepletion) {
+    private final ModuleGrade grade;
+
+    public WaterModule(ModuleGrade grade, float depletion, float maxDepletion) {
         super(new Properties().stacksTo(1), depletion, maxDepletion);
+        this.grade = grade;
     }
 
     @Override
     public CarrierSlot[] validSlots() {
         return new CarrierSlot[]{CarrierSlot.CORE, CarrierSlot.GROUND};
+    }
+
+    @Override
+    public ModuleGrade getGrade() {
+        return this.grade;
     }
 
     @Override

@@ -22,14 +22,14 @@ import net.minecraftforge.registries.RegistryObject;
 public class MPPRegistry {
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MiniaturePowerPlant.MODID);
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MiniaturePowerPlant.MODID);
-    public static final DeferredRegister<BlockEntityType<?>> TILE_TYPES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, MiniaturePowerPlant.MODID);
-    public static final DeferredRegister<MenuType<?>> CONTAINER_TYPES = DeferredRegister.create(ForgeRegistries.CONTAINERS, MiniaturePowerPlant.MODID);
+    public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, MiniaturePowerPlant.MODID);
+    public static final DeferredRegister<MenuType<?>> MENU_TYPES = DeferredRegister.create(ForgeRegistries.MENU_TYPES, MiniaturePowerPlant.MODID);
 
     public static void init(IEventBus bus){
         BLOCKS.register(bus);
         ITEMS.register(bus);
-        TILE_TYPES.register(bus);
-        CONTAINER_TYPES.register(bus);
+        BLOCK_ENTITY_TYPES.register(bus);
+        MENU_TYPES.register(bus);
     }
 
     public static final RegistryObject<Block> CARRIER = BLOCKS.register("carrier", () -> BlockCarrier.INSTANCE);
@@ -54,8 +54,8 @@ public class MPPRegistry {
     public static final RegistryObject<Item> ACCUMULATOR_PLUS = ITEMS.register("accumulator_plus", () -> AccumulatorItem.ACCUMULATOR_PLUS);
     public static final RegistryObject<Item> ACCUMULATOR_ENHANCED = ITEMS.register("accumulator_enhanced", () -> AccumulatorItem.ACCUMULATOR_ENHANCED);
 
-    public static final RegistryObject<BlockEntityType<?>> CARRIER_TILE = TILE_TYPES.register("carrier", () -> TileCarrier.TYPE);
+    public static final RegistryObject<BlockEntityType<?>> CARRIER_TILE = BLOCK_ENTITY_TYPES.register("carrier", () -> TileCarrier.TYPE);
 
-    public static final RegistryObject<MenuType<?>> CARRIER_MENU = CONTAINER_TYPES.register("carrier", () -> CarrierMenu.TYPE);
+    public static final RegistryObject<MenuType<?>> CARRIER_MENU = MENU_TYPES.register("carrier", () -> CarrierMenu.TYPE);
 
 }
