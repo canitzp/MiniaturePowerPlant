@@ -53,6 +53,7 @@ public class BlockCarrier extends BaseEntityBlock implements LiquidBlockContaine
 
         this.registerDefaultState(this.getStateDefinition().any()
                 .setValue(WATERLOGGED, false)
+                .setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH)
                 .setValue(TOP_MODULE, ModuleGrade.NONE)
                 .setValue(CENTER_MODULE, ModuleGrade.NONE)
                 .setValue(BOTTOM_MODULE, ModuleGrade.NONE));
@@ -116,7 +117,7 @@ public class BlockCarrier extends BaseEntityBlock implements LiquidBlockContaine
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder){
         super.createBlockStateDefinition(builder);
-        builder.add(WATERLOGGED, TOP_MODULE, CENTER_MODULE, BOTTOM_MODULE);
+        builder.add(WATERLOGGED, TOP_MODULE, CENTER_MODULE, BOTTOM_MODULE, BlockStateProperties.HORIZONTAL_FACING);
     }
 
     @Override
@@ -128,7 +129,7 @@ public class BlockCarrier extends BaseEntityBlock implements LiquidBlockContaine
     public BlockState getStateForPlacement(BlockPlaceContext context){
         FluidState fluidstate = context.getLevel().getFluidState(context.getClickedPos());
         boolean flag = fluidstate.getType() == Fluids.WATER;
-        return this.defaultBlockState().setValue(WATERLOGGED, flag);
+        return this.defaultBlockState().setValue(WATERLOGGED, flag).setValue(BlockStateProperties.HORIZONTAL_FACING, context.getHorizontalDirection().getOpposite());
     }
 
     private boolean canLightPass(BlockState state){

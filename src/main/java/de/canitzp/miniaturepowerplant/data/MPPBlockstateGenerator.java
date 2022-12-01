@@ -30,14 +30,14 @@ public class MPPBlockstateGenerator extends BlockStateProvider {
 
         MultiPartBlockStateBuilder builder = getMultipartBuilder(BlockCarrier.INSTANCE);
         BlockStateProperties.HORIZONTAL_FACING.getAllValues().forEach(facing -> {
-            builder.part().modelFile(model).rotationY((((int) facing.value().toYRot()) + 180) % 360).addModel().end();
+            builder.part().modelFile(model).rotationY((((int) facing.value().toYRot()) + 180) % 360).addModel().condition(BlockStateProperties.HORIZONTAL_FACING, facing.value()).end();
 
             for (ModuleType type : ModuleType.values()) {
                 if(ArrayUtils.contains(type.getAllowedSlots(), ICarrierModule.CarrierSlot.SOLAR)){
                     for (ModuleGrade grade : type.getAllowedGrades()) {
                         ModelFile.ExistingModelFile gradedModel = models().getExistingFile(new ResourceLocation(MiniaturePowerPlant.MODID, "block/carrier/top_" + type.name().toLowerCase() + "_" + grade.name().toLowerCase()));
                         builder.part().modelFile(gradedModel).rotationY((((int) facing.value().toYRot()) + 180) % 360)
-                                .addModel().condition(BlockCarrier.TOP_MODULE, grade).end();
+                                .addModel().condition(BlockCarrier.TOP_MODULE, grade).condition(BlockStateProperties.HORIZONTAL_FACING, facing.value()).end();
                     }
                 }
             }
@@ -47,7 +47,7 @@ public class MPPBlockstateGenerator extends BlockStateProvider {
                     for (ModuleGrade grade : type.getAllowedGrades()) {
                         ModelFile.ExistingModelFile gradedModel = models().getExistingFile(new ResourceLocation(MiniaturePowerPlant.MODID, "block/carrier/center_" + type.name().toLowerCase() + "_" + grade.name().toLowerCase()));
                         builder.part().modelFile(gradedModel).rotationY((((int) facing.value().toYRot()) + 180) % 360)
-                                .addModel().condition(BlockCarrier.CENTER_MODULE, grade).end();
+                                .addModel().condition(BlockCarrier.CENTER_MODULE, grade).condition(BlockStateProperties.HORIZONTAL_FACING, facing.value()).end();
                     }
                 }
             }
@@ -57,7 +57,7 @@ public class MPPBlockstateGenerator extends BlockStateProvider {
                     for (ModuleGrade grade : type.getAllowedGrades()) {
                         ModelFile.ExistingModelFile gradedModel = models().getExistingFile(new ResourceLocation(MiniaturePowerPlant.MODID, "block/carrier/bottom_" + type.name().toLowerCase() + "_" + grade.name().toLowerCase()));
                         builder.part().modelFile(gradedModel).rotationY((((int) facing.value().toYRot()) + 180) % 360)
-                                .addModel().condition(BlockCarrier.BOTTOM_MODULE, grade).end();
+                                .addModel().condition(BlockCarrier.BOTTOM_MODULE, grade).condition(BlockStateProperties.HORIZONTAL_FACING, facing.value()).end();
                     }
                 }
             }
