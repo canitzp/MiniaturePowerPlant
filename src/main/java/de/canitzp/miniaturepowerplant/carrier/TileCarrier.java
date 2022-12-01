@@ -306,6 +306,14 @@ public class TileCarrier extends BlockEntity implements MenuProvider, Nameable{
         return false;
     }
 
+    public ModuleGrade getGradeForSlot(ICarrierModule.CarrierSlot slot){
+        ICarrierModule carrierModule = this.getCarrierModule(slot);
+        if(carrierModule != null){
+            return carrierModule.getGrade();
+        }
+        return ModuleGrade.NONE;
+    }
+
     public SynchroniseModuleData getSyncData(ICarrierModule.CarrierSlot slot){
         if(this.isModuleInstalled(slot)){
             SynchroniseModuleData data = this.syncDataMap.get(slot);

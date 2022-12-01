@@ -1,0 +1,507 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "miniaturepowerplant:block/carrier/base"
+      },
+      "when": {
+        "facing": "north"
+      }
+    },
+    {
+      "apply": {
+        "model": "miniaturepowerplant:block/carrier/top_solar_wood"
+      },
+      "when": {
+        "facing": "north",
+        "top_module": "wood"
+      }
+    },
+    {
+      "apply": {
+        "model": "miniaturepowerplant:block/carrier/top_solar_stone"
+      },
+      "when": {
+        "facing": "north",
+        "top_module": "stone"
+      }
+    },
+    {
+      "apply": {
+        "model": "miniaturepowerplant:block/carrier/top_solar_iron"
+      },
+      "when": {
+        "facing": "north",
+        "top_module": "iron"
+      }
+    },
+    {
+      "apply": {
+        "model": "miniaturepowerplant:block/carrier/top_solar_gold"
+      },
+      "when": {
+        "facing": "north",
+        "top_module": "gold"
+      }
+    },
+    {
+      "apply": {
+        "model": "miniaturepowerplant:block/carrier/top_solar_diamond"
+      },
+      "when": {
+        "facing": "north",
+        "top_module": "diamond"
+      }
+    },
+    {
+      "apply": {
+        "model": "miniaturepowerplant:block/carrier/top_solar_redstone"
+      },
+      "when": {
+        "facing": "north",
+        "top_module": "redstone"
+      }
+    },
+    {
+      "apply": {
+        "model": "miniaturepowerplant:block/carrier/top_solar_netherite"
+      },
+      "when": {
+        "facing": "north",
+        "top_module": "netherite"
+      }
+    },
+    {
+      "apply": {
+        "model": "miniaturepowerplant:block/carrier/center_temperature_wood"
+      },
+      "when": {
+        "center_module": "wood",
+        "facing": "north"
+      }
+    },
+    {
+      "apply": {
+        "model": "miniaturepowerplant:block/carrier/center_wind_wood"
+      },
+      "when": {
+        "center_module": "wood",
+        "facing": "north"
+      }
+    },
+    {
+      "apply": {
+        "model": "miniaturepowerplant:block/carrier/center_water_wood"
+      },
+      "when": {
+        "center_module": "wood",
+        "facing": "north"
+      }
+    },
+    {
+      "apply": {
+        "model": "miniaturepowerplant:block/carrier/bottom_temperature_wood"
+      },
+      "when": {
+        "bottom_module": "wood",
+        "facing": "north"
+      }
+    },
+    {
+      "apply": {
+        "model": "miniaturepowerplant:block/carrier/bottom_water_wood"
+      },
+      "when": {
+        "bottom_module": "wood",
+        "facing": "north"
+      }
+    },
+    {
+      "apply": {
+        "model": "miniaturepowerplant:block/carrier/base",
+        "y": 180
+      },
+      "when": {
+        "facing": "south"
+      }
+    },
+    {
+      "apply": {
+        "model": "miniaturepowerplant:block/carrier/top_solar_wood",
+        "y": 180
+      },
+      "when": {
+        "facing": "south",
+        "top_module": "wood"
+      }
+    },
+    {
+      "apply": {
+        "model": "miniaturepowerplant:block/carrier/top_solar_stone",
+        "y": 180
+      },
+      "when": {
+        "facing": "south",
+        "top_module": "stone"
+      }
+    },
+    {
+      "apply": {
+        "model": "miniaturepowerplant:block/carrier/top_solar_iron",
+        "y": 180
+      },
+      "when": {
+        "facing": "south",
+        "top_module": "iron"
+      }
+    },
+    {
+      "apply": {
+        "model": "miniaturepowerplant:block/carrier/top_solar_gold",
+        "y": 180
+      },
+      "when": {
+        "facing": "south",
+        "top_module": "gold"
+      }
+    },
+    {
+      "apply": {
+        "model": "miniaturepowerplant:block/carrier/top_solar_diamond",
+        "y": 180
+      },
+      "when": {
+        "facing": "south",
+        "top_module": "diamond"
+      }
+    },
+    {
+      "apply": {
+        "model": "miniaturepowerplant:block/carrier/top_solar_redstone",
+        "y": 180
+      },
+      "when": {
+        "facing": "south",
+        "top_module": "redstone"
+      }
+    },
+    {
+      "apply": {
+        "model": "miniaturepowerplant:block/carrier/top_solar_netherite",
+        "y": 180
+      },
+      "when": {
+        "facing": "south",
+        "top_module": "netherite"
+      }
+    },
+    {
+      "apply": {
+        "model": "miniaturepowerplant:block/carrier/center_temperature_wood",
+        "y": 180
+      },
+      "when": {
+        "center_module": "wood",
+        "facing": "south"
+      }
+    },
+    {
+      "apply": {
+        "model": "miniaturepowerplant:block/carrier/center_wind_wood",
+        "y": 180
+      },
+      "when": {
+        "center_module": "wood",
+        "facing": "south"
+      }
+    },
+    {
+      "apply": {
+        "model": "miniaturepowerplant:block/carrier/center_water_wood",
+        "y": 180
+      },
+      "when": {
+        "center_module": "wood",
+        "facing": "south"
+      }
+    },
+    {
+      "apply": {
+        "model": "miniaturepowerplant:block/carrier/bottom_temperature_wood",
+        "y": 180
+      },
+      "when": {
+        "bottom_module": "wood",
+        "facing": "south"
+      }
+    },
+    {
+      "apply": {
+        "model": "miniaturepowerplant:block/carrier/bottom_water_wood",
+        "y": 180
+      },
+      "when": {
+        "bottom_module": "wood",
+        "facing": "south"
+      }
+    },
+    {
+      "apply": {
+        "model": "miniaturepowerplant:block/carrier/base",
+        "y": 270
+      },
+      "when": {
+        "facing": "west"
+      }
+    },
+    {
+      "apply": {
+        "model": "miniaturepowerplant:block/carrier/top_solar_wood",
+        "y": 270
+      },
+      "when": {
+        "facing": "west",
+        "top_module": "wood"
+      }
+    },
+    {
+      "apply": {
+        "model": "miniaturepowerplant:block/carrier/top_solar_stone",
+        "y": 270
+      },
+      "when": {
+        "facing": "west",
+        "top_module": "stone"
+      }
+    },
+    {
+      "apply": {
+        "model": "miniaturepowerplant:block/carrier/top_solar_iron",
+        "y": 270
+      },
+      "when": {
+        "facing": "west",
+        "top_module": "iron"
+      }
+    },
+    {
+      "apply": {
+        "model": "miniaturepowerplant:block/carrier/top_solar_gold",
+        "y": 270
+      },
+      "when": {
+        "facing": "west",
+        "top_module": "gold"
+      }
+    },
+    {
+      "apply": {
+        "model": "miniaturepowerplant:block/carrier/top_solar_diamond",
+        "y": 270
+      },
+      "when": {
+        "facing": "west",
+        "top_module": "diamond"
+      }
+    },
+    {
+      "apply": {
+        "model": "miniaturepowerplant:block/carrier/top_solar_redstone",
+        "y": 270
+      },
+      "when": {
+        "facing": "west",
+        "top_module": "redstone"
+      }
+    },
+    {
+      "apply": {
+        "model": "miniaturepowerplant:block/carrier/top_solar_netherite",
+        "y": 270
+      },
+      "when": {
+        "facing": "west",
+        "top_module": "netherite"
+      }
+    },
+    {
+      "apply": {
+        "model": "miniaturepowerplant:block/carrier/center_temperature_wood",
+        "y": 270
+      },
+      "when": {
+        "center_module": "wood",
+        "facing": "west"
+      }
+    },
+    {
+      "apply": {
+        "model": "miniaturepowerplant:block/carrier/center_wind_wood",
+        "y": 270
+      },
+      "when": {
+        "center_module": "wood",
+        "facing": "west"
+      }
+    },
+    {
+      "apply": {
+        "model": "miniaturepowerplant:block/carrier/center_water_wood",
+        "y": 270
+      },
+      "when": {
+        "center_module": "wood",
+        "facing": "west"
+      }
+    },
+    {
+      "apply": {
+        "model": "miniaturepowerplant:block/carrier/bottom_temperature_wood",
+        "y": 270
+      },
+      "when": {
+        "bottom_module": "wood",
+        "facing": "west"
+      }
+    },
+    {
+      "apply": {
+        "model": "miniaturepowerplant:block/carrier/bottom_water_wood",
+        "y": 270
+      },
+      "when": {
+        "bottom_module": "wood",
+        "facing": "west"
+      }
+    },
+    {
+      "apply": {
+        "model": "miniaturepowerplant:block/carrier/base",
+        "y": 90
+      },
+      "when": {
+        "facing": "east"
+      }
+    },
+    {
+      "apply": {
+        "model": "miniaturepowerplant:block/carrier/top_solar_wood",
+        "y": 90
+      },
+      "when": {
+        "facing": "east",
+        "top_module": "wood"
+      }
+    },
+    {
+      "apply": {
+        "model": "miniaturepowerplant:block/carrier/top_solar_stone",
+        "y": 90
+      },
+      "when": {
+        "facing": "east",
+        "top_module": "stone"
+      }
+    },
+    {
+      "apply": {
+        "model": "miniaturepowerplant:block/carrier/top_solar_iron",
+        "y": 90
+      },
+      "when": {
+        "facing": "east",
+        "top_module": "iron"
+      }
+    },
+    {
+      "apply": {
+        "model": "miniaturepowerplant:block/carrier/top_solar_gold",
+        "y": 90
+      },
+      "when": {
+        "facing": "east",
+        "top_module": "gold"
+      }
+    },
+    {
+      "apply": {
+        "model": "miniaturepowerplant:block/carrier/top_solar_diamond",
+        "y": 90
+      },
+      "when": {
+        "facing": "east",
+        "top_module": "diamond"
+      }
+    },
+    {
+      "apply": {
+        "model": "miniaturepowerplant:block/carrier/top_solar_redstone",
+        "y": 90
+      },
+      "when": {
+        "facing": "east",
+        "top_module": "redstone"
+      }
+    },
+    {
+      "apply": {
+        "model": "miniaturepowerplant:block/carrier/top_solar_netherite",
+        "y": 90
+      },
+      "when": {
+        "facing": "east",
+        "top_module": "netherite"
+      }
+    },
+    {
+      "apply": {
+        "model": "miniaturepowerplant:block/carrier/center_temperature_wood",
+        "y": 90
+      },
+      "when": {
+        "center_module": "wood",
+        "facing": "east"
+      }
+    },
+    {
+      "apply": {
+        "model": "miniaturepowerplant:block/carrier/center_wind_wood",
+        "y": 90
+      },
+      "when": {
+        "center_module": "wood",
+        "facing": "east"
+      }
+    },
+    {
+      "apply": {
+        "model": "miniaturepowerplant:block/carrier/center_water_wood",
+        "y": 90
+      },
+      "when": {
+        "center_module": "wood",
+        "facing": "east"
+      }
+    },
+    {
+      "apply": {
+        "model": "miniaturepowerplant:block/carrier/bottom_temperature_wood",
+        "y": 90
+      },
+      "when": {
+        "bottom_module": "wood",
+        "facing": "east"
+      }
+    },
+    {
+      "apply": {
+        "model": "miniaturepowerplant:block/carrier/bottom_water_wood",
+        "y": 90
+      },
+      "when": {
+        "bottom_module": "wood",
+        "facing": "east"
+      }
+    }
+  ]
+}

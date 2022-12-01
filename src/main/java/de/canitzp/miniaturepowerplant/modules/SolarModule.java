@@ -1,5 +1,6 @@
 package de.canitzp.miniaturepowerplant.modules;
 
+import de.canitzp.miniaturepowerplant.carrier.ModuleGrade;
 import de.canitzp.miniaturepowerplant.carrier.TileCarrier;
 import de.canitzp.miniaturepowerplant.reasons.EnergyPenalty;
 import de.canitzp.miniaturepowerplant.reasons.EnergyProduction;
@@ -19,19 +20,21 @@ import java.util.List;
 
 public class SolarModule extends DepletableItemModule {
 
-    public static final SolarModule SOLAR_MODULE_WOOD = new SolarModule(1.0F, 100_000.0F, 1.0F);
-    public static final SolarModule SOLAR_MODULE_STONE = new SolarModule(1.0F, 125_000.0F, 1.25F);
-    public static final SolarModule SOLAR_MODULE_IRON = new SolarModule(1.0F, 175_000.0F, 1.75F);
-    public static final SolarModule SOLAR_MODULE_GOLD = new SolarModule(1.0F, 100_000.0F, 3.0F);
-    public static final SolarModule SOLAR_MODULE_LAPIS = new SolarModule(0.8F, 175_000.0F, 2.0F);
-    public static final SolarModule SOLAR_MODULE_REDSTONE = new SolarModule(0.9F, 175_000.0F, 2.25F);
-    public static final SolarModule SOLAR_MODULE_DIAMOND = new SolarModule(1.0F, 250_000.0F, 2F);
-    public static final SolarModule SOLAR_MODULE_NETHERITE = new SolarModule(1.0F, 350_000.0F, 2F);
+    public static final SolarModule SOLAR_MODULE_WOOD = new SolarModule(ModuleGrade.WOOD, 1.0F, 100_000.0F, 1.0F);
+    public static final SolarModule SOLAR_MODULE_STONE = new SolarModule(ModuleGrade.STONE, 1.0F, 125_000.0F, 1.25F);
+    public static final SolarModule SOLAR_MODULE_IRON = new SolarModule(ModuleGrade.IRON, 1.0F, 175_000.0F, 1.75F);
+    public static final SolarModule SOLAR_MODULE_GOLD = new SolarModule(ModuleGrade.GOLD, 1.0F, 100_000.0F, 3.0F);
+    public static final SolarModule SOLAR_MODULE_LAPIS = new SolarModule(ModuleGrade.LAPIS, 0.8F, 175_000.0F, 2.0F);
+    public static final SolarModule SOLAR_MODULE_REDSTONE = new SolarModule(ModuleGrade.REDSTONE, 0.9F, 175_000.0F, 2.25F);
+    public static final SolarModule SOLAR_MODULE_DIAMOND = new SolarModule(ModuleGrade.DIAMOND, 1.0F, 250_000.0F, 2F);
+    public static final SolarModule SOLAR_MODULE_NETHERITE = new SolarModule(ModuleGrade.NETHERITE, 1.0F, 350_000.0F, 2F);
 
+    private final ModuleGrade grade;
     private final float energyMultiplier;
     
-    public SolarModule(float depletion, float maxDepletion, float energyMultiplier) {
+    public SolarModule(ModuleGrade grade, float depletion, float maxDepletion, float energyMultiplier) {
         super(new Item.Properties().stacksTo(1), depletion, maxDepletion);
+        this.grade = grade;
         this.energyMultiplier = energyMultiplier;
     }
     
@@ -46,6 +49,11 @@ public class SolarModule extends DepletableItemModule {
     @Override
     public CarrierSlot[] validSlots() {
         return new CarrierSlot[]{CarrierSlot.SOLAR};
+    }
+
+    @Override
+    public ModuleGrade getGrade() {
+        return this.grade;
     }
 
     @Override
