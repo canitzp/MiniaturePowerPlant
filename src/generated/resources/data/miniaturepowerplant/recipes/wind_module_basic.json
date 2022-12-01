@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "b": {
+      "item": "minecraft:iron_bars"
+    },
+    "c": {
+      "item": "minecraft:copper_ingot"
+    },
+    "d": {
+      "tag": "minecraft:wooden_pressure_plates"
+    },
+    "i": {
+      "tag": "forge:storage_blocks/iron"
+    }
+  },
+  "pattern": [
+    "bdb",
+    "did",
+    "cdc"
+  ],
+  "result": {
+    "item": "miniaturepowerplant:wind_module_basic"
+  }
+}

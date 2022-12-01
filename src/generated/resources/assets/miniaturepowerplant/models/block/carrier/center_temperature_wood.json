@@ -1,0 +1,6 @@
+{
+  "parent": "miniaturepowerplant:block/carrier/center_module",
+  "textures": {
+    "2": "miniaturepowerplant:blocks/modules/center_temperature_wood"
+  }
+}

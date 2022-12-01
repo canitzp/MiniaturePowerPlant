@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "a": {
+      "item": "miniaturepowerplant:accumulator_basic"
+    },
+    "b": {
+      "item": "miniaturepowerplant:accumulator_plus"
+    },
+    "c": {
+      "item": "minecraft:copper_ingot"
+    }
+  },
+  "pattern": [
+    "cac",
+    "cbc",
+    "cac"
+  ],
+  "result": {
+    "item": "miniaturepowerplant:accumulator_enhanced"
+  }
+}

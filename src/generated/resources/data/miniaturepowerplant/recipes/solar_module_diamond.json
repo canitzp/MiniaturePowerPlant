@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "c": {
+      "item": "minecraft:copper_block"
+    },
+    "d": {
+      "tag": "forge:gems/diamond"
+    },
+    "q": {
+      "tag": "forge:gems/quartz"
+    },
+    "r": {
+      "tag": "forge:storage_blocks/redstone"
+    },
+    "s": {
+      "item": "miniaturepowerplant:solar_module_stone"
+    }
+  },
+  "pattern": [
+    "sds",
+    "qrq",
+    "dcd"
+  ],
+  "result": {
+    "item": "miniaturepowerplant:solar_module_diamond"
+  }
+}

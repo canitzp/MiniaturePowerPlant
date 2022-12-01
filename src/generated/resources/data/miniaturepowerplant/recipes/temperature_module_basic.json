@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "c": {
+      "item": "minecraft:copper_ingot"
+    },
+    "i": {
+      "tag": "forge:ingots/iron"
+    },
+    "l": {
+      "item": "minecraft:lava_bucket"
+    },
+    "r": {
+      "tag": "forge:dusts/redstone"
+    },
+    "w": {
+      "item": "minecraft:water_bucket"
+    }
+  },
+  "pattern": [
+    " i ",
+    "wcl",
+    "rir"
+  ],
+  "result": {
+    "item": "miniaturepowerplant:temperature_module_basic"
+  }
+}

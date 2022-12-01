@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "a": {
+      "item": "miniaturepowerplant:accumulator_basic"
+    },
+    "b": {
+      "item": "minecraft:iron_bars"
+    },
+    "i": {
+      "tag": "forge:ingots/iron"
+    }
+  },
+  "pattern": [
+    "bib",
+    "aba",
+    "bib"
+  ],
+  "result": {
+    "item": "miniaturepowerplant:carrier"
+  }
+}

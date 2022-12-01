@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "c": {
+      "item": "minecraft:copper_ingot"
+    },
+    "i": {
+      "tag": "forge:ingots/iron"
+    },
+    "p": {
+      "tag": "minecraft:planks"
+    },
+    "s": {
+      "item": "minecraft:bucket"
+    }
+  },
+  "pattern": [
+    "isi",
+    "sps",
+    "csc"
+  ],
+  "result": {
+    "item": "miniaturepowerplant:water_module_basic"
+  }
+}

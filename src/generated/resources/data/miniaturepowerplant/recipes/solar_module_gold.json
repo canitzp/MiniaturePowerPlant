@@ -1,0 +1,31 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "c": {
+      "item": "minecraft:copper_block"
+    },
+    "d": {
+      "item": "minecraft:daylight_detector"
+    },
+    "l": {
+      "tag": "forge:gems/lapis"
+    },
+    "q": {
+      "tag": "forge:gems/quartz"
+    },
+    "r": {
+      "tag": "forge:storage_blocks/redstone"
+    },
+    "x": {
+      "tag": "forge:ingots/gold"
+    }
+  },
+  "pattern": [
+    "ldl",
+    "qrq",
+    "xcx"
+  ],
+  "result": {
+    "item": "miniaturepowerplant:solar_module_gold"
+  }
+}
