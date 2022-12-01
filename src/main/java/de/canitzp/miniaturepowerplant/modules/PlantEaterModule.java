@@ -1,5 +1,6 @@
 package de.canitzp.miniaturepowerplant.modules;
 
+import de.canitzp.miniaturepowerplant.carrier.ModuleGrade;
 import de.canitzp.miniaturepowerplant.carrier.TileCarrier;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -21,7 +22,12 @@ public class PlantEaterModule extends DepletableItemModule{
     public CarrierSlot[] validSlots(){
         return new CarrierSlot[]{CarrierSlot.GROUND};
     }
-    
+
+    @Override
+    public ModuleGrade getGrade() {
+        return ModuleGrade.NONE;
+    }
+
     @Override
     public void tick(Level world, BlockPos pos, TileCarrier tile, SynchroniseModuleData data){
     

@@ -1,11 +1,9 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "ldl",
-    "qrq",
-    "xcx"
-  ],
   "key": {
+    "c": {
+      "item": "minecraft:copper_block"
+    },
     "d": {
       "item": "minecraft:daylight_detector"
     },
@@ -20,11 +18,13 @@
     },
     "x": {
       "tag": "minecraft:planks"
-    },
-    "c": {
-      "item": "minecraft:copper_block"
     }
   },
+  "pattern": [
+    "ldl",
+    "qrq",
+    "xcx"
+  ],
   "result": {
     "item": "miniaturepowerplant:solar_module"
   }

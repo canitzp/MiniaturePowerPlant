@@ -1,32 +1,21 @@
 {
+	"credit": "Made with Blockbench",
 	"parent": "block/block",
 	"textures": {
-		"0": "miniaturepowerplant:blocks/carrier",
-		"1": "miniaturepowerplant:blocks/carrier_top_module"
+		"2": "miniaturepowerplant:blocks/default_solar",
+		"particle": "miniaturepowerplant:blocks/default_solar"
 	},
 	"elements": [
 		{
-			"from": [1, 14, 1],
-			"to": [15, 16, 15],
+			"from": [2, 12, 2],
+			"to": [14, 16, 14],
 			"faces": {
-				"north": {"uv": [0, 0, 14, 2], "texture": "#0"},
-				"east": {"uv": [0, 0, 14, 2], "texture": "#0"},
-				"south": {"uv": [0, 0, 14, 2], "texture": "#0"},
-				"west": {"uv": [0, 0, 14, 2], "texture": "#0"},
-				"up": {"uv": [0, 0, 14, 14], "texture": "#1"},
-				"down": {"uv": [0, 0, 14, 14], "texture": "#0"}
-			}
-		},
-		{
-			"from": [3, 13, 3],
-			"to": [13, 14, 13],
-			"faces": {
-				"north": {"uv": [0, 0, 10, 1], "texture": "#0"},
-				"east": {"uv": [0, 0, 10, 1], "texture": "#0"},
-				"south": {"uv": [0, 0, 10, 1], "texture": "#0"},
-				"west": {"uv": [0, 0, 10, 1], "texture": "#0"},
-				"up": {"uv": [0, 0, 10, 10], "texture": "#0"},
-				"down": {"uv": [0, 0, 10, 10], "texture": "#0"}
+				"north": {"uv": [0, 12, 12, 16], "texture": "#2"},
+				"east": {"uv": [0, 12, 12, 16], "texture": "#2"},
+				"south": {"uv": [0, 12, 12, 16], "texture": "#2"},
+				"west": {"uv": [0, 12, 12, 16], "texture": "#2"},
+				"up": {"uv": [0, 0, 12, 12], "texture": "#2"},
+				"down": {"uv": [0, 0, 12, 12], "texture": "#2"}
 			}
 		}
 	]

@@ -1,5 +1,6 @@
 package de.canitzp.miniaturepowerplant.modules;
 
+import de.canitzp.miniaturepowerplant.carrier.ModuleGrade;
 import de.canitzp.miniaturepowerplant.carrier.TileCarrier;
 import de.canitzp.miniaturepowerplant.reasons.EnergyBoost;
 import de.canitzp.miniaturepowerplant.reasons.EnergyPenalty;
@@ -21,15 +22,17 @@ import java.util.List;
 
 public class WindModule extends DepletableItemModule {
     
-    public static final WindModule WIND_MODULE_BASIC = new WindModule(1.0F, 100_000.0F, 10, 3);
-    
+    public static final WindModule WIND_MODULE_BASIC = new WindModule(ModuleGrade.WOOD, 1.0F, 100_000.0F, 10, 3);
+
+    private final ModuleGrade grade;
     private final int energyProduction;
     private final int windRange;
     
-    public WindModule(float depletion, float maxDepletion, int energyProduction, int windRange){
+    public WindModule(ModuleGrade grade, float depletion, float maxDepletion, int energyProduction, int windRange){
         super(new Item.Properties().stacksTo(1), depletion, maxDepletion);
         this.energyProduction = energyProduction;
         this.windRange = windRange;
+        this.grade = grade;
     }
     
     @Override
@@ -44,7 +47,12 @@ public class WindModule extends DepletableItemModule {
     public CarrierSlot[] validSlots(){
         return new CarrierSlot[]{CarrierSlot.CORE};
     }
-    
+
+    @Override
+    public ModuleGrade getGrade() {
+        return this.grade;
+    }
+
     @Override
     public void tick(Level level, BlockPos pos, TileCarrier tile, SynchroniseModuleData data){
         ListTag production = new ListTag();

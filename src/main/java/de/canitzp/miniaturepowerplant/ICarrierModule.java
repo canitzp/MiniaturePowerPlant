@@ -1,5 +1,6 @@
 package de.canitzp.miniaturepowerplant;
 
+import de.canitzp.miniaturepowerplant.carrier.ModuleGrade;
 import de.canitzp.miniaturepowerplant.carrier.ScreenCarrier;
 import de.canitzp.miniaturepowerplant.carrier.TileCarrier;
 import de.canitzp.miniaturepowerplant.modules.SynchroniseModuleData;
@@ -23,6 +24,10 @@ import java.util.Random;
 public interface ICarrierModule {
 
     CarrierSlot[] validSlots();
+
+    default ModuleGrade getGrade() {
+        return ModuleGrade.NONE;
+    }
 
     default boolean isDepleted(ItemStack stack){
         return false;
@@ -82,6 +87,14 @@ public interface ICarrierModule {
                 // is upgrade
                 return CarrierSlot.values()[this.ordinal() - 1];
             }
+        }
+
+        public String getLevelName(){
+            return switch (this){
+                case SOLAR, SOLAR_UPGRADE -> "top";
+                case CORE, CORE_UPGRADE -> "center";
+                case GROUND, GROUND_UPGRADE -> "bottom";
+            };
         }
     }
 }

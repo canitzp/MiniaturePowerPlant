@@ -4,8 +4,6 @@ import de.canitzp.miniaturepowerplant.ICarrierModule;
 import de.canitzp.miniaturepowerplant.MPPTab;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
@@ -30,6 +28,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
@@ -39,14 +38,12 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Random;
-
 public class BlockCarrier extends BaseEntityBlock implements LiquidBlockContainer{
 
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
-    public static final BooleanProperty TOP_MODULE = BooleanProperty.create("top_module");
-    public static final BooleanProperty CENTER_MODULE = BooleanProperty.create("center_module");
-    public static final BooleanProperty BOTTOM_MODULE = BooleanProperty.create("bottom_module");
+    public static final EnumProperty<ModuleGrade> TOP_MODULE = EnumProperty.create("top_module", ModuleGrade.class);
+    public static final EnumProperty<ModuleGrade> CENTER_MODULE = EnumProperty.create("center_module", ModuleGrade.class);
+    public static final EnumProperty<ModuleGrade> BOTTOM_MODULE = EnumProperty.create("bottom_module", ModuleGrade.class);
 
     public static final BlockCarrier INSTANCE = new BlockCarrier();
     public static final BlockItem INSTANCE_ITEM = new BlockItem(INSTANCE, new Item.Properties().tab(MPPTab.INSTANCE));
@@ -54,7 +51,12 @@ public class BlockCarrier extends BaseEntityBlock implements LiquidBlockContaine
     private BlockCarrier() {
         super(Properties.of(Material.HEAVY_METAL).noOcclusion());
 
-        this.registerDefaultState(this.getStateDefinition().any().setValue(WATERLOGGED, false).setValue(TOP_MODULE, false).setValue(CENTER_MODULE, false).setValue(BOTTOM_MODULE, false));
+        this.registerDefaultState(this.getStateDefinition().any()
+                .setValue(WATERLOGGED, false)
+                .setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH)
+                .setValue(TOP_MODULE, ModuleGrade.NONE)
+                .setValue(CENTER_MODULE, ModuleGrade.NONE)
+                .setValue(BOTTOM_MODULE, ModuleGrade.NONE));
     }
 
     @Override
@@ -92,9 +94,9 @@ public class BlockCarrier extends BaseEntityBlock implements LiquidBlockContaine
         BlockEntity tile = world.getBlockEntity(pos);
         if(tile instanceof TileCarrier){
             return current
-                    .setValue(TOP_MODULE, ((TileCarrier) tile).isModuleInstalled(ICarrierModule.CarrierSlot.SOLAR))
-                    .setValue(CENTER_MODULE, ((TileCarrier) tile).isModuleInstalled(ICarrierModule.CarrierSlot.CORE))
-                    .setValue(BOTTOM_MODULE, ((TileCarrier) tile).isModuleInstalled(ICarrierModule.CarrierSlot.GROUND));
+                    .setValue(TOP_MODULE, ((TileCarrier) tile).getGradeForSlot(ICarrierModule.CarrierSlot.SOLAR))
+                    .setValue(CENTER_MODULE, ((TileCarrier) tile).getGradeForSlot(ICarrierModule.CarrierSlot.CORE))
+                    .setValue(BOTTOM_MODULE, ((TileCarrier) tile).getGradeForSlot(ICarrierModule.CarrierSlot.GROUND));
         }
         return current;
     }
@@ -115,7 +117,7 @@ public class BlockCarrier extends BaseEntityBlock implements LiquidBlockContaine
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder){
         super.createBlockStateDefinition(builder);
-        builder.add(WATERLOGGED, TOP_MODULE, CENTER_MODULE, BOTTOM_MODULE);
+        builder.add(WATERLOGGED, TOP_MODULE, CENTER_MODULE, BOTTOM_MODULE, BlockStateProperties.HORIZONTAL_FACING);
     }
 
     @Override
@@ -127,11 +129,11 @@ public class BlockCarrier extends BaseEntityBlock implements LiquidBlockContaine
     public BlockState getStateForPlacement(BlockPlaceContext context){
         FluidState fluidstate = context.getLevel().getFluidState(context.getClickedPos());
         boolean flag = fluidstate.getType() == Fluids.WATER;
-        return this.defaultBlockState().setValue(WATERLOGGED, flag);
+        return this.defaultBlockState().setValue(WATERLOGGED, flag).setValue(BlockStateProperties.HORIZONTAL_FACING, context.getHorizontalDirection().getOpposite());
     }
 
     private boolean canLightPass(BlockState state){
-        return !(state.getValue(TOP_MODULE) || state.getValue(CENTER_MODULE) ||state.getValue(BOTTOM_MODULE));
+        return !(state.getValue(TOP_MODULE).canLightPass() || state.getValue(CENTER_MODULE).canLightPass() ||state.getValue(BOTTOM_MODULE).canLightPass());
     }
     
     @Override

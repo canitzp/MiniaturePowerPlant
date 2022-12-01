@@ -18,6 +18,8 @@ public class MPPDataGenerator{
         if(event.includeServer()){
             generator.addProvider(true, new MPPRecipeProvider(generator));
             generator.addProvider(true, new MPPItemModelGenerator(generator, helper));
+            generator.addProvider(true, new MPPBlockModelGenerator(generator, helper));
+            generator.addProvider(true, new MPPBlockstateGenerator(generator, helper));
         }
     }
 }

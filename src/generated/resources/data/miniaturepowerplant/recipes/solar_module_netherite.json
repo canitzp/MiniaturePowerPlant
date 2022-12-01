@@ -1,13 +1,8 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "sqs",
-    "qrq",
-    "ncn"
-  ],
   "key": {
-    "s": {
-      "item": "miniaturepowerplant:solar_module_iron"
+    "c": {
+      "item": "minecraft:copper_block"
     },
     "n": {
       "tag": "forge:ingots/netherite"
@@ -18,10 +13,15 @@
     "r": {
       "tag": "forge:storage_blocks/redstone"
     },
-    "c": {
-      "item": "minecraft:copper_block"
+    "s": {
+      "item": "miniaturepowerplant:solar_module_iron"
     }
   },
+  "pattern": [
+    "sqs",
+    "qrq",
+    "ncn"
+  ],
   "result": {
     "item": "miniaturepowerplant:solar_module_netherite"
   }
