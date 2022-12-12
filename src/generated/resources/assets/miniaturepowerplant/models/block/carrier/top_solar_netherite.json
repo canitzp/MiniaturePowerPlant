@@ -1,6 +1,0 @@
-{
-  "parent": "miniaturepowerplant:block/carrier/top_module",
-  "textures": {
-    "2": "miniaturepowerplant:blocks/modules/top_solar_netherite"
-  }
-}

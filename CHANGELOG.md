@@ -1,3 +1,8 @@
+**43.0.0**
+
+- Update to 1.19.2
+- New textures for everything, thanks to Ganpan14O
+
 **41.0.1**
 
 - Fix forge breaking changes within Forge 41.0.94

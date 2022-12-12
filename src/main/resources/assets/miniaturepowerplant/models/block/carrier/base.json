@@ -7,7 +7,8 @@
 		"vent": "miniaturepowerplant:blocks/carrier_vent",
 		"inside": "miniaturepowerplant:blocks/carrier_inside",
 		"ends": "miniaturepowerplant:blocks/carrier_ends",
-		"shelves": "miniaturepowerplant:blocks/carrier_shelf"
+		"shelves": "miniaturepowerplant:blocks/carrier_shelf",
+		"missing": "#particle"
 	},
 	"elements": [
 		{

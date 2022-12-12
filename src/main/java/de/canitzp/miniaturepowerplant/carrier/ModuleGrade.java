@@ -23,4 +23,8 @@ public enum ModuleGrade implements StringRepresentable {
         return this == NONE;
     }
 
+    public static ModuleGrade[] getValids(){
+        return new ModuleGrade[]{WOOD, STONE, IRON, GOLD, LAPIS, REDSTONE, DIAMOND, NETHERITE};
+    }
+
 }
