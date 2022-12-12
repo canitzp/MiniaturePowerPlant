@@ -1,11 +1,12 @@
 package de.canitzp.miniaturepowerplant.carrier;
 
 import de.canitzp.miniaturepowerplant.ICarrierModule.CarrierSlot;
+import net.minecraft.util.StringRepresentable;
 
 import static de.canitzp.miniaturepowerplant.ICarrierModule.CarrierSlot.*;
 import static de.canitzp.miniaturepowerplant.carrier.ModuleGrade.*;
 
-public enum ModuleType {
+public enum ModuleType implements StringRepresentable {
 
     GENERIC(new CarrierSlot[]{}, new ModuleGrade[]{}),
     SOLAR(new CarrierSlot[]{CarrierSlot.SOLAR}, new ModuleGrade[]{WOOD, STONE, IRON, GOLD, DIAMOND, REDSTONE, NETHERITE}),
@@ -27,5 +28,10 @@ public enum ModuleType {
 
     public ModuleGrade[] getAllowedGrades() {
         return allowedGrades;
+    }
+
+    @Override
+    public String getSerializedName() {
+        return this.name().toLowerCase();
     }
 }

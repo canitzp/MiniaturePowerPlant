@@ -34,7 +34,7 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
@@ -64,7 +64,7 @@ public class BlockCarrier extends BaseEntityBlock implements LiquidBlockContaine
 
         // test for bucket like item
         ItemStack heldStack = player.getItemInHand(hand);
-        if(!heldStack.isEmpty() && heldStack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY).isPresent()){
+        if(!heldStack.isEmpty() && heldStack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).isPresent()){
             return InteractionResult.PASS;
         }
 

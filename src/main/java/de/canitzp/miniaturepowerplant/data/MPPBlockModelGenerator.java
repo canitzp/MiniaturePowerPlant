@@ -19,10 +19,10 @@ public class MPPBlockModelGenerator extends BlockModelProvider {
     @Override
     protected void registerModels() {
         for (ModuleType type : ModuleType.values()) {
-            for (ModuleGrade grade : type.getAllowedGrades()) {
+            for (ModuleGrade grade : ModuleGrade.getValids()) {
                 for (ICarrierModule.CarrierSlot slot : type.getAllowedSlots()) {
-                    String name = slot.getLevelName() + "_" + type.name().toLowerCase() + "_" + grade.name().toLowerCase();
-                    this.withExistingParent("block/carrier/" + name, modLoc("block/carrier/" + slot.getLevelName() + "_module")).texture("2", modLoc("blocks/modules/" + name));
+                    String name = slot.getLevelName() + "_" + grade.name().toLowerCase();
+                    this.withExistingParent("block/carrier/" + name, modLoc("block/carrier/" + slot.getLevelName() + "_module")).texture("0", modLoc("blocks/modules/" + name));
                 }
             }
         }

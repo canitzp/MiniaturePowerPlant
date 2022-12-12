@@ -1,0 +1,6 @@
+{
+  "parent": "miniaturepowerplant:block/carrier/top_module",
+  "textures": {
+    "0": "miniaturepowerplant:blocks/modules/top_redstone"
+  }
+}

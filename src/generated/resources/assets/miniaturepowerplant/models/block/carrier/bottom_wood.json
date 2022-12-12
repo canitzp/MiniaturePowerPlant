@@ -1,0 +1,6 @@
+{
+  "parent": "miniaturepowerplant:block/carrier/bottom_module",
+  "textures": {
+    "0": "miniaturepowerplant:blocks/modules/bottom_wood"
+  }
+}
