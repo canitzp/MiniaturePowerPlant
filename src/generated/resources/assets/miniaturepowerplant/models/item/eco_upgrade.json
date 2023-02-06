@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/handheld",
   "textures": {
-    "layer0": "miniaturepowerplant:items/eco_upgrade"
+    "layer0": "miniaturepowerplant:item/eco_upgrade"
   }
 }

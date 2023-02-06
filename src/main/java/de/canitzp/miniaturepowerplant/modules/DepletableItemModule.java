@@ -1,6 +1,5 @@
 package de.canitzp.miniaturepowerplant.modules;
 
-import de.canitzp.miniaturepowerplant.MPPTab;
 import de.canitzp.miniaturepowerplant.carrier.TileCarrier;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -18,7 +17,7 @@ public abstract class DepletableItemModule extends Item implements DepletableMod
     private final float maxDepletion;
 
     public DepletableItemModule(Properties properties, float depletion, float maxDepletion) {
-        super(properties.tab(MPPTab.INSTANCE));
+        super(properties);
         this.depletion = depletion;
         this.maxDepletion = maxDepletion;
     }

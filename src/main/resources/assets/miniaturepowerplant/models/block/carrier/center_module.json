@@ -2,8 +2,8 @@
 	"credit": "Made with Blockbench",
 	"parent": "block/block",
 	"textures": {
-		"0": "miniaturepowerplant:blocks/default_module",
-		"particle": "miniaturepowerplant:blocks/default_module"
+		"0": "miniaturepowerplant:block/default_module",
+		"particle": "miniaturepowerplant:block/default_module"
 	},
 	"elements": [
 		{

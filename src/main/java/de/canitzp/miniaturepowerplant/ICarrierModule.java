@@ -19,7 +19,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 public interface ICarrierModule {
 

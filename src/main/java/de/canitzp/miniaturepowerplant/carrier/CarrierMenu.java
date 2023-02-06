@@ -11,8 +11,8 @@ import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.extensions.IForgeMenuType;
-import net.minecraftforge.energy.CapabilityEnergy;
 
 public class CarrierMenu extends AbstractContainerMenu{
 
@@ -46,7 +46,7 @@ public class CarrierMenu extends AbstractContainerMenu{
         this.addSlot(new SlotCarrier(tile.getInventory(), SLOT_GROUND_UPGRADE, 152, 54, ICarrierModule.CarrierSlot.GROUND_UPGRADE));
 
         // battery slot
-        this.addSlot(new SlotSpecific(tile.getInventory(), SLOT_BATTERY, 8, 82, stack -> stack.getCapability(CapabilityEnergy.ENERGY).isPresent()));
+        this.addSlot(new SlotSpecific(tile.getInventory(), SLOT_BATTERY, 8, 82, stack -> stack.getCapability(ForgeCapabilities.ENERGY).isPresent()));
 
         // player inventory
         for(int row = 0; row < 3; ++row) {

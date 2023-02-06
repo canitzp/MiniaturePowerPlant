@@ -2,8 +2,6 @@ package de.canitzp.miniaturepowerplant.reasons;
 
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.StringTag;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 

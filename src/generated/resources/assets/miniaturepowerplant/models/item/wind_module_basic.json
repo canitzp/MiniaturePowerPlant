@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/handheld",
   "textures": {
-    "layer0": "miniaturepowerplant:items/wind_module_basic"
+    "layer0": "miniaturepowerplant:item/wind_module_basic"
   }
 }

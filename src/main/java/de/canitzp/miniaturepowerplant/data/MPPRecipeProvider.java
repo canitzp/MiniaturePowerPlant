@@ -7,15 +7,12 @@ import de.canitzp.miniaturepowerplant.modules.TemperatureModule;
 import de.canitzp.miniaturepowerplant.modules.WaterModule;
 import de.canitzp.miniaturepowerplant.modules.WindModule;
 import de.canitzp.miniaturepowerplant.upgrades.EcoUpgrade;
-import net.minecraft.advancements.critereon.InventoryChangeTrigger;
-import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.TagKey;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.common.Tags;
 
@@ -24,7 +21,7 @@ import java.util.function.Consumer;
 public class MPPRecipeProvider extends RecipeProvider{
     
     public MPPRecipeProvider(DataGenerator generator){
-        super(generator);
+        super(generator.getPackOutput());
     }
 
     /*protected static InventoryChangeTrigger.TriggerInstance has(TagKey<Item> p_206407_) {
@@ -32,9 +29,9 @@ public class MPPRecipeProvider extends RecipeProvider{
     }*/
 
     @Override
-    protected void buildCraftingRecipes(Consumer<FinishedRecipe> consumer){
+    protected void buildRecipes(Consumer<FinishedRecipe> consumer){
         ShapedRecipeBuilder
-            .shaped(BlockCarrier.INSTANCE_ITEM)
+            .shaped(RecipeCategory.MISC, BlockCarrier.INSTANCE_ITEM)
             .define('i', Tags.Items.INGOTS_IRON)
             .define('b', Items.IRON_BARS)
             .define('a', AccumulatorItem.ACCUMULATOR_BASIC)
@@ -45,7 +42,7 @@ public class MPPRecipeProvider extends RecipeProvider{
             .save(consumer);
         
         ShapedRecipeBuilder
-            .shaped(AccumulatorItem.ACCUMULATOR_BASIC)
+            .shaped(RecipeCategory.TOOLS, AccumulatorItem.ACCUMULATOR_BASIC)
             .define('c', Items.COPPER_INGOT)
             .define('r', Tags.Items.STORAGE_BLOCKS_REDSTONE)
             .define('b', Items.COPPER_BLOCK)
@@ -56,7 +53,7 @@ public class MPPRecipeProvider extends RecipeProvider{
             .save(consumer);
     
         ShapedRecipeBuilder
-            .shaped(AccumulatorItem.ACCUMULATOR_PLUS)
+            .shaped(RecipeCategory.TOOLS, AccumulatorItem.ACCUMULATOR_PLUS)
             .define('c', Items.COPPER_INGOT)
             .define('a', AccumulatorItem.ACCUMULATOR_BASIC)
             .pattern("cac")
@@ -66,7 +63,7 @@ public class MPPRecipeProvider extends RecipeProvider{
             .save(consumer);
     
         ShapedRecipeBuilder
-            .shaped(AccumulatorItem.ACCUMULATOR_ENHANCED)
+            .shaped(RecipeCategory.TOOLS, AccumulatorItem.ACCUMULATOR_ENHANCED)
             .define('c', Items.COPPER_INGOT)
             .define('a', AccumulatorItem.ACCUMULATOR_BASIC)
             .define('b', AccumulatorItem.ACCUMULATOR_PLUS)
@@ -77,7 +74,7 @@ public class MPPRecipeProvider extends RecipeProvider{
             .save(consumer);
         
         ShapedRecipeBuilder
-            .shaped(SolarModule.SOLAR_MODULE_WOOD)
+            .shaped(RecipeCategory.MISC, SolarModule.SOLAR_MODULE_WOOD)
             .define('d', Items.DAYLIGHT_DETECTOR)
             .define('l', Tags.Items.GEMS_LAPIS)
             .define('q', Tags.Items.GEMS_QUARTZ)
@@ -90,7 +87,7 @@ public class MPPRecipeProvider extends RecipeProvider{
             .unlockedBy("has_copper_block", has(Items.COPPER_BLOCK))
             .save(consumer);
         ShapedRecipeBuilder
-                .shaped(SolarModule.SOLAR_MODULE_STONE)
+                .shaped(RecipeCategory.MISC, SolarModule.SOLAR_MODULE_STONE)
                 .define('d', Items.DAYLIGHT_DETECTOR)
                 .define('l', Tags.Items.GEMS_LAPIS)
                 .define('q', Tags.Items.GEMS_QUARTZ)
@@ -103,7 +100,7 @@ public class MPPRecipeProvider extends RecipeProvider{
                 .unlockedBy("has_copper_block", has(Items.COPPER_BLOCK))
                 .save(consumer);
         ShapedRecipeBuilder
-                .shaped(SolarModule.SOLAR_MODULE_IRON)
+                .shaped(RecipeCategory.MISC, SolarModule.SOLAR_MODULE_IRON)
                 .define('d', Items.DAYLIGHT_DETECTOR)
                 .define('l', Tags.Items.GEMS_LAPIS)
                 .define('q', Tags.Items.GEMS_QUARTZ)
@@ -116,7 +113,7 @@ public class MPPRecipeProvider extends RecipeProvider{
                 .unlockedBy("has_copper_block", has(Items.COPPER_BLOCK))
                 .save(consumer);
         ShapedRecipeBuilder
-                .shaped(SolarModule.SOLAR_MODULE_GOLD)
+                .shaped(RecipeCategory.MISC, SolarModule.SOLAR_MODULE_GOLD)
                 .define('d', Items.DAYLIGHT_DETECTOR)
                 .define('l', Tags.Items.GEMS_LAPIS)
                 .define('q', Tags.Items.GEMS_QUARTZ)
@@ -129,7 +126,7 @@ public class MPPRecipeProvider extends RecipeProvider{
                 .unlockedBy("has_copper_block", has(Items.COPPER_BLOCK))
                 .save(consumer);
         ShapedRecipeBuilder
-                .shaped(SolarModule.SOLAR_MODULE_LAPIS)
+                .shaped(RecipeCategory.MISC, SolarModule.SOLAR_MODULE_LAPIS)
                 .define('d', Items.DAYLIGHT_DETECTOR)
                 .define('l', Tags.Items.GEMS_LAPIS)
                 .define('q', Tags.Items.GEMS_QUARTZ)
@@ -142,7 +139,7 @@ public class MPPRecipeProvider extends RecipeProvider{
                 .unlockedBy("has_copper_block", has(Items.COPPER_BLOCK))
                 .save(consumer);
         ShapedRecipeBuilder
-                .shaped(SolarModule.SOLAR_MODULE_REDSTONE)
+                .shaped(RecipeCategory.MISC, SolarModule.SOLAR_MODULE_REDSTONE)
                 .define('d', Items.DAYLIGHT_DETECTOR)
                 .define('l', Tags.Items.GEMS_LAPIS)
                 .define('q', Tags.Items.GEMS_QUARTZ)
@@ -155,7 +152,7 @@ public class MPPRecipeProvider extends RecipeProvider{
                 .unlockedBy("has_copper_block", has(Items.COPPER_BLOCK))
                 .save(consumer);
         ShapedRecipeBuilder
-                .shaped(SolarModule.SOLAR_MODULE_DIAMOND)
+                .shaped(RecipeCategory.MISC, SolarModule.SOLAR_MODULE_DIAMOND)
                 .define('s', SolarModule.SOLAR_MODULE_STONE)
                 .define('d', Tags.Items.GEMS_DIAMOND)
                 .define('q', Tags.Items.GEMS_QUARTZ)
@@ -167,7 +164,7 @@ public class MPPRecipeProvider extends RecipeProvider{
                 .unlockedBy("has_copper_block", has(Items.COPPER_BLOCK))
                 .save(consumer);
         ShapedRecipeBuilder
-                .shaped(SolarModule.SOLAR_MODULE_NETHERITE)
+                .shaped(RecipeCategory.MISC, SolarModule.SOLAR_MODULE_NETHERITE)
                 .define('s', SolarModule.SOLAR_MODULE_IRON)
                 .define('n', Tags.Items.INGOTS_NETHERITE)
                 .define('q', Tags.Items.GEMS_QUARTZ)
@@ -180,7 +177,7 @@ public class MPPRecipeProvider extends RecipeProvider{
                 .save(consumer);
         
         ShapedRecipeBuilder
-            .shaped(TemperatureModule.TEMP_MODULE_BASIC)
+            .shaped(RecipeCategory.MISC, TemperatureModule.TEMP_MODULE_BASIC)
             .define('i', Tags.Items.INGOTS_IRON)
             .define('c', Items.COPPER_INGOT)
             .define('w', Items.WATER_BUCKET)
@@ -193,7 +190,7 @@ public class MPPRecipeProvider extends RecipeProvider{
             .save(consumer);
         
         ShapedRecipeBuilder
-            .shaped(WaterModule.WATER_MODULE_BASIC)
+            .shaped(RecipeCategory.MISC, WaterModule.WATER_MODULE_BASIC)
             .define('i', Tags.Items.INGOTS_IRON)
             .define('c', Items.COPPER_INGOT)
             .define('p', ItemTags.PLANKS)
@@ -205,7 +202,7 @@ public class MPPRecipeProvider extends RecipeProvider{
             .save(consumer);
     
         ShapedRecipeBuilder
-            .shaped(WindModule.WIND_MODULE_BASIC)
+            .shaped(RecipeCategory.MISC, WindModule.WIND_MODULE_BASIC)
             .define('i', Tags.Items.STORAGE_BLOCKS_IRON)
             .define('c', Items.COPPER_INGOT)
             .define('d', ItemTags.WOODEN_PRESSURE_PLATES)
@@ -217,7 +214,7 @@ public class MPPRecipeProvider extends RecipeProvider{
             .save(consumer);
         
         ShapedRecipeBuilder
-            .shaped(EcoUpgrade.ECO_UPGRADE)
+            .shaped(RecipeCategory.MISC, EcoUpgrade.ECO_UPGRADE)
             .define('l', ItemTags.LEAVES)
             .define('c', Items.COPPER_INGOT)
             .define('p', ItemTags.PLANKS)
@@ -229,7 +226,7 @@ public class MPPRecipeProvider extends RecipeProvider{
             .save(consumer);
     
         ShapedRecipeBuilder
-            .shaped(EcoUpgrade.ECO_PLUS_UPGRADE)
+            .shaped(RecipeCategory.MISC, EcoUpgrade.ECO_PLUS_UPGRADE)
             .define('l', ItemTags.LEAVES)
             .define('c', Items.COPPER_INGOT)
             .define('p', ItemTags.PLANKS)

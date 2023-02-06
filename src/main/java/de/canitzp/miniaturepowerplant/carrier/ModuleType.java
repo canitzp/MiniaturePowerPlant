@@ -3,7 +3,8 @@ package de.canitzp.miniaturepowerplant.carrier;
 import de.canitzp.miniaturepowerplant.ICarrierModule.CarrierSlot;
 import net.minecraft.util.StringRepresentable;
 
-import static de.canitzp.miniaturepowerplant.ICarrierModule.CarrierSlot.*;
+import static de.canitzp.miniaturepowerplant.ICarrierModule.CarrierSlot.CORE;
+import static de.canitzp.miniaturepowerplant.ICarrierModule.CarrierSlot.GROUND;
 import static de.canitzp.miniaturepowerplant.carrier.ModuleGrade.*;
 
 public enum ModuleType implements StringRepresentable {

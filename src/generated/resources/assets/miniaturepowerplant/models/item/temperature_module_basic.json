@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/handheld",
   "textures": {
-    "layer0": "miniaturepowerplant:items/temperature_module_basic"
+    "layer0": "miniaturepowerplant:item/temperature_module_basic"
   }
 }

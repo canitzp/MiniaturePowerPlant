@@ -1,7 +1,6 @@
 package de.canitzp.miniaturepowerplant.carrier;
 
 import de.canitzp.miniaturepowerplant.ICarrierModule;
-import de.canitzp.miniaturepowerplant.MPPTab;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
@@ -46,7 +45,7 @@ public class BlockCarrier extends BaseEntityBlock implements LiquidBlockContaine
     public static final EnumProperty<ModuleGrade> BOTTOM_MODULE = EnumProperty.create("bottom_module", ModuleGrade.class);
 
     public static final BlockCarrier INSTANCE = new BlockCarrier();
-    public static final BlockItem INSTANCE_ITEM = new BlockItem(INSTANCE, new Item.Properties().tab(MPPTab.INSTANCE));
+    public static final BlockItem INSTANCE_ITEM = new BlockItem(INSTANCE, new Item.Properties());
 
     private BlockCarrier() {
         super(Properties.of(Material.HEAVY_METAL).noOcclusion());
