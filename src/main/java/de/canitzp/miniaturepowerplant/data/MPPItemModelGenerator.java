@@ -18,7 +18,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 public class MPPItemModelGenerator extends ItemModelProvider {
     
     public MPPItemModelGenerator(DataGenerator generator, ExistingFileHelper helper){
-        super(generator, MiniaturePowerPlant.MODID, helper);
+        super(generator.getPackOutput(), MiniaturePowerPlant.MODID, helper);
     }
     
     @Override
@@ -47,6 +47,6 @@ public class MPPItemModelGenerator extends ItemModelProvider {
     
     private void singleTexture(Item item){
         ResourceLocation key = ForgeRegistries.ITEMS.getKey(item);
-        singleTexture(key.getPath(), mcLoc("item/handheld"), "layer0", modLoc("items/" + key.getPath()));
+        singleTexture(key.getPath(), mcLoc("item/handheld"), "layer0", modLoc("item/" + key.getPath()));
     }
 }

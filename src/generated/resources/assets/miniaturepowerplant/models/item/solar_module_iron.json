@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/handheld",
   "textures": {
-    "layer0": "miniaturepowerplant:items/solar_module_iron"
+    "layer0": "miniaturepowerplant:item/solar_module_iron"
   }
 }

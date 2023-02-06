@@ -2,12 +2,12 @@
 	"credit": "Made with Blockbench",
 	"parent": "block/block",
 	"textures": {
-		"particle": "miniaturepowerplant:blocks/carrier",
-		"outside": "miniaturepowerplant:blocks/carrier",
-		"vent": "miniaturepowerplant:blocks/carrier_vent",
-		"inside": "miniaturepowerplant:blocks/carrier_inside",
-		"ends": "miniaturepowerplant:blocks/carrier_ends",
-		"shelves": "miniaturepowerplant:blocks/carrier_shelf",
+		"particle": "miniaturepowerplant:block/carrier",
+		"outside": "miniaturepowerplant:block/carrier",
+		"vent": "miniaturepowerplant:block/carrier_vent",
+		"inside": "miniaturepowerplant:block/carrier_inside",
+		"ends": "miniaturepowerplant:block/carrier_ends",
+		"shelves": "miniaturepowerplant:block/carrier_shelf",
 		"missing": "#particle"
 	},
 	"elements": [

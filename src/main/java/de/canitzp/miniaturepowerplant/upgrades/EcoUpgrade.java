@@ -2,7 +2,6 @@ package de.canitzp.miniaturepowerplant.upgrades;
 
 import com.google.common.collect.Lists;
 import de.canitzp.miniaturepowerplant.ICarrierModule;
-import de.canitzp.miniaturepowerplant.MPPTab;
 import de.canitzp.miniaturepowerplant.carrier.TileCarrier;
 import de.canitzp.miniaturepowerplant.modules.SynchroniseModuleData;
 import de.canitzp.miniaturepowerplant.reasons.EnergyPenalty;
@@ -25,7 +24,7 @@ public class EcoUpgrade extends Item implements ICarrierModule {
     private final float ownModuleDepletionReduction, otherModuleDepletionReduction, energyReductionMultiplier;
 
     public EcoUpgrade(float ownModuleDepletionReduction, float otherModuleDepletionReduction, float energyReductionMultiplier) {
-        super(new Properties().stacksTo(1).tab(MPPTab.INSTANCE));
+        super(new Properties().stacksTo(1));
         this.ownModuleDepletionReduction = ownModuleDepletionReduction;
         this.otherModuleDepletionReduction = otherModuleDepletionReduction;
         this.energyReductionMultiplier = energyReductionMultiplier;

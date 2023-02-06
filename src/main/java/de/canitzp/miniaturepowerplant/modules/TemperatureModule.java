@@ -6,12 +6,9 @@ import de.canitzp.miniaturepowerplant.reasons.EnergyPenalty;
 import de.canitzp.miniaturepowerplant.reasons.EnergyProduction;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.ListTag;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.registries.RegistryObject;
 
 import javax.annotation.Nullable;
-import java.util.function.Supplier;
 
 public class TemperatureModule extends DepletableItemModule {
 

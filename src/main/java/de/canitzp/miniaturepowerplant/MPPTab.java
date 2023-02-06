@@ -9,62 +9,59 @@ import de.canitzp.miniaturepowerplant.modules.WindModule;
 import de.canitzp.miniaturepowerplant.upgrades.EcoUpgrade;
 import de.canitzp.miniaturepowerplant.upgrades.EfficiencyUpgrade;
 import net.minecraft.core.NonNullList;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.event.CreativeModeTabEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 
-import javax.annotation.Nonnull;
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = MiniaturePowerPlant.MODID)
+public class MPPTab{
 
-public class MPPTab extends CreativeModeTab{
-
-    public static final MPPTab INSTANCE = new MPPTab();
-
-    private MPPTab() {
-        super(MiniaturePowerPlant.MODID);
+    @SubscribeEvent
+    public static void registerCreativeTab(CreativeModeTabEvent.Register event){
+        event.registerCreativeModeTab(new ResourceLocation(MiniaturePowerPlant.MODID, "tab"), builder -> {
+            builder.icon(BlockCarrier.INSTANCE_ITEM::getDefaultInstance);
+            builder.title(Component.translatable(MiniaturePowerPlant.MODID + ".tab"));
+            builder.displayItems((featureFlagSet, output, hasOp) -> {
+                MPPTab.fillItemList(output);
+            });
+        });
     }
 
-    @SuppressWarnings("UnusedReturnValue")
-    public static MPPTab create(){
-        return INSTANCE;
-    }
-
-    @Nonnull
-    @Override
-    public ItemStack makeIcon() {
-        return BlockCarrier.INSTANCE_ITEM.getDefaultInstance();
-    }
-
-    @Override
-    public void fillItemList(NonNullList<ItemStack> list) {
+    public static void fillItemList(CreativeModeTab.Output output) {
         // blocks
-        list.add(BlockCarrier.INSTANCE_ITEM.getDefaultInstance());
-        fillEmpty(list, 8);
+        output.accept(BlockCarrier.INSTANCE_ITEM.getDefaultInstance());
+        //fillEmpty(list, 8);
 
         // modules
-        list.add(SolarModule.SOLAR_MODULE_WOOD.getDefaultInstance());
-        list.add(SolarModule.SOLAR_MODULE_STONE.getDefaultInstance());
-        list.add(SolarModule.SOLAR_MODULE_IRON.getDefaultInstance());
-        list.add(SolarModule.SOLAR_MODULE_GOLD.getDefaultInstance());
-        list.add(SolarModule.SOLAR_MODULE_LAPIS.getDefaultInstance());
-        list.add(SolarModule.SOLAR_MODULE_REDSTONE.getDefaultInstance());
-        list.add(SolarModule.SOLAR_MODULE_DIAMOND.getDefaultInstance());
-        list.add(SolarModule.SOLAR_MODULE_NETHERITE.getDefaultInstance());
-        fillEmpty(list, 1);
-        
-        list.add(TemperatureModule.TEMP_MODULE_BASIC.getDefaultInstance());
-        list.add(WaterModule.WATER_MODULE_BASIC.getDefaultInstance());
-        list.add(WindModule.WIND_MODULE_BASIC.getDefaultInstance());
-        fillEmpty(list, 6);
+        output.accept(SolarModule.SOLAR_MODULE_WOOD.getDefaultInstance());
+        output.accept(SolarModule.SOLAR_MODULE_STONE.getDefaultInstance());
+        output.accept(SolarModule.SOLAR_MODULE_IRON.getDefaultInstance());
+        output.accept(SolarModule.SOLAR_MODULE_GOLD.getDefaultInstance());
+        output.accept(SolarModule.SOLAR_MODULE_LAPIS.getDefaultInstance());
+        output.accept(SolarModule.SOLAR_MODULE_REDSTONE.getDefaultInstance());
+        output.accept(SolarModule.SOLAR_MODULE_DIAMOND.getDefaultInstance());
+        output.accept(SolarModule.SOLAR_MODULE_NETHERITE.getDefaultInstance());
+        //fillEmpty(list, 1);
+
+        output.accept(TemperatureModule.TEMP_MODULE_BASIC.getDefaultInstance());
+        output.accept(WaterModule.WATER_MODULE_BASIC.getDefaultInstance());
+        output.accept(WindModule.WIND_MODULE_BASIC.getDefaultInstance());
+        //fillEmpty(list, 6);
 
         // upgrades
-        list.add(EcoUpgrade.ECO_UPGRADE.getDefaultInstance());
-        list.add(EcoUpgrade.ECO_PLUS_UPGRADE.getDefaultInstance());
-        list.add(EfficiencyUpgrade.EFFICIENCY_UPGRADE_BASIC.getDefaultInstance());
-        fillEmpty(list, 6);
+        output.accept(EcoUpgrade.ECO_UPGRADE.getDefaultInstance());
+        output.accept(EcoUpgrade.ECO_PLUS_UPGRADE.getDefaultInstance());
+        output.accept(EfficiencyUpgrade.EFFICIENCY_UPGRADE_BASIC.getDefaultInstance());
+        //fillEmpty(list, 6);
 
         // accumulators
-        list.add(AccumulatorItem.ACCUMULATOR_BASIC.getDefaultInstance());
-        list.add(AccumulatorItem.ACCUMULATOR_PLUS.getDefaultInstance());
-        list.add(AccumulatorItem.ACCUMULATOR_ENHANCED.getDefaultInstance());
+        output.accept(AccumulatorItem.ACCUMULATOR_BASIC.getDefaultInstance());
+        output.accept(AccumulatorItem.ACCUMULATOR_PLUS.getDefaultInstance());
+        output.accept(AccumulatorItem.ACCUMULATOR_ENHANCED.getDefaultInstance());
     }
 
     private static void fillEmpty(NonNullList<ItemStack> list, int amount){

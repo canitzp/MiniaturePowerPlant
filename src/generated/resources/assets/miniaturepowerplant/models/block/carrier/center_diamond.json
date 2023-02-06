@@ -1,6 +1,6 @@
 {
   "parent": "miniaturepowerplant:block/carrier/center_module",
   "textures": {
-    "0": "miniaturepowerplant:blocks/modules/center_diamond"
+    "0": "miniaturepowerplant:block/modules/center_diamond"
   }
 }

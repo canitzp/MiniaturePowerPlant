@@ -14,7 +14,7 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 public class MPPBlockstateGenerator extends BlockStateProvider {
 
     public MPPBlockstateGenerator(DataGenerator generator, ExistingFileHelper helper) {
-        super(generator, MiniaturePowerPlant.MODID, helper);
+        super(generator.getPackOutput(), MiniaturePowerPlant.MODID, helper);
     }
 
     @Override

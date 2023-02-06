@@ -1,6 +1,6 @@
 {
   "parent": "miniaturepowerplant:block/carrier/bottom_module",
   "textures": {
-    "0": "miniaturepowerplant:blocks/modules/bottom_stone"
+    "0": "miniaturepowerplant:block/modules/bottom_stone"
   }
 }
