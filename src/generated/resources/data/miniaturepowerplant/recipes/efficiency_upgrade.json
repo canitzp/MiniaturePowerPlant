@@ -5,23 +5,23 @@
     "c": {
       "tag": "forge:ingots/copper"
     },
-    "i": {
-      "tag": "forge:ingots/iron"
+    "l": {
+      "tag": "forge:storage_blocks/redstone"
     },
     "p": {
       "tag": "minecraft:planks"
     },
     "s": {
-      "item": "minecraft:bucket"
+      "tag": "forge:gems/quartz"
     }
   },
   "pattern": [
-    "isi",
-    "sps",
-    "csc"
+    "lcl",
+    "lll",
+    "sps"
   ],
   "result": {
-    "item": "miniaturepowerplant:water_module_basic"
+    "item": "miniaturepowerplant:efficiency_upgrade"
   },
   "show_notification": true
 }

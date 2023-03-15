@@ -3,7 +3,7 @@
   "category": "misc",
   "key": {
     "c": {
-      "item": "minecraft:copper_block"
+      "tag": "forge:storage_blocks/copper"
     },
     "n": {
       "tag": "forge:ingots/netherite"
@@ -25,5 +25,6 @@
   ],
   "result": {
     "item": "miniaturepowerplant:solar_module_netherite"
-  }
+  },
+  "show_notification": true
 }

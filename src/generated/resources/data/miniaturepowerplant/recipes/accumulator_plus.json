@@ -6,7 +6,7 @@
       "item": "miniaturepowerplant:accumulator_basic"
     },
     "c": {
-      "item": "minecraft:copper_ingot"
+      "tag": "forge:ingots/copper"
     }
   },
   "pattern": [
@@ -16,5 +16,6 @@
   ],
   "result": {
     "item": "miniaturepowerplant:accumulator_plus"
-  }
+  },
+  "show_notification": true
 }

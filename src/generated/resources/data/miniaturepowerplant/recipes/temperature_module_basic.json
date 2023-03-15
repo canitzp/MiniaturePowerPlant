@@ -3,7 +3,7 @@
   "category": "misc",
   "key": {
     "c": {
-      "item": "minecraft:copper_ingot"
+      "tag": "forge:ingots/copper"
     },
     "i": {
       "tag": "forge:ingots/iron"
@@ -25,5 +25,6 @@
   ],
   "result": {
     "item": "miniaturepowerplant:temperature_module_basic"
-  }
+  },
+  "show_notification": true
 }

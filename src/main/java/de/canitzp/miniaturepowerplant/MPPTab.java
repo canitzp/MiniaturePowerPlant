@@ -25,7 +25,7 @@ public class MPPTab{
         event.registerCreativeModeTab(new ResourceLocation(MiniaturePowerPlant.MODID, "tab"), builder -> {
             builder.icon(BlockCarrier.INSTANCE_ITEM::getDefaultInstance);
             builder.title(Component.translatable(MiniaturePowerPlant.MODID + ".tab"));
-            builder.displayItems((featureFlagSet, output, hasOp) -> {
+            builder.displayItems((parameters, output) -> {
                 MPPTab.fillItemList(output);
             });
         });

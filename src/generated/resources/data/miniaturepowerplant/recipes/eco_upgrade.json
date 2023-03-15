@@ -3,7 +3,7 @@
   "category": "misc",
   "key": {
     "c": {
-      "item": "minecraft:copper_ingot"
+      "tag": "forge:ingots/copper"
     },
     "l": {
       "tag": "minecraft:leaves"
@@ -22,5 +22,6 @@
   ],
   "result": {
     "item": "miniaturepowerplant:eco_upgrade"
-  }
+  },
+  "show_notification": true
 }

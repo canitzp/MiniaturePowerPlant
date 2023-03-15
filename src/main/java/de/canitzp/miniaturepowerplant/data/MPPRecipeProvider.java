@@ -239,13 +239,13 @@ public class MPPRecipeProvider extends RecipeProvider {
 
         ShapedRecipeBuilder
                 .shaped(RecipeCategory.MISC, EfficiencyUpgrade.EFFICIENCY_UPGRADE_BASIC)
-                .define('l', Tags.Items.STORAGE_BLOCKS_REDSTONE)
+                .define('r', Tags.Items.STORAGE_BLOCKS_REDSTONE)
                 .define('c', Tags.Items.INGOTS_COPPER)
                 .define('p', ItemTags.PLANKS)
-                .define('s', EcoUpgrade.ECO_UPGRADE)
-                .pattern("lcl")
-                .pattern("lll")
-                .pattern("sps")
+                .define('q', Tags.Items.GEMS_QUARTZ)
+                .pattern("rcr")
+                .pattern("rrr")
+                .pattern("qpq")
                 .unlockedBy("has_carrier", has(BlockCarrier.INSTANCE_ITEM))
                 .save(consumer);
     }

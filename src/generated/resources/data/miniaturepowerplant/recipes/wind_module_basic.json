@@ -6,7 +6,7 @@
       "item": "minecraft:iron_bars"
     },
     "c": {
-      "item": "minecraft:copper_ingot"
+      "tag": "forge:ingots/copper"
     },
     "d": {
       "tag": "minecraft:wooden_pressure_plates"
@@ -22,5 +22,6 @@
   ],
   "result": {
     "item": "miniaturepowerplant:wind_module_basic"
-  }
+  },
+  "show_notification": true
 }

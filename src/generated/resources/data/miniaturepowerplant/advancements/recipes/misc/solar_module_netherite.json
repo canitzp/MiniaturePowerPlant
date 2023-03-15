@@ -1,12 +1,12 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_copper_block": {
+    "has_carrier": {
       "conditions": {
         "items": [
           {
             "items": [
-              "minecraft:copper_block"
+              "miniaturepowerplant:carrier"
             ]
           }
         ]
@@ -22,7 +22,7 @@
   },
   "requirements": [
     [
-      "has_copper_block",
+      "has_carrier",
       "has_the_recipe"
     ]
   ],

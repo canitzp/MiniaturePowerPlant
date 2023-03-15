@@ -1,3 +1,10 @@
+45.0.0:
+- Update to 1.19.4 (Not backwards compatible)
+- Recipe changes:
+  - Better unlocking
+  - Added recipe for efficiency module
+  - Use tags for copper ingots and blocks
+
 44.0.0:
   - Update to 1.19.3 (Not backwards compatible)
 

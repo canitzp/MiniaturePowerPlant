@@ -35,6 +35,7 @@ import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.network.NetworkHooks;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class BlockCarrier extends BaseEntityBlock implements LiquidBlockContainer{
@@ -58,8 +59,9 @@ public class BlockCarrier extends BaseEntityBlock implements LiquidBlockContaine
                 .setValue(BOTTOM_MODULE, ModuleGrade.NONE));
     }
 
+    @SuppressWarnings("deprecation")
     @Override
-    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult trace) {
+    public @NotNull InteractionResult use(@NotNull BlockState state, @NotNull Level world, @NotNull BlockPos pos, Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult trace) {
 
         // test for bucket like item
         ItemStack heldStack = player.getItemInHand(hand);
@@ -80,12 +82,12 @@ public class BlockCarrier extends BaseEntityBlock implements LiquidBlockContaine
     }
     
     @Override
-    public BlockEntity newBlockEntity(BlockPos pos, BlockState state){
+    public BlockEntity newBlockEntity(@NotNull BlockPos pos, @NotNull BlockState state){
         return new TileCarrier(pos, state);
     }
     
     @Override
-    public RenderShape getRenderShape(BlockState state){
+    public @NotNull RenderShape getRenderShape(@NotNull BlockState state){
         return RenderShape.MODEL;
     }
     
@@ -100,8 +102,9 @@ public class BlockCarrier extends BaseEntityBlock implements LiquidBlockContaine
         return current;
     }
     
+    @SuppressWarnings("deprecation")
     @Override
-    public BlockState updateShape(BlockState state, Direction direction, BlockState facingState, LevelAccessor world, BlockPos pos, BlockPos facingPos){
+    public @NotNull BlockState updateShape(@NotNull BlockState state, @NotNull Direction direction, @NotNull BlockState facingState, @NotNull LevelAccessor world, @NotNull BlockPos pos, @NotNull BlockPos facingPos){
         return this.composeState(state, world, pos);
     }
 
@@ -114,13 +117,14 @@ public class BlockCarrier extends BaseEntityBlock implements LiquidBlockContaine
     }
     
     @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder){
+    protected void createBlockStateDefinition(StateDefinition.@NotNull Builder<Block, BlockState> builder){
         super.createBlockStateDefinition(builder);
         builder.add(WATERLOGGED, TOP_MODULE, CENTER_MODULE, BOTTOM_MODULE, BlockStateProperties.HORIZONTAL_FACING);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
-    public FluidState getFluidState(BlockState state) {
+    public @NotNull FluidState getFluidState(BlockState state) {
         return state.getValue(WATERLOGGED) ? Fluids.WATER.defaultFluidState() : super.getFluidState(state);
     }
     
@@ -136,33 +140,34 @@ public class BlockCarrier extends BaseEntityBlock implements LiquidBlockContaine
     }
     
     @Override
-    public boolean propagatesSkylightDown(BlockState state, BlockGetter world, BlockPos pos) {
+    public boolean propagatesSkylightDown(@NotNull BlockState state, @NotNull BlockGetter world, @NotNull BlockPos pos) {
         return this.canLightPass(state);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
-    public float getShadeBrightness(BlockState state, BlockGetter world, BlockPos pos) {
+    public float getShadeBrightness(@NotNull BlockState state, @NotNull BlockGetter world, @NotNull BlockPos pos) {
         return this.canLightPass(state) ? 0.95F : 1.0F;
     }
     
     @Override
-    public boolean canPlaceLiquid(BlockGetter p_54766_, BlockPos p_54767_, BlockState p_54768_, Fluid p_54769_){
+    public boolean canPlaceLiquid(@NotNull BlockGetter block, @NotNull BlockPos pos, @NotNull BlockState state, @NotNull Fluid fluid){
         return false;
     }
     
     @Override
-    public boolean placeLiquid(LevelAccessor p_54770_, BlockPos p_54771_, BlockState p_54772_, FluidState p_54773_){
+    public boolean placeLiquid(@NotNull LevelAccessor level, @NotNull BlockPos pos, @NotNull BlockState state, @NotNull FluidState fluidState){
         return false;
     }
     
     @Nullable
     @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type){
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, @NotNull BlockState state, @NotNull BlockEntityType<T> type){
         return level.isClientSide ? null : createTickerHelper(type, TileCarrier.TYPE, TileCarrier::tick);
     }
     
     @Override
-    public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource rnd){
+    public void animateTick(@NotNull BlockState state, Level level, @NotNull BlockPos pos, @NotNull RandomSource rnd){
         BlockEntity tile = level.getBlockEntity(pos);
         if(tile instanceof TileCarrier){
             ((TileCarrier) tile).animationTick(state, rnd);
