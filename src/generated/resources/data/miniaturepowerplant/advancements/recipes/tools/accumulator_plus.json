@@ -1,11 +1,13 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_iron_ingot": {
+    "has_accumulator": {
       "conditions": {
         "items": [
           {
-            "tag": "forge:ingots/iron"
+            "items": [
+              "miniaturepowerplant:accumulator_basic"
+            ]
           }
         ]
       },
@@ -20,7 +22,7 @@
   },
   "requirements": [
     [
-      "has_iron_ingot",
+      "has_accumulator",
       "has_the_recipe"
     ]
   ],

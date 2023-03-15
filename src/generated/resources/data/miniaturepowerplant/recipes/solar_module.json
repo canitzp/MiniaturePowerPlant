@@ -3,7 +3,7 @@
   "category": "misc",
   "key": {
     "c": {
-      "item": "minecraft:copper_block"
+      "tag": "forge:storage_blocks/copper"
     },
     "d": {
       "item": "minecraft:daylight_detector"
@@ -28,5 +28,6 @@
   ],
   "result": {
     "item": "miniaturepowerplant:solar_module"
-  }
+  },
+  "show_notification": true
 }

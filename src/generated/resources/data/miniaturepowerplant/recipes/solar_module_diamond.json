@@ -3,7 +3,7 @@
   "category": "misc",
   "key": {
     "c": {
-      "item": "minecraft:copper_block"
+      "tag": "forge:storage_blocks/copper"
     },
     "d": {
       "tag": "forge:gems/diamond"
@@ -25,5 +25,6 @@
   ],
   "result": {
     "item": "miniaturepowerplant:solar_module_diamond"
-  }
+  },
+  "show_notification": true
 }

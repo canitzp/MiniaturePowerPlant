@@ -15,7 +15,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "miniaturepowerplant:temperature_module_basic"
+        "recipe": "miniaturepowerplant:efficiency_upgrade"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -28,7 +28,7 @@
   ],
   "rewards": {
     "recipes": [
-      "miniaturepowerplant:temperature_module_basic"
+      "miniaturepowerplant:efficiency_upgrade"
     ]
   }
 }
