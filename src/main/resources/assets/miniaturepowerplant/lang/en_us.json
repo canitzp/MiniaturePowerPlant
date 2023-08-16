@@ -1,5 +1,5 @@
 {
-  "miniaturepowerplant.tab":  "Miniature Power Plant",
+  "tab.miniaturepowerplant": "Miniature Power Plant",
   "block.miniaturepowerplant.carrier": "Carrier",
 
   "item.miniaturepowerplant.depletable.desc.depletion": "Depletion: %s%%",

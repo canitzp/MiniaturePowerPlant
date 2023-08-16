@@ -31,7 +31,7 @@ import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.network.NetworkHooks;
@@ -49,7 +49,7 @@ public class BlockCarrier extends BaseEntityBlock implements LiquidBlockContaine
     public static final BlockItem INSTANCE_ITEM = new BlockItem(INSTANCE, new Item.Properties());
 
     private BlockCarrier() {
-        super(Properties.of(Material.HEAVY_METAL).noOcclusion());
+        super(Properties.of().mapColor(MapColor.METAL).noOcclusion());
 
         this.registerDefaultState(this.getStateDefinition().any()
                 .setValue(WATERLOGGED, false)
