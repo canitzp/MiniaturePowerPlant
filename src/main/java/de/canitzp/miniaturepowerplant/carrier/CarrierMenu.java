@@ -67,7 +67,7 @@ public class CarrierMenu extends AbstractContainerMenu{
     public static CarrierMenu createClientContainer(int windowId, Inventory playerInventory, FriendlyByteBuf data){
         // todo error checks
         BlockPos blockPos = data.readBlockPos();
-        BlockEntity tile = playerInventory.player.level.getBlockEntity(blockPos);
+        BlockEntity tile = playerInventory.player.level().getBlockEntity(blockPos);
         return new CarrierMenu(windowId, playerInventory, (TileCarrier) tile);
     }
 

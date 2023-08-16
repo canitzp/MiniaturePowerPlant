@@ -3,11 +3,15 @@ package de.canitzp.miniaturepowerplant;
 import de.canitzp.miniaturepowerplant.carrier.CarrierMenu;
 import de.canitzp.miniaturepowerplant.carrier.ScreenCarrier;
 import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.RegistryObject;
 
 @Mod(MiniaturePowerPlant.MODID)
 @Mod.EventBusSubscriber

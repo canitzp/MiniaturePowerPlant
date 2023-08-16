@@ -10,28 +10,22 @@ import de.canitzp.miniaturepowerplant.upgrades.EcoUpgrade;
 import de.canitzp.miniaturepowerplant.upgrades.EfficiencyUpgrade;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.event.CreativeModeTabEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = MiniaturePowerPlant.MODID)
 public class MPPTab{
 
-    @SubscribeEvent
-    public static void registerCreativeTab(CreativeModeTabEvent.Register event){
-        event.registerCreativeModeTab(new ResourceLocation(MiniaturePowerPlant.MODID, "tab"), builder -> {
-            builder.icon(BlockCarrier.INSTANCE_ITEM::getDefaultInstance);
-            builder.title(Component.translatable(MiniaturePowerPlant.MODID + ".tab"));
-            builder.displayItems((parameters, output) -> {
-                MPPTab.fillItemList(output);
-            });
-        });
+    public static final Component TITLE = Component.translatable("tab." + MiniaturePowerPlant.MODID);
+
+    public static CreativeModeTab create() {
+        return CreativeModeTab.builder()
+                .icon(BlockCarrier.INSTANCE_ITEM::getDefaultInstance)
+                .title(TITLE)
+                .displayItems(MPPTab::fillItemList)
+                .build();
     }
 
-    public static void fillItemList(CreativeModeTab.Output output) {
+    public static void fillItemList(CreativeModeTab.ItemDisplayParameters parameters, CreativeModeTab.Output output) {
         // blocks
         output.accept(BlockCarrier.INSTANCE_ITEM.getDefaultInstance());
         //fillEmpty(list, 8);
