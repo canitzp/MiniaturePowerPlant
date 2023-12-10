@@ -8,12 +8,12 @@ import de.canitzp.miniaturepowerplant.modules.WaterModule;
 import de.canitzp.miniaturepowerplant.modules.WindModule;
 import de.canitzp.miniaturepowerplant.upgrades.EcoUpgrade;
 import de.canitzp.miniaturepowerplant.upgrades.EfficiencyUpgrade;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.client.model.generators.ItemModelProvider;
-import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 public class MPPItemModelGenerator extends ItemModelProvider {
     
@@ -24,29 +24,29 @@ public class MPPItemModelGenerator extends ItemModelProvider {
     @Override
     protected void registerModels(){
         // modules
-        singleTexture(SolarModule.SOLAR_MODULE_WOOD);
-        singleTexture(SolarModule.SOLAR_MODULE_STONE);
-        singleTexture(SolarModule.SOLAR_MODULE_GOLD);
-        singleTexture(SolarModule.SOLAR_MODULE_IRON);
-        singleTexture(SolarModule.SOLAR_MODULE_LAPIS);
-        singleTexture(SolarModule.SOLAR_MODULE_REDSTONE);
-        singleTexture(SolarModule.SOLAR_MODULE_DIAMOND);
-        singleTexture(SolarModule.SOLAR_MODULE_NETHERITE);
-        singleTexture(TemperatureModule.TEMP_MODULE_BASIC);
-        singleTexture(WaterModule.WATER_MODULE_BASIC);
-        singleTexture(WindModule.WIND_MODULE_BASIC);
+        this.singleTexture(SolarModule.SOLAR_MODULE_WOOD);
+        this.singleTexture(SolarModule.SOLAR_MODULE_STONE);
+        this.singleTexture(SolarModule.SOLAR_MODULE_GOLD);
+        this.singleTexture(SolarModule.SOLAR_MODULE_IRON);
+        this.singleTexture(SolarModule.SOLAR_MODULE_LAPIS);
+        this.singleTexture(SolarModule.SOLAR_MODULE_REDSTONE);
+        this.singleTexture(SolarModule.SOLAR_MODULE_DIAMOND);
+        this.singleTexture(SolarModule.SOLAR_MODULE_NETHERITE);
+        this.singleTexture(TemperatureModule.TEMP_MODULE_BASIC);
+        this.singleTexture(WaterModule.WATER_MODULE_BASIC);
+        this.singleTexture(WindModule.WIND_MODULE_BASIC);
         // upgrades
-        singleTexture(EcoUpgrade.ECO_UPGRADE);
-        singleTexture(EcoUpgrade.ECO_PLUS_UPGRADE);
-        singleTexture(EfficiencyUpgrade.EFFICIENCY_UPGRADE_BASIC);
+        this.singleTexture(EcoUpgrade.ECO_UPGRADE);
+        this.singleTexture(EcoUpgrade.ECO_PLUS_UPGRADE);
+        this.singleTexture(EfficiencyUpgrade.EFFICIENCY_UPGRADE_BASIC);
         // accumulator
-        singleTexture(AccumulatorItem.ACCUMULATOR_BASIC);
-        singleTexture(AccumulatorItem.ACCUMULATOR_PLUS);
-        singleTexture(AccumulatorItem.ACCUMULATOR_ENHANCED);
+        this.singleTexture(AccumulatorItem.ACCUMULATOR_BASIC);
+        this.singleTexture(AccumulatorItem.ACCUMULATOR_PLUS);
+        this.singleTexture(AccumulatorItem.ACCUMULATOR_ENHANCED);
     }
     
     private void singleTexture(Item item){
-        ResourceLocation key = ForgeRegistries.ITEMS.getKey(item);
-        singleTexture(key.getPath(), mcLoc("item/handheld"), "layer0", modLoc("item/" + key.getPath()));
+        ResourceLocation key = BuiltInRegistries.ITEM.getKey(item);
+        this.singleTexture(key.getPath(), this.mcLoc("item/handheld"), "layer0", this.modLoc("item/" + key.getPath()));
     }
 }

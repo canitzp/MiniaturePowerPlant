@@ -1,7 +1,7 @@
 package de.canitzp.miniaturepowerplant;
 
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.energy.EnergyStorage;
+import net.neoforged.neoforge.energy.EnergyStorage;
 
 public class StackEnergyStorage extends EnergyStorage {
 

@@ -1,6 +1,0 @@
-{
-  "parent": "miniaturepowerplant:block/carrier/center_module",
-  "textures": {
-    "0": "miniaturepowerplant:block/modules/center_lapis"
-  }
-}

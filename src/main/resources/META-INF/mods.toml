@@ -1,16 +1,16 @@
 # The name of the mod loader type to load - for regular FML @Mod mods it should be javafml
 modLoader="javafml"
 # A version range to match for said mod loader - for regular FML @Mod it will be the forge version
-loaderVersion="[47,)"
+loaderVersion="[1,)"
 # The license for you mod. This is mandatory metadata and allows for easier comprehension of your redistributive properties.
 # Review your options at https://choosealicense.com/. All rights reserved is the default copyright stance, and is thus the default here.
-license="LGPLv3"
+license="${license}"
 # A URL to refer people to when problems occur with this mod
 #issueTrackerURL=""
 # A list of mods - how many allowed here is determined by the individual mod loader
 [[mods]]
 # The modid of the mod
-modId="miniaturepowerplant"
+modId="${mod_id}"
 # The version number of the mod - there's a few well known ${} variables useable here or just hardcode it
 version="${mod_version}"
  # A display name for the mod
@@ -30,11 +30,11 @@ description='''Miniature Power Plants has the goal to solve all of your power ge
 # A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
 [[dependencies.miniaturepowerplant]] #optional
     # the modid of the dependency
-    modId="forge"
+    modId="neoforge"
     # Does this dependency have to exist - if not, ordering below must be specified
     mandatory=true
     # The version range of the dependency
-    versionRange="[47.0.0,)"
+    versionRange="${loader_version}"
     # An ordering relationship for the dependency - BEFORE or AFTER required if the relationship is not mandatory
     ordering="NONE"
     # Side this dependency is applied on - BOTH, CLIENT or SERVER
@@ -43,6 +43,6 @@ description='''Miniature Power Plants has the goal to solve all of your power ge
 [[dependencies.miniaturepowerplant]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.20.1,1.21)"
+    versionRange="${mc_version_range}"
     ordering="NONE"
     side="BOTH"
