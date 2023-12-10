@@ -1,7 +1,6 @@
 package de.canitzp.miniaturepowerplant.carrier;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 import de.canitzp.miniaturepowerplant.ICarrierModule;
 import de.canitzp.miniaturepowerplant.MiniaturePowerPlant;
 import de.canitzp.miniaturepowerplant.modules.SynchroniseModuleData;
@@ -15,7 +14,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
-import net.minecraftforge.energy.EnergyStorage;
+import net.neoforged.neoforge.energy.EnergyStorage;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.ArrayList;
@@ -27,10 +26,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ScreenCarrier extends AbstractContainerScreen<CarrierMenu>{
 
     private static final ResourceLocation TEXTURE = new ResourceLocation(MiniaturePowerPlant.MODID, "textures/gui/container/carrier.png");
-    private static final Map<ICarrierModule.CarrierSlot, Pair<Integer, Integer>> DEPLETION_SLOTS = new HashMap<ICarrierModule.CarrierSlot, Pair<Integer, Integer>>(){{
-        put(ICarrierModule.CarrierSlot.SOLAR, Pair.of(8, 28));
-        put(ICarrierModule.CarrierSlot.CORE, Pair.of(70, 51));
-        put(ICarrierModule.CarrierSlot.GROUND, Pair.of(132, 74));
+    private static final Map<ICarrierModule.CarrierSlot, Pair<Integer, Integer>> DEPLETION_SLOTS = new HashMap<>() {{
+        this.put(ICarrierModule.CarrierSlot.SOLAR, Pair.of(8, 28));
+        this.put(ICarrierModule.CarrierSlot.CORE, Pair.of(70, 51));
+        this.put(ICarrierModule.CarrierSlot.GROUND, Pair.of(132, 74));
     }};
 
     public ScreenCarrier(CarrierMenu container, Inventory player, Component title) {
@@ -51,7 +50,7 @@ public class ScreenCarrier extends AbstractContainerScreen<CarrierMenu>{
 
     @Override
     protected void renderBg(GuiGraphics graphics, float partialTick, int mouseX, int mouseY) {
-        this.renderBackground(graphics);
+        //this.renderBackground(graphics, mouseX, mouseY, partialTick);
 
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, TEXTURE);

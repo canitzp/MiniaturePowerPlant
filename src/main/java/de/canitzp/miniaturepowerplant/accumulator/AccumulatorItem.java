@@ -9,11 +9,11 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.common.capabilities.Capabilities;
+import net.neoforged.neoforge.common.capabilities.Capability;
+import net.neoforged.neoforge.common.capabilities.ICapabilityProvider;
+import net.neoforged.neoforge.common.util.LazyOptional;
+import net.neoforged.neoforge.energy.IEnergyStorage;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -39,19 +39,19 @@ public class AccumulatorItem extends Item{
             text.add(Component.translatable("item.miniaturepowerplant.accumulator.desc.transfer", this.transfer).withStyle(ChatFormatting.GRAY));
         }
 
-        stack.getCapability(ForgeCapabilities.ENERGY).ifPresent(iEnergyStorage -> {
+        stack.getCapability(Capabilities.ENERGY).ifPresent(iEnergyStorage -> {
             text.add(Component.translatable("item.miniaturepowerplant.accumulator.desc.stored", iEnergyStorage.getEnergyStored(), iEnergyStorage.getMaxEnergyStored()).withStyle(ChatFormatting.GRAY));
         });
     }
     
     @Override
     public boolean isBarVisible(ItemStack stack) {
-        return stack.getCapability(ForgeCapabilities.ENERGY).map(iEnergyStorage -> iEnergyStorage.getEnergyStored() < iEnergyStorage.getMaxEnergyStored()).orElse(true);
+        return stack.getCapability(Capabilities.ENERGY).map(iEnergyStorage -> iEnergyStorage.getEnergyStored() < iEnergyStorage.getMaxEnergyStored()).orElse(true);
     }
 
     @Override
     public int getBarWidth(ItemStack stack) {
-        IEnergyStorage energyStorage = stack.getCapability(ForgeCapabilities.ENERGY).resolve().orElse(null);
+        IEnergyStorage energyStorage = stack.getCapability(Capabilities.ENERGY).resolve().orElse(null);
         if(energyStorage != null){
             return Math.round((energyStorage.getEnergyStored() * 13.0F) / (energyStorage.getMaxEnergyStored() * 1.0F));
         }
@@ -66,7 +66,7 @@ public class AccumulatorItem extends Item{
             @Nonnull
             @Override
             public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-                if(cap == ForgeCapabilities.ENERGY){
+                if(cap == Capabilities.ENERGY){
                     return LazyOptional.of(() -> this.storage).cast();
                 }
                 return LazyOptional.empty();

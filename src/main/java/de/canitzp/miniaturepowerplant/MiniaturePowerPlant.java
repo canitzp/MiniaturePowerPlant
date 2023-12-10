@@ -3,18 +3,14 @@ package de.canitzp.miniaturepowerplant;
 import de.canitzp.miniaturepowerplant.carrier.CarrierMenu;
 import de.canitzp.miniaturepowerplant.carrier.ScreenCarrier;
 import net.minecraft.client.gui.screens.MenuScreens;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.neoforged.fml.loading.FMLEnvironment;
 
 @Mod(MiniaturePowerPlant.MODID)
-@Mod.EventBusSubscriber
 public class MiniaturePowerPlant {
 
     public static final String MODID = "miniaturepowerplant";
@@ -25,12 +21,12 @@ public class MiniaturePowerPlant {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         MPPRegistry.init(bus);
 
-        DistExecutor.unsafeCallWhenOn(Dist.CLIENT, () -> () -> {
+        if(FMLEnvironment.dist.isClient()){
             this.registerClient();
-            return null;
-        });
+        }
     }
 
+    @OnlyIn(Dist.CLIENT)
     private void registerClient(){
         MenuScreens.register(CarrierMenu.TYPE, ScreenCarrier::new);
     }

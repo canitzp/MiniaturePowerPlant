@@ -2,10 +2,10 @@ package de.canitzp.miniaturepowerplant.data;
 
 import de.canitzp.miniaturepowerplant.MiniaturePowerPlant;
 import net.minecraft.data.DataGenerator;
-import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.data.event.GatherDataEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.data.event.GatherDataEvent;
 
 @Mod.EventBusSubscriber(modid = MiniaturePowerPlant.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class MPPDataGenerator{
@@ -16,7 +16,7 @@ public class MPPDataGenerator{
         ExistingFileHelper helper = event.getExistingFileHelper();
         
         if(event.includeServer()){
-            generator.addProvider(true, new MPPRecipeProvider(generator));
+            generator.addProvider(true, new MPPRecipeProvider(generator, event.getLookupProvider()));
             generator.addProvider(true, new MPPItemModelGenerator(generator, helper));
             generator.addProvider(true, new MPPBlockModelGenerator(generator, helper));
             generator.addProvider(true, new MPPBlockstateGenerator(generator, helper));

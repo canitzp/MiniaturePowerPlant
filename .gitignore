@@ -8,3 +8,6 @@ classes/
 run/
 run_server/
 logs/
+/run_data/
+/run_gametest/
+/src/generated/

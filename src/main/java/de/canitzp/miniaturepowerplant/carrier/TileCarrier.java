@@ -29,12 +29,12 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.energy.EnergyStorage;
-import net.minecraftforge.energy.IEnergyStorage;
-import net.minecraftforge.items.wrapper.SidedInvWrapper;
+import net.neoforged.neoforge.common.capabilities.Capabilities;
+import net.neoforged.neoforge.common.capabilities.Capability;
+import net.neoforged.neoforge.common.util.LazyOptional;
+import net.neoforged.neoforge.energy.EnergyStorage;
+import net.neoforged.neoforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.items.wrapper.SidedInvWrapper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -67,11 +67,11 @@ public class TileCarrier extends BlockEntity implements MenuProvider, Nameable{
     @Nonnull
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-        if(cap == ForgeCapabilities.ITEM_HANDLER){
-            return ForgeCapabilities.ITEM_HANDLER.orEmpty(cap, LazyOptional.of(() -> this.sw));
+        if(cap == Capabilities.ITEM_HANDLER){
+            return Capabilities.ITEM_HANDLER.orEmpty(cap, LazyOptional.of(() -> this.sw));
         }
-        if(cap == ForgeCapabilities.ENERGY){
-            return ForgeCapabilities.ENERGY.orEmpty(cap, LazyOptional.of(() -> this.energyStorage));
+        if(cap == Capabilities.ENERGY){
+            return Capabilities.ENERGY.orEmpty(cap, LazyOptional.of(() -> this.energyStorage));
         }
         return super.getCapability(cap, side);
     }
@@ -203,7 +203,7 @@ public class TileCarrier extends BlockEntity implements MenuProvider, Nameable{
                 for (Direction side : Direction.values()) {
                     BlockEntity surroundingTile = tile.level.getBlockEntity(tile.getBlockPos().relative(side));
                     if(surroundingTile != null){
-                        surroundingTile.getCapability(ForgeCapabilities.ENERGY, side.getOpposite()).ifPresent(surroundingTileEnergyStorage -> {
+                        surroundingTile.getCapability(Capabilities.ENERGY, side.getOpposite()).ifPresent(surroundingTileEnergyStorage -> {
                             // tile energy
                             surroundingTileEnergyStorage.receiveEnergy(tile.getEnergyStorage().extractEnergy(surroundingTileEnergyStorage.receiveEnergy(Integer.MAX_VALUE, true), false), false);
 
@@ -251,7 +251,7 @@ public class TileCarrier extends BlockEntity implements MenuProvider, Nameable{
     public LazyOptional<IEnergyStorage> getAccuStorage(){
         ItemStack stack = this.inventory.getItem(CarrierMenu.SLOT_BATTERY);
         if(!stack.isEmpty()){
-            return stack.getCapability(ForgeCapabilities.ENERGY, null);
+            return stack.getCapability(Capabilities.ENERGY, null);
         }
         return LazyOptional.empty();
     }

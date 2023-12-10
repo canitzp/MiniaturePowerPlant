@@ -9,25 +9,24 @@ import de.canitzp.miniaturepowerplant.modules.WindModule;
 import de.canitzp.miniaturepowerplant.upgrades.EcoUpgrade;
 import de.canitzp.miniaturepowerplant.upgrades.EfficiencyUpgrade;
 import net.minecraft.advancements.critereon.PlayerTrigger;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.data.recipes.RecipeCategory;
-import net.minecraft.data.recipes.RecipeProvider;
-import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.data.recipes.*;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
-import net.minecraftforge.common.Tags;
+import net.neoforged.neoforge.common.Tags;
 
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
 public class MPPRecipeProvider extends RecipeProvider {
 
-    public MPPRecipeProvider(DataGenerator generator) {
-        super(generator.getPackOutput());
+    public MPPRecipeProvider(DataGenerator generator, CompletableFuture<HolderLookup.Provider> lookupProvider) {
+        super(generator.getPackOutput(), lookupProvider);
     }
 
     @Override
-    protected void buildRecipes(Consumer<FinishedRecipe> consumer) {
+    protected void buildRecipes(RecipeOutput writer) {
         ShapedRecipeBuilder
                 .shaped(RecipeCategory.MISC, BlockCarrier.INSTANCE_ITEM)
                 .define('i', Tags.Items.INGOTS_IRON)
@@ -38,7 +37,7 @@ public class MPPRecipeProvider extends RecipeProvider {
                 .pattern("bib")
                 .unlockedBy("unlock_right_away", PlayerTrigger.TriggerInstance.tick())
                 .showNotification(false)
-                .save(consumer);
+                .save(writer);
 
         ShapedRecipeBuilder
                 .shaped(RecipeCategory.TOOLS, AccumulatorItem.ACCUMULATOR_BASIC)
@@ -50,7 +49,7 @@ public class MPPRecipeProvider extends RecipeProvider {
                 .pattern("crc")
                 .unlockedBy("unlock_right_away", PlayerTrigger.TriggerInstance.tick())
                 .showNotification(false)
-                .save(consumer);
+                .save(writer);
 
         ShapedRecipeBuilder
                 .shaped(RecipeCategory.TOOLS, AccumulatorItem.ACCUMULATOR_PLUS)
@@ -60,7 +59,7 @@ public class MPPRecipeProvider extends RecipeProvider {
                 .pattern("cac")
                 .pattern("cac")
                 .unlockedBy("has_accumulator", has(AccumulatorItem.ACCUMULATOR_BASIC))
-                .save(consumer);
+                .save(writer);
 
         ShapedRecipeBuilder
                 .shaped(RecipeCategory.TOOLS, AccumulatorItem.ACCUMULATOR_ENHANCED)
@@ -71,7 +70,7 @@ public class MPPRecipeProvider extends RecipeProvider {
                 .pattern("cbc")
                 .pattern("cac")
                 .unlockedBy("has_accumulator_plus", has(AccumulatorItem.ACCUMULATOR_PLUS))
-                .save(consumer);
+                .save(writer);
 
         ShapedRecipeBuilder
                 .shaped(RecipeCategory.MISC, SolarModule.SOLAR_MODULE_WOOD)
@@ -85,7 +84,7 @@ public class MPPRecipeProvider extends RecipeProvider {
                 .pattern("qrq")
                 .pattern("xcx")
                 .unlockedBy("has_carrier", has(BlockCarrier.INSTANCE_ITEM))
-                .save(consumer);
+                .save(writer);
         ShapedRecipeBuilder
                 .shaped(RecipeCategory.MISC, SolarModule.SOLAR_MODULE_STONE)
                 .define('d', Items.DAYLIGHT_DETECTOR)
@@ -98,7 +97,7 @@ public class MPPRecipeProvider extends RecipeProvider {
                 .pattern("qrq")
                 .pattern("xcx")
                 .unlockedBy("has_carrier", has(BlockCarrier.INSTANCE_ITEM))
-                .save(consumer);
+                .save(writer);
         ShapedRecipeBuilder
                 .shaped(RecipeCategory.MISC, SolarModule.SOLAR_MODULE_IRON)
                 .define('d', Items.DAYLIGHT_DETECTOR)
@@ -111,7 +110,7 @@ public class MPPRecipeProvider extends RecipeProvider {
                 .pattern("qrq")
                 .pattern("xcx")
                 .unlockedBy("has_carrier", has(BlockCarrier.INSTANCE_ITEM))
-                .save(consumer);
+                .save(writer);
         ShapedRecipeBuilder
                 .shaped(RecipeCategory.MISC, SolarModule.SOLAR_MODULE_GOLD)
                 .define('d', Items.DAYLIGHT_DETECTOR)
@@ -124,7 +123,7 @@ public class MPPRecipeProvider extends RecipeProvider {
                 .pattern("qrq")
                 .pattern("xcx")
                 .unlockedBy("has_carrier", has(BlockCarrier.INSTANCE_ITEM))
-                .save(consumer);
+                .save(writer);
         ShapedRecipeBuilder
                 .shaped(RecipeCategory.MISC, SolarModule.SOLAR_MODULE_LAPIS)
                 .define('d', Items.DAYLIGHT_DETECTOR)
@@ -137,7 +136,7 @@ public class MPPRecipeProvider extends RecipeProvider {
                 .pattern("qrq")
                 .pattern("xcx")
                 .unlockedBy("has_carrier", has(BlockCarrier.INSTANCE_ITEM))
-                .save(consumer);
+                .save(writer);
         ShapedRecipeBuilder
                 .shaped(RecipeCategory.MISC, SolarModule.SOLAR_MODULE_REDSTONE)
                 .define('d', Items.DAYLIGHT_DETECTOR)
@@ -150,7 +149,7 @@ public class MPPRecipeProvider extends RecipeProvider {
                 .pattern("qrq")
                 .pattern("xcx")
                 .unlockedBy("has_carrier", has(BlockCarrier.INSTANCE_ITEM))
-                .save(consumer);
+                .save(writer);
         ShapedRecipeBuilder
                 .shaped(RecipeCategory.MISC, SolarModule.SOLAR_MODULE_DIAMOND)
                 .define('s', SolarModule.SOLAR_MODULE_STONE)
@@ -162,7 +161,7 @@ public class MPPRecipeProvider extends RecipeProvider {
                 .pattern("qrq")
                 .pattern("dcd")
                 .unlockedBy("has_carrier", has(BlockCarrier.INSTANCE_ITEM))
-                .save(consumer);
+                .save(writer);
         ShapedRecipeBuilder
                 .shaped(RecipeCategory.MISC, SolarModule.SOLAR_MODULE_NETHERITE)
                 .define('s', SolarModule.SOLAR_MODULE_IRON)
@@ -174,7 +173,7 @@ public class MPPRecipeProvider extends RecipeProvider {
                 .pattern("qrq")
                 .pattern("ncn")
                 .unlockedBy("has_carrier", has(BlockCarrier.INSTANCE_ITEM))
-                .save(consumer);
+                .save(writer);
 
         ShapedRecipeBuilder
                 .shaped(RecipeCategory.MISC, TemperatureModule.TEMP_MODULE_BASIC)
@@ -187,7 +186,7 @@ public class MPPRecipeProvider extends RecipeProvider {
                 .pattern("wcl")
                 .pattern("rir")
                 .unlockedBy("has_carrier", has(BlockCarrier.INSTANCE_ITEM))
-                .save(consumer);
+                .save(writer);
 
         ShapedRecipeBuilder
                 .shaped(RecipeCategory.MISC, WaterModule.WATER_MODULE_BASIC)
@@ -199,7 +198,7 @@ public class MPPRecipeProvider extends RecipeProvider {
                 .pattern("sps")
                 .pattern("csc")
                 .unlockedBy("has_carrier", has(BlockCarrier.INSTANCE_ITEM))
-                .save(consumer);
+                .save(writer);
 
         ShapedRecipeBuilder
                 .shaped(RecipeCategory.MISC, WindModule.WIND_MODULE_BASIC)
@@ -211,7 +210,7 @@ public class MPPRecipeProvider extends RecipeProvider {
                 .pattern("did")
                 .pattern("cdc")
                 .unlockedBy("has_carrier", has(BlockCarrier.INSTANCE_ITEM))
-                .save(consumer);
+                .save(writer);
 
         ShapedRecipeBuilder
                 .shaped(RecipeCategory.MISC, EcoUpgrade.ECO_UPGRADE)
@@ -223,7 +222,7 @@ public class MPPRecipeProvider extends RecipeProvider {
                 .pattern("lll")
                 .pattern("sps")
                 .unlockedBy("has_carrier", has(BlockCarrier.INSTANCE_ITEM))
-                .save(consumer);
+                .save(writer);
 
         ShapedRecipeBuilder
                 .shaped(RecipeCategory.MISC, EcoUpgrade.ECO_PLUS_UPGRADE)
@@ -235,7 +234,7 @@ public class MPPRecipeProvider extends RecipeProvider {
                 .pattern("lll")
                 .pattern("sps")
                 .unlockedBy("has_eco_upgrade", has(EcoUpgrade.ECO_UPGRADE))
-                .save(consumer);
+                .save(writer);
 
         ShapedRecipeBuilder
                 .shaped(RecipeCategory.MISC, EfficiencyUpgrade.EFFICIENCY_UPGRADE_BASIC)
@@ -247,6 +246,6 @@ public class MPPRecipeProvider extends RecipeProvider {
                 .pattern("rrr")
                 .pattern("qpq")
                 .unlockedBy("has_carrier", has(BlockCarrier.INSTANCE_ITEM))
-                .save(consumer);
+                .save(writer);
     }
 }

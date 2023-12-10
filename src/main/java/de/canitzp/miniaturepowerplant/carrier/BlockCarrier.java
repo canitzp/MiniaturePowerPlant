@@ -33,8 +33,8 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.network.NetworkHooks;
+import net.neoforged.neoforge.common.capabilities.Capabilities;
+import net.neoforged.neoforge.network.NetworkHooks;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -65,7 +65,7 @@ public class BlockCarrier extends BaseEntityBlock implements LiquidBlockContaine
 
         // test for bucket like item
         ItemStack heldStack = player.getItemInHand(hand);
-        if(!heldStack.isEmpty() && heldStack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).isPresent()){
+        if(!heldStack.isEmpty() && heldStack.getCapability(Capabilities.FLUID_HANDLER_ITEM).isPresent()){
             return InteractionResult.PASS;
         }
 
@@ -151,7 +151,7 @@ public class BlockCarrier extends BaseEntityBlock implements LiquidBlockContaine
     }
     
     @Override
-    public boolean canPlaceLiquid(@NotNull BlockGetter block, @NotNull BlockPos pos, @NotNull BlockState state, @NotNull Fluid fluid){
+    public boolean canPlaceLiquid(@Nullable Player player,  @NotNull BlockGetter block, @NotNull BlockPos pos, @NotNull BlockState state, @NotNull Fluid fluid){
         return false;
     }
     

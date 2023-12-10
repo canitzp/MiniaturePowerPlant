@@ -1,6 +1,0 @@
-{
-  "parent": "miniaturepowerplant:block/carrier/top_module",
-  "textures": {
-    "0": "miniaturepowerplant:block/modules/top_lapis"
-  }
-}

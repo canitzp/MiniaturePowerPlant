@@ -5,8 +5,8 @@ import de.canitzp.miniaturepowerplant.MiniaturePowerPlant;
 import de.canitzp.miniaturepowerplant.carrier.ModuleGrade;
 import de.canitzp.miniaturepowerplant.carrier.ModuleType;
 import net.minecraft.data.DataGenerator;
-import net.minecraftforge.client.model.generators.BlockModelProvider;
-import net.minecraftforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.client.model.generators.BlockModelProvider;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 public class MPPBlockModelGenerator extends BlockModelProvider {
 
