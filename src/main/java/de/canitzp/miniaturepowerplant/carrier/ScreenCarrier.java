@@ -15,6 +15,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
 import net.neoforged.neoforge.energy.EnergyStorage;
+import net.neoforged.neoforge.energy.IEnergyStorage;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.ArrayList;
@@ -65,10 +66,11 @@ public class ScreenCarrier extends AbstractContainerScreen<CarrierMenu>{
         // energy bar; shows the energy of the carrier and accu combined
         AtomicInteger storedEnergy = new AtomicInteger(this.getTile().getEnergyStorage().getEnergyStored());
         AtomicInteger energyCapacity = new AtomicInteger(this.getTile().getEnergyStorage().getMaxEnergyStored());
-        this.getTile().getAccuStorage().ifPresent(accuEnergyStorage -> {
+        IEnergyStorage accuEnergyStorage = this.getTile().getAccuStorage();
+        if (accuEnergyStorage != null) {
             storedEnergy.addAndGet(accuEnergyStorage.getEnergyStored());
             energyCapacity.addAndGet(accuEnergyStorage.getMaxEnergyStored());
-        });
+        }
         int energybarPixelWidth = Math.round((storedEnergy.get() / (energyCapacity.get() * 1.0F)) * 141.0F);
         if(energybarPixelWidth > 0){
             float[] wheelColor = getWheelColor(this.getTile().getLevel().getGameTime() % 256);
@@ -129,9 +131,10 @@ public class ScreenCarrier extends AbstractContainerScreen<CarrierMenu>{
             List<Component> text = new ArrayList<>();
             text.add(Component.translatable("container.miniaturepowerplant.carrier.hover.energy.internal_stored", energyStorage.getEnergyStored(), energyStorage.getMaxEnergyStored()));
             // additional
-            this.getTile().getAccuStorage().ifPresent(accu -> {
+            IEnergyStorage accu = this.getTile().getAccuStorage();
+            if (accu != null) {
                 text.add(Component.translatable("container.miniaturepowerplant.carrier.hover.energy.additional_stored", accu.getEnergyStored(), accu.getMaxEnergyStored()));
-            });
+            }
             text.add(Component.translatable("container.miniaturepowerplant.carrier.hover.energy.produced", this.getTile().getProducedEnergy()).withStyle(ChatFormatting.GRAY));
             text.add(Component.translatable("container.miniaturepowerplant.carrier.hover.energy.wasted", this.getTile().getWastedEnergy()).withStyle(ChatFormatting.GRAY));
             matrix.renderComponentTooltip(this.font, text, mouseX, mouseY);
