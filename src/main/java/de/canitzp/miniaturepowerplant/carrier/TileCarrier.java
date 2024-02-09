@@ -29,9 +29,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.common.capabilities.Capabilities;
-import net.neoforged.neoforge.common.capabilities.Capability;
-import net.neoforged.neoforge.common.util.LazyOptional;
+import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.energy.EnergyStorage;
 import net.neoforged.neoforge.energy.IEnergyStorage;
 import net.neoforged.neoforge.items.wrapper.SidedInvWrapper;
@@ -48,8 +46,41 @@ public class TileCarrier extends BlockEntity implements MenuProvider, Nameable{
     public static final BlockEntityType<TileCarrier> TYPE = BlockEntityType.Builder.of(TileCarrier::new, BlockCarrier.INSTANCE).build(null);
 
     private final CarrierInventory inventory = new CarrierInventory(this);
-    private final SidedInvWrapper sw = new SidedInvWrapper(this.inventory, null);
-    private final EnergyStorage energyStorage = new EnergyStorage(20000);
+    public final SidedInvWrapper sw = new SidedInvWrapper(this.inventory, null);
+    public final EnergyStorage energyStorage = new EnergyStorage(20000);
+
+    private final IEnergyStorage readOnlyEnergyStorage = new IEnergyStorage(){
+
+        @Override
+        public int receiveEnergy(int i, boolean b) {
+            return 0;
+        }
+
+        @Override
+        public int extractEnergy(int i, boolean b) {
+            return TileCarrier.this.getEnergyStorage().extractEnergy(i, b);
+        }
+
+        @Override
+        public int getEnergyStored() {
+            return TileCarrier.this.getEnergyStorage().getEnergyStored();
+        }
+
+        @Override
+        public int getMaxEnergyStored() {
+            return TileCarrier.this.getEnergyStorage().getMaxEnergyStored();
+        }
+
+        @Override
+        public boolean canExtract() {
+            return TileCarrier.this.getEnergyStorage().canExtract();
+        }
+
+        @Override
+        public boolean canReceive() {
+            return false;
+        }
+    };
 
     private int wastedEnergy = 0, producedEnergy = 0;
 
@@ -62,18 +93,6 @@ public class TileCarrier extends BlockEntity implements MenuProvider, Nameable{
     @Override
     public AbstractContainerMenu createMenu(int windowId, Inventory inv, Player player){
         return CarrierMenu.createServerContainer(windowId, inv, this);
-    }
-    
-    @Nonnull
-    @Override
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-        if(cap == Capabilities.ITEM_HANDLER){
-            return Capabilities.ITEM_HANDLER.orEmpty(cap, LazyOptional.of(() -> this.sw));
-        }
-        if(cap == Capabilities.ENERGY){
-            return Capabilities.ENERGY.orEmpty(cap, LazyOptional.of(() -> this.energyStorage));
-        }
-        return super.getCapability(cap, side);
     }
     
     @Override
@@ -203,28 +222,29 @@ public class TileCarrier extends BlockEntity implements MenuProvider, Nameable{
                 for (Direction side : Direction.values()) {
                     BlockEntity surroundingTile = tile.level.getBlockEntity(tile.getBlockPos().relative(side));
                     if(surroundingTile != null){
-                        surroundingTile.getCapability(Capabilities.ENERGY, side.getOpposite()).ifPresent(surroundingTileEnergyStorage -> {
-                            // tile energy
-                            surroundingTileEnergyStorage.receiveEnergy(tile.getEnergyStorage().extractEnergy(surroundingTileEnergyStorage.receiveEnergy(Integer.MAX_VALUE, true), false), false);
+                        IEnergyStorage surroundingTileEnergyStorage = tile.level.getCapability(Capabilities.EnergyStorage.BLOCK, tile.getBlockPos().relative(side), side.getOpposite());
+                        // tile energy
+                        surroundingTileEnergyStorage.receiveEnergy(tile.getEnergyStorage().extractEnergy(surroundingTileEnergyStorage.receiveEnergy(Integer.MAX_VALUE, true), false), false);
 
-                            // accu energy
-                            tile.getAccuStorage().ifPresent(accuEnergyStorage -> {
-                                surroundingTileEnergyStorage.receiveEnergy(accuEnergyStorage.extractEnergy(surroundingTileEnergyStorage.receiveEnergy(Integer.MAX_VALUE, true), false), false);
-                            });
-                        });
+                        // accu energy
+                        IEnergyStorage accuEnergyStorage = tile.getAccuStorage();
+                        if(accuEnergyStorage != null){
+                            surroundingTileEnergyStorage.receiveEnergy(accuEnergyStorage.extractEnergy(surroundingTileEnergyStorage.receiveEnergy(Integer.MAX_VALUE, true), false), false);
+                        }
                     }
                 }
             }
 
             // move energy to accu/battery
             if(tile.energyStorage.getEnergyStored() > 0){
-                tile.getAccuStorage().ifPresent(energyStorage -> {
+                IEnergyStorage accuEnergyStorage = tile.getAccuStorage();
+                if(accuEnergyStorage != null){
                     tile.energyStorage.extractEnergy(
-                            energyStorage.receiveEnergy(
-                                tile.energyStorage.extractEnergy(tile.energyStorage.getEnergyStored(), true),
+                            accuEnergyStorage.receiveEnergy(
+                                    tile.energyStorage.extractEnergy(tile.energyStorage.getEnergyStored(), true),
                                     false),
                             false);
-                });
+                }
             }
         }
     }
@@ -248,12 +268,16 @@ public class TileCarrier extends BlockEntity implements MenuProvider, Nameable{
         return this.energyStorage;
     }
 
-    public LazyOptional<IEnergyStorage> getAccuStorage(){
+    public IEnergyStorage getEnergyStorageReadOnly(){
+        return this.readOnlyEnergyStorage;
+    }
+
+    public IEnergyStorage getAccuStorage(){
         ItemStack stack = this.inventory.getItem(CarrierMenu.SLOT_BATTERY);
         if(!stack.isEmpty()){
-            return stack.getCapability(Capabilities.ENERGY, null);
+            return stack.getCapability(Capabilities.EnergyStorage.ITEM);
         }
-        return LazyOptional.empty();
+        return null;
     }
 
     public int getProducedEnergy() {

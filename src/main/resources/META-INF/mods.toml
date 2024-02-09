@@ -28,11 +28,13 @@ authors="canitzp"
 # The description text for the mod (multi line!) (#mandatory)
 description='''Miniature Power Plants has the goal to solve all of your power generation problems in the tiniest space possible, but be aware of the danger when you don't care about it enough!'''
 # A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
-[[dependencies.miniaturepowerplant]] #optional
+[[dependencies.${mod_id}]] #optional
     # the modid of the dependency
     modId="neoforge"
-    # Does this dependency have to exist - if not, ordering below must be specified
-    mandatory=true
+    # The type of the dependency. Can be one of "required", "optional", "incompatible" or "discouraged" (case insensitive).
+    # 'required' requires the mod to exist, 'optional' does not
+    # 'incompatible' will prevent the game from loading when the mod exists, and 'discouraged' will show a warning
+    type="required" #mandatory
     # The version range of the dependency
     versionRange="${loader_version}"
     # An ordering relationship for the dependency - BEFORE or AFTER required if the relationship is not mandatory
@@ -40,9 +42,9 @@ description='''Miniature Power Plants has the goal to solve all of your power ge
     # Side this dependency is applied on - BOTH, CLIENT or SERVER
     side="BOTH"
 # Here's another dependency
-[[dependencies.miniaturepowerplant]]
+[[dependencies.${mod_id}]]
     modId="minecraft"
-    mandatory=true
+    type="required" #mandatory
     versionRange="${mc_version_range}"
     ordering="NONE"
     side="BOTH"

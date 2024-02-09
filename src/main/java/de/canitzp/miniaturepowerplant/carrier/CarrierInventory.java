@@ -6,7 +6,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.common.capabilities.Capabilities;
+import net.neoforged.neoforge.capabilities.Capabilities;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
@@ -51,7 +51,7 @@ public class CarrierInventory extends SimpleContainer implements WorldlyContaine
                 return ICarrierModule.isSlotValid(stack, ICarrierModule.CarrierSlot.GROUND_UPGRADE);
             }
             case CarrierMenu.SLOT_BATTERY -> {
-                return stack.getCapability(Capabilities.ENERGY).isPresent();
+                return stack.getCapability(Capabilities.EnergyStorage.ITEM) != null;
             }
             default -> {
                 return super.canPlaceItem(slotNumber, stack);

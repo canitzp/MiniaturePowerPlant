@@ -1,5 +1,6 @@
 package de.canitzp.miniaturepowerplant.carrier;
 
+import com.mojang.serialization.MapCodec;
 import de.canitzp.miniaturepowerplant.ICarrierModule;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -23,6 +24,7 @@ import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -33,13 +35,13 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.BlockHitResult;
-import net.neoforged.neoforge.common.capabilities.Capabilities;
-import net.neoforged.neoforge.network.NetworkHooks;
+import net.neoforged.neoforge.capabilities.Capabilities;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class BlockCarrier extends BaseEntityBlock implements LiquidBlockContainer{
 
+    public static final MapCodec<BlockCarrier> CODEC = simpleCodec(BlockCarrier::new);
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final EnumProperty<ModuleGrade> TOP_MODULE = EnumProperty.create("top_module", ModuleGrade.class);
     public static final EnumProperty<ModuleGrade> CENTER_MODULE = EnumProperty.create("center_module", ModuleGrade.class);
@@ -49,7 +51,11 @@ public class BlockCarrier extends BaseEntityBlock implements LiquidBlockContaine
     public static final BlockItem INSTANCE_ITEM = new BlockItem(INSTANCE, new Item.Properties());
 
     private BlockCarrier() {
-        super(Properties.of().mapColor(MapColor.METAL).noOcclusion());
+        this(Properties.of().mapColor(MapColor.METAL).noOcclusion());
+    }
+
+    private BlockCarrier(Properties properties) {
+        super(properties);
 
         this.registerDefaultState(this.getStateDefinition().any()
                 .setValue(WATERLOGGED, false)
@@ -65,7 +71,7 @@ public class BlockCarrier extends BaseEntityBlock implements LiquidBlockContaine
 
         // test for bucket like item
         ItemStack heldStack = player.getItemInHand(hand);
-        if(!heldStack.isEmpty() && heldStack.getCapability(Capabilities.FLUID_HANDLER_ITEM).isPresent()){
+        if(!heldStack.isEmpty() && heldStack.getCapability(Capabilities.FluidHandler.ITEM) != null){
             return InteractionResult.PASS;
         }
 
@@ -75,7 +81,7 @@ public class BlockCarrier extends BaseEntityBlock implements LiquidBlockContaine
 
         MenuProvider menuProvider = this.getMenuProvider(state, world, pos);
         if(menuProvider != null){
-            NetworkHooks.openScreen(((ServerPlayer) player), menuProvider, packetBuffer -> packetBuffer.writeBlockPos(pos));
+            player.openMenu(menuProvider, packetBuffer -> packetBuffer.writeBlockPos(pos));
         }
 
         return InteractionResult.SUCCESS;
@@ -85,7 +91,12 @@ public class BlockCarrier extends BaseEntityBlock implements LiquidBlockContaine
     public BlockEntity newBlockEntity(@NotNull BlockPos pos, @NotNull BlockState state){
         return new TileCarrier(pos, state);
     }
-    
+
+    @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return CODEC;
+    }
+
     @Override
     public @NotNull RenderShape getRenderShape(@NotNull BlockState state){
         return RenderShape.MODEL;
