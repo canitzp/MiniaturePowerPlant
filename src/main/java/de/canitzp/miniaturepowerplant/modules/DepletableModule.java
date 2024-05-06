@@ -1,6 +1,7 @@
 package de.canitzp.miniaturepowerplant.modules;
 
 import de.canitzp.miniaturepowerplant.ICarrierModule;
+import de.canitzp.miniaturepowerplant.MPPRegistry;
 import de.canitzp.miniaturepowerplant.carrier.TileCarrier;
 import de.canitzp.miniaturepowerplant.reasons.EnergyBoost;
 import de.canitzp.miniaturepowerplant.reasons.EnergyPenalty;
@@ -16,7 +17,6 @@ import java.util.List;
 
 public interface DepletableModule extends ICarrierModule {
 
-    String NBT_KEY_DEPLETION = "depletion";
     String NBT_KEY_PRODUCTION = "production";
     String NBT_KEY_PENALTY = "penalty";
     String NBT_KEY_BOOST = "boost";
@@ -31,10 +31,7 @@ public interface DepletableModule extends ICarrierModule {
     }
 
     static float getCurrentDepletion(ItemStack stack){
-        if (!stack.isEmpty() && stack.hasTag() && stack.getTag().contains(NBT_KEY_DEPLETION, Tag.TAG_FLOAT)) {
-            return stack.getTag().getFloat(NBT_KEY_DEPLETION);
-        }
-        return 0.0F;
+        return stack.getOrDefault(MPPRegistry.DC_DEPLETION, 0F);
     }
 
     // calc result => 1.0 = 100% depleted -> broken

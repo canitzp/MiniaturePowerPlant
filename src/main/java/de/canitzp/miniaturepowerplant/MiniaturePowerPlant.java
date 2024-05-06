@@ -8,33 +8,32 @@ import net.minecraft.client.gui.screens.MenuScreens;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
+import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 
 @Mod(MiniaturePowerPlant.MODID)
 public class MiniaturePowerPlant {
 
     public static final String MODID = "miniaturepowerplant";
 
-    public MiniaturePowerPlant() {
+    public MiniaturePowerPlant(IEventBus modEventBus, ModContainer modContainer) {
         System.out.println("Loading MPP");
 
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::registerCapabilities);
+        modEventBus.addListener(this::registerScreens);
+        modEventBus.addListener(this::registerCapabilities);
 
-        IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
-        MPPRegistry.init(bus);
-
-        if(FMLEnvironment.dist.isClient()){
-            this.registerClient();
-        }
+        MPPRegistry.init(modEventBus);
     }
 
-    @OnlyIn(Dist.CLIENT)
-    private void registerClient(){
-        MenuScreens.register(CarrierMenu.TYPE, ScreenCarrier::new);
+    private void registerScreens(RegisterMenuScreensEvent event){
+        event.register(CarrierMenu.TYPE, ScreenCarrier::new);
     }
 
     private void registerCapabilities(RegisterCapabilitiesEvent event){

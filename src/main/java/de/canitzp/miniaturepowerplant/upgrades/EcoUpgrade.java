@@ -31,7 +31,7 @@ public class EcoUpgrade extends Item implements ICarrierModule {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> text, TooltipFlag flag) {
+    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> text, TooltipFlag flag) {
         if(this.ownModuleDepletionReduction > 0.0F){
             text.add(Component.literal("Decreases slots depletion by " + Math.round(this.ownModuleDepletionReduction * 100) + "%").withStyle(ChatFormatting.GRAY));
         }

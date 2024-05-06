@@ -3,11 +3,12 @@ package de.canitzp.miniaturepowerplant.data;
 import de.canitzp.miniaturepowerplant.MiniaturePowerPlant;
 import net.minecraft.data.DataGenerator;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 
-@Mod.EventBusSubscriber(modid = MiniaturePowerPlant.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = MiniaturePowerPlant.MODID, bus = EventBusSubscriber.Bus.MOD)
 public class MPPDataGenerator{
     
     @SubscribeEvent

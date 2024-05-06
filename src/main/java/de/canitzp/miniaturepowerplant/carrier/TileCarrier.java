@@ -1,6 +1,8 @@
 package de.canitzp.miniaturepowerplant.carrier;
 
 import de.canitzp.miniaturepowerplant.ICarrierModule;
+import de.canitzp.miniaturepowerplant.MPPRegistry;
+import de.canitzp.miniaturepowerplant.modules.DepletableModule;
 import de.canitzp.miniaturepowerplant.modules.SynchroniseModuleData;
 import de.canitzp.miniaturepowerplant.reasons.EnergyBoost;
 import de.canitzp.miniaturepowerplant.reasons.EnergyPenalty;
@@ -8,6 +10,7 @@ import de.canitzp.miniaturepowerplant.reasons.EnergyProduction;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.FloatTag;
 import net.minecraft.nbt.ListTag;
@@ -33,6 +36,7 @@ import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.energy.EnergyStorage;
 import net.neoforged.neoforge.energy.IEnergyStorage;
 import net.neoforged.neoforge.items.wrapper.SidedInvWrapper;
+import org.checkerframework.checker.units.qual.C;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -94,9 +98,9 @@ public class TileCarrier extends BlockEntity implements MenuProvider, Nameable{
     }
     
     @Override
-    public CompoundTag getUpdateTag(){
+    public CompoundTag getUpdateTag(HolderLookup.Provider provider){
         CompoundTag nbt = new CompoundTag();
-        this.writeNBT(nbt);
+        this.writeNBT(nbt, provider);
         return nbt;
     }
     
@@ -106,20 +110,20 @@ public class TileCarrier extends BlockEntity implements MenuProvider, Nameable{
     }
     
     @Override
-    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt){
-        this.readNBT(pkt.getTag());
+    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt, HolderLookup.Provider lookupProvider){
+        this.readNBT(pkt.getTag(), lookupProvider);
     }
     
     @Override
-    public void load(CompoundTag nbt){
-        super.load(nbt);
-        this.readNBT(nbt);
+    public void loadAdditional(CompoundTag nbt, HolderLookup.Provider lookupProvider){
+        super.loadAdditional(nbt, lookupProvider);
+        this.readNBT(nbt, lookupProvider);
     }
     
     @Override
-    protected void saveAdditional(CompoundTag nbt){
-        super.saveAdditional(nbt);
-        this.writeNBT(nbt);
+    protected void saveAdditional(CompoundTag nbt, HolderLookup.Provider provider){
+        super.saveAdditional(nbt, provider);
+        this.writeNBT(nbt, provider);
     }
     
     @Override
@@ -134,6 +138,7 @@ public class TileCarrier extends BlockEntity implements MenuProvider, Nameable{
     
     public static void tick(Level level, BlockPos pos, BlockState state, TileCarrier tile) {
         if(level != null && !level.isClientSide()){
+            boolean changed = false;
 
             // sync pulse
             if((level.getGameTime() & 0b111) == 0b0){ // call every eight tick => 2.5 times a second
@@ -205,14 +210,17 @@ public class TileCarrier extends BlockEntity implements MenuProvider, Nameable{
                 for (ICarrierModule.CarrierSlot slot : ICarrierModule.CarrierSlot.values()) {
                     if (!tile.isDepleted(slot) && hasProducedEnergy.contains(slot)) {
                         ItemStack stack = tile.inventory.getItem(slot.ordinal());
-                        if (!stack.isEmpty() && stack.getItem() instanceof ICarrierModule) {
-                            stack.addTagElement("depletion", FloatTag.valueOf(tile.getDepletion(slot) + stack.getOrCreateTag().getFloat("depletion")));
+                        if (!stack.isEmpty() && stack.getItem() instanceof DepletableModule) {
+                            stack.set(MPPRegistry.DC_DEPLETION, tile.getDepletion(slot) + stack.getOrDefault(MPPRegistry.DC_DEPLETION, 0F));
+                            changed = true;
                         }
                     }
                 }
             } else {
-                tile.producedEnergy = 0;
-                tile.wastedEnergy = 0;
+                if(tile.producedEnergy > 0 && tile.wastedEnergy > 0){
+                    tile.producedEnergy = 0;
+                    tile.wastedEnergy = 0;
+                }
             }
 
             // push energy to surrounding blocks
@@ -222,12 +230,19 @@ public class TileCarrier extends BlockEntity implements MenuProvider, Nameable{
                     if(surroundingTile != null){
                         IEnergyStorage surroundingTileEnergyStorage = tile.level.getCapability(Capabilities.EnergyStorage.BLOCK, tile.getBlockPos().relative(side), side.getOpposite());
                         // tile energy
-                        surroundingTileEnergyStorage.receiveEnergy(tile.getEnergyStorage().extractEnergy(surroundingTileEnergyStorage.receiveEnergy(Integer.MAX_VALUE, true), false), false);
+                        int receiveEnergy = surroundingTileEnergyStorage.receiveEnergy(tile.getEnergyStorage().extractEnergy(surroundingTileEnergyStorage.receiveEnergy(Integer.MAX_VALUE, true), false), false);
+
+                        if(receiveEnergy > 0){
+                            changed = true;
+                        }
 
                         // accu energy
                         IEnergyStorage accuEnergyStorage = tile.getAccuStorage();
                         if(accuEnergyStorage != null){
-                            surroundingTileEnergyStorage.receiveEnergy(accuEnergyStorage.extractEnergy(surroundingTileEnergyStorage.receiveEnergy(Integer.MAX_VALUE, true), false), false);
+                            receiveEnergy = surroundingTileEnergyStorage.receiveEnergy(accuEnergyStorage.extractEnergy(surroundingTileEnergyStorage.receiveEnergy(Integer.MAX_VALUE, true), false), false);
+                            if(receiveEnergy > 0){
+                                changed = true;
+                            }
                         }
                     }
                 }
@@ -237,12 +252,18 @@ public class TileCarrier extends BlockEntity implements MenuProvider, Nameable{
             if(tile.energyStorage.getEnergyStored() > 0){
                 IEnergyStorage accuEnergyStorage = tile.getAccuStorage();
                 if(accuEnergyStorage != null){
-                    tile.energyStorage.extractEnergy(
+                    int extracedEnergy = tile.energyStorage.extractEnergy(
                             accuEnergyStorage.receiveEnergy(
                                     tile.energyStorage.extractEnergy(tile.energyStorage.getEnergyStored(), true),
                                     false),
                             false);
+                    if(extracedEnergy > 0){
+                        changed = true;
+                    }
                 }
+            }
+            if(changed){
+                tile.setChanged();
             }
         }
     }
@@ -400,7 +421,7 @@ public class TileCarrier extends BlockEntity implements MenuProvider, Nameable{
         }
     }
 
-    private void writeNBT(CompoundTag nbt){
+    private void writeNBT(CompoundTag nbt, HolderLookup.Provider provider){
         CompoundTag syncTag = new CompoundTag();
         this.syncDataMap.forEach((slot, synchroniseModuleData) -> synchroniseModuleData.use(compoundNBT -> syncTag.put(slot.name(), compoundNBT)));
         nbt.put("sync", syncTag);
@@ -408,7 +429,7 @@ public class TileCarrier extends BlockEntity implements MenuProvider, Nameable{
         nbt.putInt("produced_energy", this.producedEnergy);
         nbt.putInt("wasted_energy", this.wastedEnergy);
         
-        nbt.put("energy_storage", this.energyStorage.serializeNBT());
+        nbt.put("energy_storage", this.energyStorage.serializeNBT(provider));
     
         ListTag inv = new ListTag();
         for(int i = 0; i < this.inventory.getContainerSize(); i++){
@@ -416,14 +437,13 @@ public class TileCarrier extends BlockEntity implements MenuProvider, Nameable{
             if (!itemstack.isEmpty()) {
                 CompoundTag compoundtag = new CompoundTag();
                 compoundtag.putInt("Slot", i);
-                itemstack.save(compoundtag);
-                inv.add(compoundtag);
+                inv.add(itemstack.save(provider, compoundtag));
             }
         }
         nbt.put("inventory", inv);
     }
 
-    private void readNBT(CompoundTag nbt){
+    private void readNBT(CompoundTag nbt, HolderLookup.Provider lookupProvider){
         CompoundTag syncTag = nbt.getCompound("sync");
         this.syncDataMap.forEach((slot, synchroniseModuleData) -> {
             synchroniseModuleData.set(syncTag.getCompound(slot.name()));
@@ -432,7 +452,7 @@ public class TileCarrier extends BlockEntity implements MenuProvider, Nameable{
         this.producedEnergy = nbt.getInt("produced_energy");
         this.wastedEnergy = nbt.getInt("wasted_energy");
     
-        this.energyStorage.deserializeNBT(nbt.get("energy_storage"));
+        this.energyStorage.deserializeNBT(lookupProvider, nbt.get("energy_storage"));
     
         ListTag inv = nbt.getList("inventory", Tag.TAG_COMPOUND);
         for(int i = 0; i < this.inventory.getContainerSize(); i++){
@@ -440,7 +460,7 @@ public class TileCarrier extends BlockEntity implements MenuProvider, Nameable{
             if(!compoundtag.isEmpty()){
                 int slotId = compoundtag.getInt("Slot");
                 if (slotId < this.inventory.getContainerSize()) {
-                    this.inventory.setItem(slotId, ItemStack.of(compoundtag));
+                    this.inventory.setItem(slotId, ItemStack.parse(lookupProvider, compoundtag).orElse(ItemStack.EMPTY));
                 }
             }
         }

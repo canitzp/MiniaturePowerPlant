@@ -1,7 +1,7 @@
 plugins {
     id "java-library"
     id "idea"
-    id 'net.neoforged.gradle.userdev' version '7.0.97'
+    id 'net.neoforged.gradle.userdev' version '7.0.+'
     //id 'org.parchmentmc.librarian.forgegradle' version '1.+'
     id "com.modrinth.minotaur" version "2.+"
     id 'net.darkhax.curseforgegradle' version '1.+'
@@ -13,7 +13,7 @@ base {
     archivesName = "${project.mod_name}"
 }
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
 println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
 
@@ -51,6 +51,10 @@ runs {
 
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
+configurations {
+    runtimeClasspath.extendsFrom localRuntime
+}
+
 repositories {
     mavenLocal()
     maven {
@@ -73,13 +77,13 @@ tasks.withType(ProcessResources).configureEach {
             mc_version_range: "${project.mc_version_range}"
     ]
     inputs.properties replaceProperties
-    filesMatching(['META-INF/mods.toml', 'pack.mcmeta']) {
+    filesMatching(['META-INF/neoforge.mods.toml', 'pack.mcmeta']) {
         expand replaceProperties + [project: project]
     }
 }
 
 
-/*jar {
+jar {
     manifest {
         attributes([
                 "Specification-Title": "${project.mod_name}",
@@ -91,7 +95,7 @@ tasks.withType(ProcessResources).configureEach {
                 "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }
-}*/
+}
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
@@ -100,6 +104,8 @@ tasks.withType(JavaCompile).configureEach {
 idea {
     module {
         inheritOutputDirs = true
+        downloadSources = true
+        downloadJavadoc = true
     }
 }
 

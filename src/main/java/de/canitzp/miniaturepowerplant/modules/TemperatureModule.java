@@ -33,7 +33,7 @@ public class TemperatureModule extends DepletableItemModule {
     }
 
     @Override
-    public void tick(Level world, BlockPos pos, TileCarrier tile, SynchroniseModuleData data) {
+    public boolean tick(Level world, BlockPos pos, TileCarrier tile, SynchroniseModuleData data) {
         if(!world.isClientSide()){
             // production
             float adjustedTemperature = world.getBiome(pos).value().getBaseTemperature();
@@ -48,5 +48,6 @@ public class TemperatureModule extends DepletableItemModule {
             }
             data.use(compoundNBT -> compoundNBT.put(NBT_KEY_PENALTY, listEnergyPenalty));
         }
+        return false;
     }
 }

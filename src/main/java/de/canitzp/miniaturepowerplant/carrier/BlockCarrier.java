@@ -8,6 +8,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
@@ -67,14 +68,7 @@ public class BlockCarrier extends BaseEntityBlock implements LiquidBlockContaine
 
     @SuppressWarnings("deprecation")
     @Override
-    public @NotNull InteractionResult use(@NotNull BlockState state, @NotNull Level world, @NotNull BlockPos pos, Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult trace) {
-
-        // test for bucket like item
-        ItemStack heldStack = player.getItemInHand(hand);
-        if(!heldStack.isEmpty() && heldStack.getCapability(Capabilities.FluidHandler.ITEM) != null){
-            return InteractionResult.PASS;
-        }
-
+    public @NotNull InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult trace) {
         if(world.isClientSide()){
             return InteractionResult.SUCCESS;
         }
@@ -86,7 +80,17 @@ public class BlockCarrier extends BaseEntityBlock implements LiquidBlockContaine
 
         return InteractionResult.SUCCESS;
     }
-    
+
+    @Override
+    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult trace) {
+        // test for bucket like item
+        ItemStack heldStack = player.getItemInHand(hand);
+        if(!heldStack.isEmpty() && heldStack.getCapability(Capabilities.FluidHandler.ITEM) != null){
+            return ItemInteractionResult.SUCCESS;
+        }
+        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+    }
+
     @Override
     public BlockEntity newBlockEntity(@NotNull BlockPos pos, @NotNull BlockState state){
         return new TileCarrier(pos, state);

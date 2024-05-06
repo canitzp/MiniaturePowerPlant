@@ -31,7 +31,7 @@ public class WaterModule extends DepletableItemModule {
     }
 
     @Override
-    public void tick(Level world, BlockPos pos, TileCarrier tile, SynchroniseModuleData data) {
+    public boolean tick(Level world, BlockPos pos, TileCarrier tile, SynchroniseModuleData data) {
         if(!world.isClientSide()){
             ListTag listEnergyProduction = new ListTag();
             for (Direction direction : Direction.values()) {
@@ -43,6 +43,7 @@ public class WaterModule extends DepletableItemModule {
             }
             data.use(compoundNBT -> compoundNBT.put(NBT_KEY_PRODUCTION, listEnergyProduction));
         }
+        return false;
     }
 
     private int getWaterLevel(Level world, BlockPos pos, Direction direction){

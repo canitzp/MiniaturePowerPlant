@@ -31,7 +31,7 @@ public class EfficiencyUpgrade extends Item implements ICarrierModule {
     }
     
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> text, TooltipFlag flag){
+    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> text, TooltipFlag flag){
         if(this.energyMultiplier > 0.0F){
             text.add(Component.literal("Increases slots energy generation by " + Math.round(this.energyMultiplier * 100) + "%").withStyle(ChatFormatting.GRAY));
         }

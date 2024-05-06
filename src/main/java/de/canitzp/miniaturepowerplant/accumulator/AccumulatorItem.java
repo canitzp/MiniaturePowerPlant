@@ -31,7 +31,7 @@ public class AccumulatorItem extends Item{
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> text, TooltipFlag flag) {
+    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> text, TooltipFlag flag) {
         if(this.transfer > 0 && this.transfer < this.capacity){
             text.add(Component.translatable("item.miniaturepowerplant.accumulator.desc.transfer", this.transfer).withStyle(ChatFormatting.GRAY));
         }

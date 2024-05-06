@@ -22,7 +22,7 @@ public class PlantEaterModule extends DepletableItemModule{
     }
 
     @Override
-    public void tick(Level world, BlockPos pos, TileCarrier tile, SynchroniseModuleData data){
-    
+    public boolean tick(Level world, BlockPos pos, TileCarrier tile, SynchroniseModuleData data){
+        return false;
     }
 }

@@ -91,7 +91,7 @@ public class MPPRecipeProvider extends RecipeProvider {
                 .define('l', Tags.Items.GEMS_LAPIS)
                 .define('q', Tags.Items.GEMS_QUARTZ)
                 .define('r', Tags.Items.STORAGE_BLOCKS_REDSTONE)
-                .define('x', Tags.Items.STONE)
+                .define('x', Tags.Items.STONES)
                 .define('c', Tags.Items.STORAGE_BLOCKS_COPPER)
                 .pattern("ldl")
                 .pattern("qrq")

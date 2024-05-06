@@ -55,11 +55,11 @@ public class StackEnergyStorage extends EnergyStorage {
 
     @Override
     public int getEnergyStored() {
-        return this.stack.getOrCreateTag().getInt("Energy");
+        return this.stack.getOrDefault(MPPRegistry.DC_ENERGY, 0);
     }
 
     private void setStackEnergy(int energyValue){
-        this.stack.getOrCreateTag().putInt("Energy", energyValue);
+        this.stack.set(MPPRegistry.DC_ENERGY, energyValue);
     }
 
 }

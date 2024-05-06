@@ -15,7 +15,6 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.AirBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,9 +35,8 @@ public class WindModule extends DepletableItemModule {
     }
     
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> text, TooltipFlag flag){
-        super.appendHoverText(stack, level, text, flag);
-        
+    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> text, TooltipFlag flag){
+        super.appendHoverText(stack, context, text, flag);
         text.add(Component.translatable("item.miniaturepowerplant.wind_module.desc.production", this.energyProduction).withStyle(ChatFormatting.GRAY));
         text.add(Component.translatable("item.miniaturepowerplant.wind_module.desc.range", this.windRange).withStyle(ChatFormatting.GRAY));
     }
@@ -54,7 +52,7 @@ public class WindModule extends DepletableItemModule {
     }
 
     @Override
-    public void tick(Level level, BlockPos pos, TileCarrier tile, SynchroniseModuleData data){
+    public boolean tick(Level level, BlockPos pos, TileCarrier tile, SynchroniseModuleData data){
         ListTag production = new ListTag();
         ListTag penalties = new ListTag();
         ListTag boosts = new ListTag();
@@ -79,6 +77,8 @@ public class WindModule extends DepletableItemModule {
             compoundNBT.put(NBT_KEY_PENALTY, penalties);
             compoundNBT.put(NBT_KEY_BOOST, boosts);
         });
+
+        return false;
     }
     
     /*@Override

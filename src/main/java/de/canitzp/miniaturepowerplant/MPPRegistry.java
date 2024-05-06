@@ -1,5 +1,6 @@
 package de.canitzp.miniaturepowerplant;
 
+import com.mojang.serialization.Codec;
 import de.canitzp.miniaturepowerplant.accumulator.AccumulatorItem;
 import de.canitzp.miniaturepowerplant.carrier.BlockCarrier;
 import de.canitzp.miniaturepowerplant.carrier.CarrierMenu;
@@ -11,8 +12,10 @@ import de.canitzp.miniaturepowerplant.modules.WindModule;
 import de.canitzp.miniaturepowerplant.upgrades.EcoUpgrade;
 import de.canitzp.miniaturepowerplant.upgrades.EfficiencyUpgrade;
 import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
@@ -30,13 +33,15 @@ public class MPPRegistry {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(BuiltInRegistries.ITEM, MiniaturePowerPlant.MODID);
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPES = DeferredRegister.create(BuiltInRegistries.BLOCK_ENTITY_TYPE, MiniaturePowerPlant.MODID);
     public static final DeferredRegister<MenuType<?>> MENU_TYPES = DeferredRegister.create(BuiltInRegistries.MENU, MiniaturePowerPlant.MODID);
+    public static final DeferredRegister.DataComponents DATA_COMPONENT_TYPE = DeferredRegister.createDataComponents(MiniaturePowerPlant.MODID);
 
     public static void init(IEventBus bus){
-        TABS.register(bus);
+        DATA_COMPONENT_TYPE.register(bus);
         BLOCKS.register(bus);
-        ITEMS.register(bus);
         BLOCK_ENTITY_TYPES.register(bus);
         MENU_TYPES.register(bus);
+        ITEMS.register(bus);
+        TABS.register(bus);
     }
 
     public static final Supplier<Block> CARRIER = BLOCKS.register("carrier", () -> BlockCarrier.INSTANCE);
@@ -64,5 +69,8 @@ public class MPPRegistry {
     public static final Supplier<BlockEntityType<?>> CARRIER_TILE = BLOCK_ENTITY_TYPES.register("carrier", () -> TileCarrier.TYPE);
 
     public static final Supplier<MenuType<?>> CARRIER_MENU = MENU_TYPES.register("carrier", () -> CarrierMenu.TYPE);
+
+    public static final Supplier<DataComponentType<Integer>> DC_ENERGY = DATA_COMPONENT_TYPE.registerComponentType("energy", builder -> builder.persistent(Codec.INT).networkSynchronized(ByteBufCodecs.INT).cacheEncoding());
+    public static final Supplier<DataComponentType<Float>> DC_DEPLETION = DATA_COMPONENT_TYPE.registerComponentType("depletion", builder -> builder.persistent(Codec.FLOAT).networkSynchronized(ByteBufCodecs.FLOAT).cacheEncoding());
 
 }

@@ -53,7 +53,10 @@ public interface ICarrierModule {
 
     default void addDepletionInformation(ScreenCarrier screen, SynchroniseModuleData data, List<Component> text){}
 
-    default void tick(Level level, BlockPos pos, TileCarrier tile, SynchroniseModuleData data){}
+    // return true if tile has to be saved
+    default boolean tick(Level level, BlockPos pos, TileCarrier tile, SynchroniseModuleData data){
+        return false;
+    }
 
     default void blockAnimationTick(ClientLevel level, BlockPos pos, TileCarrier tile, BlockState state, RandomSource random, SynchroniseModuleData data){}
     

@@ -39,9 +39,8 @@ public class SolarModule extends DepletableItemModule {
     }
     
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> text, TooltipFlag flag){
-        super.appendHoverText(stack, level, text, flag);
-        
+    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> text, TooltipFlag flag){
+        super.appendHoverText(stack, context, text, flag);
         text.add(Component.translatable("item.miniaturepowerplant.solar_module.desc.energy_multiplier", String.format("%.2f", this.energyMultiplier * 100.0F)).withStyle(ChatFormatting.GRAY));
     }
     
@@ -57,7 +56,7 @@ public class SolarModule extends DepletableItemModule {
     }
 
     @Override
-    public void tick(Level world, BlockPos pos, TileCarrier tile, SynchroniseModuleData data) {
+    public boolean tick(Level world, BlockPos pos, TileCarrier tile, SynchroniseModuleData data) {
         if(!world.isClientSide()){
             // energy production
             // from sunlight
@@ -85,6 +84,7 @@ public class SolarModule extends DepletableItemModule {
             }
             data.use(compoundNBT -> compoundNBT.put(NBT_KEY_PENALTY, listEnergyPenalty));
         }
+        return false;
     }
     
     // copied from DaylightDetectorBlock#updateSignalStrength
