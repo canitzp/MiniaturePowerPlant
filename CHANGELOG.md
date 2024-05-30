@@ -1,3 +1,6 @@
+204.0.1 (30.05.2024):
+- Finally adding the ability to break the Carrier block
+
 204.0.0:
 - Update to 1.20.4
 - The carrier now can't accept energy, only push to others
