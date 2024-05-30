@@ -1,5 +1,6 @@
 package de.canitzp.miniaturepowerplant.data;
 
+import de.canitzp.miniaturepowerplant.MPPRegistry;
 import de.canitzp.miniaturepowerplant.MiniaturePowerPlant;
 import de.canitzp.miniaturepowerplant.accumulator.AccumulatorItem;
 import de.canitzp.miniaturepowerplant.modules.SolarModule;
@@ -43,6 +44,8 @@ public class MPPItemModelGenerator extends ItemModelProvider {
         this.singleTexture(AccumulatorItem.ACCUMULATOR_BASIC);
         this.singleTexture(AccumulatorItem.ACCUMULATOR_PLUS);
         this.singleTexture(AccumulatorItem.ACCUMULATOR_ENHANCED);
+
+        this.withExistingParent(BuiltInRegistries.BLOCK.getKey(MPPRegistry.CARRIER.get()).getPath(), new ResourceLocation(MiniaturePowerPlant.MODID, "block/carrier/base"));
     }
     
     private void singleTexture(Item item){
