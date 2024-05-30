@@ -1,5 +1,18 @@
 # Miniature Power Plant (MPP)
 
+### Support:
+
+| Version | Modloader | Status |
+|:-------:|:---------:|:------:|
+| 1.20.6  | NeoForge  |   ✅    |
+| 1.20.4  | NeoForge  |   ✅    |
+| 1.20.2  | NeoForge  |   ❌    |
+| 1.20.1  |   Forge   |   ✅    |
+| 1.19.x  |   Forge   |   ❌    |
+| 1.18.x  |   Forge   |   ❌    |
+
+Since 1.20.2, NeoForge is the supported modloader.
+
 ## About
 Miniature Power Plant was created to solve a simple issue. Diverse energy production without fancy factories.
 

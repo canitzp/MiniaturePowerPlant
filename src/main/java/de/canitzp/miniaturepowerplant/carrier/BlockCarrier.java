@@ -16,10 +16,7 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.block.BaseEntityBlock;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.LiquidBlockContainer;
-import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -49,7 +46,7 @@ public class BlockCarrier extends BaseEntityBlock implements LiquidBlockContaine
     public static final BlockItem INSTANCE_ITEM = new BlockItem(INSTANCE, new Item.Properties());
 
     private BlockCarrier() {
-        super(Properties.of().mapColor(MapColor.METAL).noOcclusion());
+        super(Properties.of().mapColor(MapColor.METAL).noOcclusion().strength(5F, 1000F).sound(SoundType.STONE));
 
         this.registerDefaultState(this.getStateDefinition().any()
                 .setValue(WATERLOGGED, false)
@@ -172,5 +169,16 @@ public class BlockCarrier extends BaseEntityBlock implements LiquidBlockContaine
         if(tile instanceof TileCarrier){
             ((TileCarrier) tile).animationTick(state, rnd);
         }
+    }
+
+    @Override
+    public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean pMovedByPiston) {
+        if(!state.is(newState.getBlock())) {
+            BlockEntity be = level.getBlockEntity(pos);
+            if(be instanceof TileCarrier) {
+                ((TileCarrier) be).dropContents();
+            }
+        }
+        super.onRemove(state, level, pos, newState, pMovedByPiston);
     }
 }

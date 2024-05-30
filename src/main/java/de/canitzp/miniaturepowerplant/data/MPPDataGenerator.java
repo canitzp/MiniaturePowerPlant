@@ -20,6 +20,8 @@ public class MPPDataGenerator{
             generator.addProvider(true, new MPPItemModelGenerator(generator, helper));
             generator.addProvider(true, new MPPBlockModelGenerator(generator, helper));
             generator.addProvider(true, new MPPBlockstateGenerator(generator, helper));
+            generator.addProvider(true, new MPPLootTableSub(generator, event.getLookupProvider()));
+            generator.addProvider(true, new MPPTagProvider(generator, event.getLookupProvider(), helper));
         }
     }
 }

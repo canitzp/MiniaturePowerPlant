@@ -19,6 +19,7 @@ import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.Containers;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.Nameable;
 import net.minecraft.world.entity.player.Inventory;
@@ -423,6 +424,9 @@ public class TileCarrier extends BlockEntity implements MenuProvider, Nameable{
             }
         }
     }
-    
-    
+
+
+    public void dropContents() {
+        Containers.dropContents(this.level, this.getBlockPos(), this.inventory);
+    }
 }

@@ -1,5 +1,6 @@
 package de.canitzp.miniaturepowerplant.data;
 
+import de.canitzp.miniaturepowerplant.MPPRegistry;
 import de.canitzp.miniaturepowerplant.MiniaturePowerPlant;
 import de.canitzp.miniaturepowerplant.accumulator.AccumulatorItem;
 import de.canitzp.miniaturepowerplant.modules.SolarModule;
@@ -8,6 +9,7 @@ import de.canitzp.miniaturepowerplant.modules.WaterModule;
 import de.canitzp.miniaturepowerplant.modules.WindModule;
 import de.canitzp.miniaturepowerplant.upgrades.EcoUpgrade;
 import de.canitzp.miniaturepowerplant.upgrades.EfficiencyUpgrade;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -24,25 +26,27 @@ public class MPPItemModelGenerator extends ItemModelProvider {
     @Override
     protected void registerModels(){
         // modules
-        singleTexture(SolarModule.SOLAR_MODULE_WOOD);
-        singleTexture(SolarModule.SOLAR_MODULE_STONE);
-        singleTexture(SolarModule.SOLAR_MODULE_GOLD);
-        singleTexture(SolarModule.SOLAR_MODULE_IRON);
-        singleTexture(SolarModule.SOLAR_MODULE_LAPIS);
-        singleTexture(SolarModule.SOLAR_MODULE_REDSTONE);
-        singleTexture(SolarModule.SOLAR_MODULE_DIAMOND);
-        singleTexture(SolarModule.SOLAR_MODULE_NETHERITE);
-        singleTexture(TemperatureModule.TEMP_MODULE_BASIC);
-        singleTexture(WaterModule.WATER_MODULE_BASIC);
-        singleTexture(WindModule.WIND_MODULE_BASIC);
+        this.singleTexture(SolarModule.SOLAR_MODULE_WOOD);
+        this.singleTexture(SolarModule.SOLAR_MODULE_STONE);
+        this.singleTexture(SolarModule.SOLAR_MODULE_GOLD);
+        this.singleTexture(SolarModule.SOLAR_MODULE_IRON);
+        this.singleTexture(SolarModule.SOLAR_MODULE_LAPIS);
+        this.singleTexture(SolarModule.SOLAR_MODULE_REDSTONE);
+        this.singleTexture(SolarModule.SOLAR_MODULE_DIAMOND);
+        this.singleTexture(SolarModule.SOLAR_MODULE_NETHERITE);
+        this.singleTexture(TemperatureModule.TEMP_MODULE_BASIC);
+        this.singleTexture(WaterModule.WATER_MODULE_BASIC);
+        this.singleTexture(WindModule.WIND_MODULE_BASIC);
         // upgrades
-        singleTexture(EcoUpgrade.ECO_UPGRADE);
-        singleTexture(EcoUpgrade.ECO_PLUS_UPGRADE);
-        singleTexture(EfficiencyUpgrade.EFFICIENCY_UPGRADE_BASIC);
+        this.singleTexture(EcoUpgrade.ECO_UPGRADE);
+        this.singleTexture(EcoUpgrade.ECO_PLUS_UPGRADE);
+        this.singleTexture(EfficiencyUpgrade.EFFICIENCY_UPGRADE_BASIC);
         // accumulator
-        singleTexture(AccumulatorItem.ACCUMULATOR_BASIC);
-        singleTexture(AccumulatorItem.ACCUMULATOR_PLUS);
-        singleTexture(AccumulatorItem.ACCUMULATOR_ENHANCED);
+        this.singleTexture(AccumulatorItem.ACCUMULATOR_BASIC);
+        this.singleTexture(AccumulatorItem.ACCUMULATOR_PLUS);
+        this.singleTexture(AccumulatorItem.ACCUMULATOR_ENHANCED);
+
+        this.withExistingParent(BuiltInRegistries.BLOCK.getKey(MPPRegistry.CARRIER.get()).getPath(), new ResourceLocation(MiniaturePowerPlant.MODID, "block/carrier/base"));
     }
     
     private void singleTexture(Item item){
