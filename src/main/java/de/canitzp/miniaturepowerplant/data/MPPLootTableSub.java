@@ -27,8 +27,8 @@ public class MPPLootTableSub extends LootTableProvider {
 
     private static class BlockLoot extends BlockLootSubProvider {
 
-        protected BlockLoot() {
-            super(Set.of(), FeatureFlags.REGISTRY.allFlags());
+        protected BlockLoot(HolderLookup.Provider provider) {
+            super(Set.of(), FeatureFlags.REGISTRY.allFlags(), provider);
         }
 
         @Override

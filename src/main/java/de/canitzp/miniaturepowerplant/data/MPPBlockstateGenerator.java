@@ -23,13 +23,13 @@ public class MPPBlockstateGenerator extends BlockStateProvider {
     }
 
     private void carrierMultipart(){
-        ModelFile.ExistingModelFile model = models().getExistingFile(new ResourceLocation(MiniaturePowerPlant.MODID, "block/carrier/base"));
+        ModelFile.ExistingModelFile model = models().getExistingFile(ResourceLocation.fromNamespaceAndPath(MiniaturePowerPlant.MODID, "block/carrier/base"));
 
         MultiPartBlockStateBuilder builder = getMultipartBuilder(BlockCarrier.INSTANCE);
         BlockStateProperties.HORIZONTAL_FACING.getAllValues().forEach(facing -> {
             builder.part().modelFile(model).rotationY((((int) facing.value().toYRot()) + 180) % 360).addModel().condition(BlockStateProperties.HORIZONTAL_FACING, facing.value()).end();
             for (ModuleGrade grade : ModuleGrade.getValids()) {
-                ModelFile.ExistingModelFile gradedModel = models().getExistingFile(new ResourceLocation(MiniaturePowerPlant.MODID, "block/carrier/top_" + grade.name().toLowerCase()));
+                ModelFile.ExistingModelFile gradedModel = models().getExistingFile(ResourceLocation.fromNamespaceAndPath(MiniaturePowerPlant.MODID, "block/carrier/top_" + grade.name().toLowerCase()));
                 builder.part()
                         .modelFile(gradedModel)
                         .rotationY((((int) facing.value().toYRot()) + 180) % 360)
@@ -39,7 +39,7 @@ public class MPPBlockstateGenerator extends BlockStateProvider {
                         .end();
             }
             for (ModuleGrade grade : ModuleGrade.getValids()) {
-                ModelFile.ExistingModelFile gradedModel = models().getExistingFile(new ResourceLocation(MiniaturePowerPlant.MODID, "block/carrier/center_" + grade.name().toLowerCase()));
+                ModelFile.ExistingModelFile gradedModel = models().getExistingFile(ResourceLocation.fromNamespaceAndPath(MiniaturePowerPlant.MODID, "block/carrier/center_" + grade.name().toLowerCase()));
                 builder.part()
                         .modelFile(gradedModel)
                         .rotationY((((int) facing.value().toYRot()) + 180) % 360)
@@ -49,7 +49,7 @@ public class MPPBlockstateGenerator extends BlockStateProvider {
                         .end();
             }
             for (ModuleGrade grade : ModuleGrade.getValids()) {
-                ModelFile.ExistingModelFile gradedModel = models().getExistingFile(new ResourceLocation(MiniaturePowerPlant.MODID, "block/carrier/bottom_" + grade.name().toLowerCase()));
+                ModelFile.ExistingModelFile gradedModel = models().getExistingFile(ResourceLocation.fromNamespaceAndPath(MiniaturePowerPlant.MODID, "block/carrier/bottom_" + grade.name().toLowerCase()));
                 builder.part()
                         .modelFile(gradedModel)
                         .rotationY((((int) facing.value().toYRot()) + 180) % 360)

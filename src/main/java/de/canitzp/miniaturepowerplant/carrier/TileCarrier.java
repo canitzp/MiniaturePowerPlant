@@ -230,6 +230,10 @@ public class TileCarrier extends BlockEntity implements MenuProvider, Nameable{
                     BlockEntity surroundingTile = tile.level.getBlockEntity(tile.getBlockPos().relative(side));
                     if(surroundingTile != null){
                         IEnergyStorage surroundingTileEnergyStorage = tile.level.getCapability(Capabilities.EnergyStorage.BLOCK, tile.getBlockPos().relative(side), side.getOpposite());
+                        if(surroundingTileEnergyStorage == null){
+                            continue;
+                        }
+
                         // tile energy
                         int receiveEnergy = surroundingTileEnergyStorage.receiveEnergy(tile.getEnergyStorage().extractEnergy(surroundingTileEnergyStorage.receiveEnergy(Integer.MAX_VALUE, true), false), false);
 

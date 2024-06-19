@@ -45,7 +45,7 @@ public class MPPItemModelGenerator extends ItemModelProvider {
         this.singleTexture(AccumulatorItem.ACCUMULATOR_PLUS);
         this.singleTexture(AccumulatorItem.ACCUMULATOR_ENHANCED);
 
-        this.withExistingParent(BuiltInRegistries.BLOCK.getKey(MPPRegistry.CARRIER.get()).getPath(), new ResourceLocation(MiniaturePowerPlant.MODID, "block/carrier/base"));
+        this.withExistingParent(BuiltInRegistries.BLOCK.getKey(MPPRegistry.CARRIER.get()).getPath(), ResourceLocation.fromNamespaceAndPath(MiniaturePowerPlant.MODID, "block/carrier/base"));
     }
     
     private void singleTexture(Item item){

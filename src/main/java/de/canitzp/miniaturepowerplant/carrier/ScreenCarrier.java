@@ -26,7 +26,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class ScreenCarrier extends AbstractContainerScreen<CarrierMenu>{
 
-    private static final ResourceLocation TEXTURE = new ResourceLocation(MiniaturePowerPlant.MODID, "textures/gui/container/carrier.png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(MiniaturePowerPlant.MODID, "textures/gui/container/carrier.png");
     private static final Map<ICarrierModule.CarrierSlot, Pair<Integer, Integer>> DEPLETION_SLOTS = new HashMap<>() {{
         this.put(ICarrierModule.CarrierSlot.SOLAR, Pair.of(8, 28));
         this.put(ICarrierModule.CarrierSlot.CORE, Pair.of(70, 51));
